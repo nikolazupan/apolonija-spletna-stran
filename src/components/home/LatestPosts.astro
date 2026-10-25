@@ -1,0 +1,43 @@
+---
+// Latest social media posts: title row with archive link, then a row of the newest posts.
+// Horizontally scrollable on mobile. Thumbnails only, no Meta scripts.
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import ImagePlaceholder from '../ImagePlaceholder.astro';
+import Placeholder from '../Placeholder.astro';
+import { formatDatum, tipOznaka } from '../../lib/objave';
+
+interface Props {
+  objave: CollectionEntry<'objave'>[];
+  naslov?: string;
+  povezavaArhiv?: string;
+}
+const { objave, naslov = 'Zadnje objave', povezavaArhiv = 'Vse objave' } = Astro.props;
+const tilt = ['-rotate-1', 'rotate-1', 'rotate-[0.5deg]', '-rotate-[1.5deg]'];
+---
+
+<section class="py-12 lg:py-16">
+  <div class="mx-auto flex max-w-[90rem] flex-wrap items-end justify-between gap-4 px-5 sm:px-8">
+    <h2 class="display text-[clamp(2.25rem,7vw,3.5rem)]">{naslov}</h2>
+    <a href="/arhiv" class="border-b-[3px] border-zelena pb-0.5 text-base font-bold hover:text-zelena-temna">{povezavaArhiv} →</a>
+  </div>
+
+  <ul class="mx-auto mt-8 flex max-w-[90rem] snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-4 pt-2 sm:px-8 md:grid md:grid-cols-4 md:overflow-visible">
+    {objave.map(({ data: o }, i) => (
+      <li class="w-[68%] shrink-0 snap-start sm:w-[42%] md:w-auto">
+        <a href={o.povezava} target="_blank" rel="noopener" class:list={['block border-[8px] border-bela bg-bela transition-transform hover:rotate-0', tilt[i % tilt.length]]}>
+          {o.slika
+            ? <Image src={o.slika} alt={o.opis} widths={[300, 600]} sizes="(min-width: 768px) 22vw, 68vw" class="aspect-square w-full object-cover" />
+            : <ImagePlaceholder label={`OBJAVA: ${tipOznaka[o.tip].toUpperCase()}`} class="aspect-square w-full" />}
+          <div class="px-1 pb-1 pt-3">
+            <p class="flex justify-between gap-2 text-sm font-bold">
+              <time datetime={o.datum.toISOString()}>{formatDatum(o.datum)}</time>
+              <span class="text-zelena-temna">{tipOznaka[o.tip]}</span>
+            </p>
+            <p class="mt-1.5 text-sm leading-snug">{o.placeholder ? <Placeholder>{o.opis}</Placeholder> : o.opis}</p>
+          </div>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

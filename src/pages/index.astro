@@ -3,13 +3,14 @@ import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HomeHero from '../components/home/HomeHero.astro';
 import AskQuestion from '../components/home/AskQuestion.astro';
+import KeyPoints from '../components/home/KeyPoints.astro';
 import HomeSkupaj from '../components/home/HomeSkupaj.astro';
-import LatestPost from '../components/home/LatestPost.astro';
+import LatestPosts from '../components/home/LatestPosts.astro';
 import { getObjave } from '../lib/objave';
 
 const stran = await getEntry('strani', 'vstopna');
 if (!stran) throw new Error('Missing src/content/strani/vstopna.md');
-const { naslov, opis, hero, bloki } = stran.data;
+const { naslov, opis, hero, poudarki, bloki } = stran.data;
 
 const blok = (id: string) => {
   const b = bloki.find((b) => b.id === id);
@@ -17,12 +18,13 @@ const blok = (id: string) => {
   return b;
 };
 const vprasanja = blok('vprasanja');
-const [zadnja] = await getObjave();
+const objave = (await getObjave()).slice(0, 4);
 ---
 
 <BaseLayout title={naslov} description={opis}>
   {hero && <HomeHero hero={hero} />}
   <AskQuestion naslov={[vprasanja.naslov ?? '', vprasanja.besedilo]} povezava="/vprasanja" />
-  <HomeSkupaj skupaj={blok('skupaj')} kandidatura={blok('kandidatura')} bio={blok('bio')} />
-  <LatestPost objava={zadnja} naslov={blok('objava').naslov} povezavaArhiv={blok('objava').besedilo} />
+  <KeyPoints naslov={blok('poudarki').naslov} povezavaBesedilo={blok('poudarki').besedilo} tocke={poudarki} />
+  <HomeSkupaj kandidatura={blok('kandidatura')} bio={blok('bio')} skupaj={blok('skupaj')} />
+  <LatestPosts objave={objave} naslov={blok('objava').naslov} povezavaArhiv={blok('objava').besedilo} />
 </BaseLayout>

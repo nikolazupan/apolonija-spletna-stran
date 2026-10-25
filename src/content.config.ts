@@ -24,6 +24,17 @@ const strani = defineCollection({
         volitve: z.string(),
       })
       .optional(),
+    // Highlighted items linking elsewhere (e.g. the 3 key programme points on the homepage).
+    poudarki: z
+      .array(
+        z.object({
+          naslov: z.string(),
+          besedilo: z.string(),
+          povezava: z.string(),
+          placeholder: z.boolean().default(false),
+        }),
+      )
+      .default([]),
     bloki: z.array(blok).default([]),
   }),
 });

@@ -1,0 +1,35 @@
+---
+// The 3 most important programme points, each linking to the programme page.
+import Placeholder from '../Placeholder.astro';
+
+interface Props {
+  naslov?: string;
+  povezavaBesedilo?: string;
+  tocke: { naslov: string; besedilo: string; povezava: string; placeholder: boolean }[];
+}
+const { naslov, povezavaBesedilo = 'Celoten program', tocke } = Astro.props;
+---
+
+<section class="mx-auto max-w-[90rem] px-5 py-12 sm:px-8 lg:py-16">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <h2 class="display text-[clamp(2.25rem,7vw,3.5rem)]">{naslov}</h2>
+    <a href="/program" class="border-b-[3px] border-zelena pb-0.5 text-base font-bold hover:text-zelena-temna">{povezavaBesedilo} →</a>
+  </div>
+
+  <ol class="mt-8 grid border-t-2 border-crna md:grid-cols-3">
+    {tocke.map((t, i) => (
+      <li class:list={['border-b-2 border-crna md:border-b-0', i > 0 && 'md:border-l-2']}>
+        <a href={t.povezava} class:list={["group flex h-full flex-col gap-3 py-6 md:px-6 md:py-8", i === 0 && "md:pl-0", i === tocke.length - 1 && "md:pr-0"]}>
+          <span class="display text-5xl text-zelena">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="text-2xl font-extrabold tracking-tight">
+            {t.placeholder ? <Placeholder>{t.naslov}</Placeholder> : t.naslov}
+          </h3>
+          <p class="text-base leading-relaxed">
+            {t.placeholder ? <Placeholder>{t.besedilo}</Placeholder> : t.besedilo}
+          </p>
+          <span class="mt-auto pt-2 text-sm font-bold group-hover:text-zelena-temna">Več v programu →</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</section>

@@ -1,6 +1,5 @@
 ---
 // Q&A box: ask Apolonija a question (UI only, no backend yet) + link to answered questions.
-import Risba from '../brand/Risba.astro';
 import Placeholder from '../Placeholder.astro';
 
 interface Props {
@@ -8,41 +7,41 @@ interface Props {
   povezava: string;
 }
 const { naslov, povezava } = Astro.props;
+// Split off the trailing "?" so it can be set as a separate, tilted cream mark.
+const vprasanje = naslov[0].replace(/\?$/, '');
+const imaVprasaj = vprasanje !== naslov[0];
 ---
 
 <section class="paper bg-zelena text-crna">
-  <div class="mx-auto grid max-w-[90rem] gap-8 px-5 py-10 sm:px-8 lg:grid-cols-12 lg:gap-6 lg:py-14">
+  <div class="mx-auto grid max-w-[90rem] gap-8 px-5 py-10 sm:px-8 lg:grid-cols-12 lg:items-center lg:gap-6 lg:py-14">
     <h2 class="display text-[clamp(2.5rem,9vw,4.25rem)] lg:col-span-5">
-      <span class="relative block w-fit">
-        {naslov[0]}
-        <Risba name="krog" color="var(--color-krema)" class="absolute -right-[0.18em] -top-[0.12em] h-[1.2em] w-[0.75em] [--risba-w:3px]" />
+      <span class="block">
+        {vprasanje}{imaVprasaj && <span class="ml-[0.04em] inline-block origin-bottom-left rotate-12 scale-125 text-krema">?</span>}
       </span>
       <span class="block pl-[0.6em] text-krema">{naslov[1]}</span>
     </h2>
 
     <div class="lg:col-span-6 lg:col-start-7">
       <Placeholder as="div" class="block">
-        <form id="vprasanje-obrazec" class="space-y-3" novalidate>
-          <label for="vprasanje" class="block text-base font-bold">Tvoje vprašanje</label>
+        <form id="vprasanje-obrazec" class="flex flex-col gap-3 sm:flex-row sm:items-end" novalidate>
+          <label for="vprasanje" class="sr-only">Vprašanje za Apolonijo</label>
           <textarea
             id="vprasanje"
             name="vprasanje"
-            rows="3"
+            rows="2"
             required
-            class="block w-full resize-y rounded-2xl border-2 border-crna bg-krema px-4 py-3 text-lg placeholder:text-crna/50 focus:outline-none focus:ring-4 focus:ring-crna/30"
-            placeholder="Napiši vprašanje za Apolonijo …"
+            class="block min-h-[3.5rem] w-full flex-1 resize-y rounded-2xl border-2 border-crna bg-krema px-4 py-3 text-lg placeholder:text-crna/55 focus:outline-none focus:ring-4 focus:ring-crna/30"
+            placeholder="Kaj bi vprašal/a Apolonijo?"
           ></textarea>
-          <div class="flex flex-wrap items-center gap-3">
-            <button type="submit" class="rounded-full bg-crna px-6 py-2.5 text-base font-bold text-krema hover:bg-krema hover:text-crna">
-              Pošlji vprašanje
-            </button>
-            <p class="text-sm font-medium" role="status" id="vprasanje-status">Prototip: obrazec še ne pošilja vprašanj.</p>
-          </div>
+          <button type="submit" class="shrink-0 rounded-full bg-crna px-6 py-3 text-base font-bold text-krema hover:bg-krema hover:text-crna">
+            Pošlji vprašanje
+          </button>
         </form>
+        <p class="mt-2 text-sm font-medium" role="status" id="vprasanje-status">Prototip: obrazec še ne pošilja vprašanj.</p>
       </Placeholder>
 
-      <a href={povezava} class="mt-6 inline-flex items-center gap-2 border-b-[3px] border-crna pb-0.5 text-lg font-bold hover:text-krema hover:border-krema">
-        Vprašanja in odgovori →
+      <a href={povezava} class="mt-6 inline-flex items-center gap-2 border-b-[3px] border-crna pb-0.5 text-lg font-bold hover:border-krema hover:text-krema">
+        Preberi vprašanja in odgovore →
       </a>
     </div>
   </div>

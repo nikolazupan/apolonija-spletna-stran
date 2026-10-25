@@ -1,8 +1,8 @@
 ---
-// Header: partner logo, inline menu on desktop, compact dropdown panel on mobile.
+// Header: partner logo, inline menu on desktop, full-screen overlay menu on mobile/tablet.
 import VesnaLogo from '../brand/VesnaLogo.astro';
 import Risba from '../brand/Risba.astro';
-import { navigation } from '../../data/site';
+import { navigation, social } from '../../data/site';
 
 const current = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => (href === '/' ? current === '/' : current.startsWith(href));
@@ -31,50 +31,125 @@ const desktopItems = navigation.filter((item) => item.href !== '/');
 
     <button
       type="button"
-      id="meni-gumb"
-      class="flex items-center gap-2 rounded-full border-2 border-crna px-4 py-1.5 text-sm font-bold lg:hidden"
+      class="meni-odpri flex items-center gap-2 rounded-full border-2 border-crna px-4 py-1.5 text-sm font-bold lg:hidden"
       aria-expanded="false"
-      aria-controls="meni-panel"
+      aria-controls="meni"
     >
-      <span class="meni-label">Meni</span>
+      Meni
       <svg viewBox="0 0 16 12" class="h-3 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
         <path d="M1 2h14M1 6h14M1 10h14" />
       </svg>
     </button>
   </div>
+</header>
 
-  <nav id="meni-panel" class="absolute inset-x-0 top-full hidden border-b-2 border-crna bg-krema lg:hidden" aria-label="Glavni meni">
-    <ul class="mx-auto max-w-[90rem] px-5 py-3 sm:px-8">
-      {navigation.map((item) => (
-        <li class="border-b border-crna/10 last:border-0">
+<div id="meni" class="meni fixed inset-0 z-50 overflow-y-auto lg:hidden" role="dialog" aria-modal="true" aria-label="Glavni meni" hidden>
+  <div class="mx-auto flex max-w-[90rem] items-center justify-between gap-6 px-5 py-3 sm:px-8">
+    <VesnaLogo class="text-[0.85rem] sm:text-[1rem]" />
+    <button type="button" class="meni-zapri flex items-center gap-2 rounded-full bg-crna px-4 py-1.5 text-sm font-bold text-krema">
+      Zapri
+      <svg viewBox="0 0 12 12" class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M1 1l10 10M11 1L1 11" />
+      </svg>
+    </button>
+  </div>
+
+  <nav class="mx-auto max-w-[90rem] px-5 pb-10 pt-6 sm:px-8" aria-label="Glavni meni">
+    <ul>
+      {navigation.map((item, i) => (
+        <li class="meni-postavka border-b border-crna/15" style={`--i:${i}`}>
           <a
             href={item.href}
-            class:list={['flex items-center justify-between py-3 text-lg font-semibold', isCurrent(item.href) ? 'text-zelena-temna' : 'hover:text-zelena-temna']}
+            class:list={['flex items-baseline gap-4 py-3 text-2xl font-bold tracking-tight sm:text-3xl', isCurrent(item.href) ? 'text-zelena-temna' : 'hover:text-zelena-temna']}
             aria-current={isCurrent(item.href) ? 'page' : undefined}
           >
+            <span class="w-6 text-xs font-semibold tabular-nums opacity-60">{String(i + 1).padStart(2, '0')}</span>
             {item.label}
-            <span aria-hidden="true">→</span>
           </a>
         </li>
       ))}
     </ul>
+    <ul class="meni-postavka mt-8 flex gap-5 text-base font-bold" style={`--i:${navigation.length}`}>
+      {social.map((s) => <li><a href={s.href} class="underline underline-offset-4">{s.label}</a></li>)}
+    </ul>
   </nav>
-</header>
+</div>
+
+<style>
+  /* Overlay: translucent cream with blur, page faintly visible behind. */
+  .meni {
+    background: rgb(240 232 212 / 0.9);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .meni.is-open {
+    opacity: 1;
+  }
+  .meni-postavka {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s ease;
+  }
+  .meni.is-open .meni-postavka {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(80ms + var(--i) * 35ms);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .meni,
+    .meni-postavka {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>
 
 <script>
-  const button = document.getElementById('meni-gumb');
-  const panel = document.getElementById('meni-panel');
-  const label = button?.querySelector('.meni-label');
-  const setOpen = (open: boolean) => {
-    panel?.classList.toggle('hidden', !open);
-    button?.setAttribute('aria-expanded', String(open));
-    if (label) label.textContent = open ? 'Zapri' : 'Meni';
+  const menu = document.getElementById('meni');
+  const openBtn = document.querySelector<HTMLButtonElement>('.meni-odpri');
+  const closeBtn = document.querySelector<HTMLButtonElement>('.meni-zapri');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const open = () => {
+    if (!menu) return;
+    menu.hidden = false;
+    document.documentElement.style.overflow = 'hidden';
+    openBtn?.setAttribute('aria-expanded', 'true');
+    requestAnimationFrame(() => requestAnimationFrame(() => menu.classList.add('is-open')));
+    closeBtn?.focus();
   };
-  button?.addEventListener('click', () => setOpen(panel?.classList.contains('hidden') ?? false));
+  const close = () => {
+    if (!menu || menu.hidden) return;
+    menu.classList.remove('is-open');
+    document.documentElement.style.overflow = '';
+    openBtn?.setAttribute('aria-expanded', 'false');
+    const hide = () => (menu.hidden = true);
+    if (reduced.matches) hide();
+    else setTimeout(hide, 300);
+    openBtn?.focus();
+  };
+
+  openBtn?.addEventListener('click', open);
+  closeBtn?.addEventListener('click', close);
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && panel && !panel.classList.contains('hidden')) {
-      setOpen(false);
-      button?.focus();
+    if (!menu || menu.hidden) return;
+    if (e.key === 'Escape') close();
+    // keep keyboard focus inside the open menu
+    if (e.key === 'Tab') {
+      const focusable = menu.querySelectorAll<HTMLElement>('a, button');
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     }
   });
 </script>
