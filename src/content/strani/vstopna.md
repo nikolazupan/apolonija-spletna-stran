@@ -5,8 +5,6 @@ opis: "Apolonija Simon, kandidatka liste Vesna in civilna družba za županjo Lj
 # Real copy from the print material. The name itself is set in CandidateMark.
 hero:
   podnaslov: "Županja za vse meščane."
-  stevilka: 6
-  volitve: "Lokalne volitve, 15. november 2026"
 
 # The 3 key programme areas shown under the Q&A box, in this order.
 # Each entry is a file name from src/content/program/ (without .md). Change the selection here.
@@ -20,7 +18,7 @@ bloki:
   - id: vprasanja
     # Q&A box heading, line 1 (naslov) and line 2 (besedilo). Text supplied by the team.
     naslov: "Imaš vprašanje?"
-    besedilo: "Apolonija ima odgovore."
+    besedilo: "Mi imamo odgovore."
 
   - id: poudarki
     naslov: "Ključne točke programa"

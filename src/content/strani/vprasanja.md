@@ -5,7 +5,7 @@ opis: "Vprašaj Apolonijo Simon karkoli o Ljubljani. Tu so zbrana vprašanja me�
 bloki:
   - id: uvod
     naslov: "Imaš vprašanje?"
-    besedilo: "Apolonija ima odgovore."
+    besedilo: "Mi imamo odgovore."
   - id: seznam
     naslov: "Že odgovorjena vprašanja"
     besedilo: ""

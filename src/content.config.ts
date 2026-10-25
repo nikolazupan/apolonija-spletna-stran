@@ -39,8 +39,6 @@ const strani = defineCollection({
       hero: z
         .object({
           podnaslov: z.string(),
-          stevilka: z.number(),
-          volitve: z.string(),
         })
         .optional(),
       // Programme areas highlighted on this page (homepage: the 3 key points), by file name in src/content/program/.

@@ -9,20 +9,17 @@ import Blob from '../brand/Blob.astro';
 import ShapedText from '../brand/ShapedText.astro';
 import CutoutImage from '../brand/CutoutImage.astro';
 import CandidateMark from '../brand/CandidateMark.astro';
-import Risba from '../brand/Risba.astro';
 
 interface Props {
   hero: {
     podnaslov: string;
-    stevilka: number;
-    volitve: string;
   };
 }
 const { hero } = Astro.props;
 ---
 
 <!-- @container: the name scales with the content width (cqi), not the window, so it stays inside its column -->
-<section class="site-container @container overflow-x-clip pb-12 pt-6 lg:pb-24 lg:pt-10">
+<section class="site-container @container overflow-x-clip pb-12 pt-6 lg:pb-16 lg:pt-10">
   <!-- lg:pl shifts the whole composition right, so the empty space left and right of it is balanced -->
   <div class="hero-mreza grid lg:grid-cols-12 lg:items-center lg:pl-[5%]">
     <!-- name: text in columns 1–6, white shape reaches further right, under the photo's paper -->
@@ -35,23 +32,12 @@ const { hero } = Astro.props;
           class="text-[clamp(3.6rem,16.5vw,7.5rem)] lg:text-[clamp(4rem,10cqi,9rem)]"
         />
 
-        <!-- ballot number: hidden on phones to keep the hero short -->
-        <div class="mt-7 flex items-center gap-5 max-md:hidden lg:mt-9">
-          <span class="relative inline-flex h-16 w-16 shrink-0 items-center justify-center font-display text-4xl font-extrabold sm:h-20 sm:w-20 sm:text-5xl" aria-hidden="true">
-            <Risba name="krog" class="absolute -inset-2.5 h-[calc(100%+1.25rem)] w-[calc(100%+1.25rem)] [--risba-w:4px]" />
-            {hero.stevilka}
-          </span>
-          <p class="text-sm font-bold uppercase leading-tight tracking-wide">
-            <span class="sr-only">Na glasovnici za županjo </span>Obkroži {hero.stevilka}<br />
-            <span class="font-medium normal-case tracking-normal">{hero.volitve}</span>
-          </p>
-        </div>
     </ShapedText>
 
     <!-- photo on its own paper shape: large and centered under the name on phones, columns 7–12 on desktop -->
     <a
       href="/apolonija-simon"
-      class="hero-foto group relative z-20 mx-auto -mt-6 block w-[86%] max-w-md md:-mt-10 md:mr-[9%] md:ml-auto md:w-[50%] md:max-w-sm lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:mt-0 lg:mr-0 lg:ml-0 lg:w-[78%] lg:max-w-[30rem] lg:translate-y-8 lg:justify-self-start"
+      class="hero-foto group relative z-20 mx-auto -mt-6 block w-[86%] max-w-md md:-mt-10 md:mr-[9%] md:ml-auto md:w-[50%] md:max-w-sm lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:mt-0 lg:mr-0 lg:ml-0 lg:w-[78%] lg:max-w-[30rem] lg:justify-self-start"
       aria-label="Več o Apoloniji Simon"
     >
       <Blob variant="f" fill="var(--color-zelena)" class="absolute -inset-[7%] h-[114%] w-[114%] -rotate-6 transition-transform duration-500 group-hover:-rotate-3" />
