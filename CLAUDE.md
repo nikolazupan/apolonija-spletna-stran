@@ -63,7 +63,9 @@ The hand-made marks of the print material become the structure of the site. Buil
 - **Hand-drawn marks:** crayon stroke before "Apolonija", hand-drawn circle around the ballot number 6 ("Obkroži 6"), underlines, arrows. Each is a separate SVG in `src/assets/risbe/`, rendered via `Risba.astro`; replace files with scanned drawings later (see the README there).
 - **Accents:** green Q&A band, black footer, black pill buttons, thin black frames around text blocks. No gradients, no shadows.
 - **Scale:** bold but not oversized. Keep headlines and section spacing moderate (the team found the first homepage too big); readability on a phone comes first.
-- **Navigation:** menu links inline in the header on desktop. On mobile/tablet a full-screen overlay: translucent cream with blur, comfortable (not huge) link size, fade + staggered slide-in, clearly visible "Zapri" button, Esc closes, respects `prefers-reduced-motion`.
+- **Header:** partner logo centered (and fairly large), only a "Meni" button on the right, on all screen sizes (no inline links). On the narrowest phones the button shows only the menu icon (labelled "Meni" for screen readers).
+- **Navigation:** the "Meni" button opens a full-screen overlay on all screen sizes: translucent cream with blur, comfortable (not huge) link size, fade + staggered slide-in, clearly visible "Zapri" button, Esc closes, respects `prefers-reduced-motion`.
+- **Hero rule:** photos must never cover text at any width (only the white background shapes may overlap).
 
 **Colors** (defined once in the `@theme` block of `src/styles/global.css`):
 | Token | Hex | Source |

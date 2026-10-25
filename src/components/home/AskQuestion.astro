@@ -23,18 +23,26 @@ const imaVprasaj = vprasanje !== naslov[0];
 
     <div class="lg:col-span-6 lg:col-start-7">
       <Placeholder as="div" class="block">
-        <form id="vprasanje-obrazec" class="flex flex-col gap-3 sm:flex-row sm:items-end" novalidate>
+        <!-- arrow submit button sits inside the field's bottom-right corner -->
+        <form id="vprasanje-obrazec" class="relative" novalidate>
           <label for="vprasanje" class="sr-only">Vprašanje za Apolonijo</label>
           <textarea
             id="vprasanje"
             name="vprasanje"
-            rows="2"
+            rows="3"
             required
-            class="block min-h-[3.5rem] w-full flex-1 resize-y rounded-2xl border-2 border-crna bg-krema px-4 py-3 text-lg placeholder:text-crna/55 focus:outline-none focus:ring-4 focus:ring-crna/30"
+            class="block w-full resize-y rounded-2xl border-2 border-crna bg-krema py-3 pl-4 pr-16 text-lg placeholder:text-crna/55 focus:outline-none focus:ring-4 focus:ring-crna/30"
             placeholder="Kaj bi vprašal/a Apolonijo?"
           ></textarea>
-          <button type="submit" class="shrink-0 rounded-full bg-crna px-6 py-3 text-base font-bold text-krema hover:bg-krema hover:text-crna">
-            Pošlji vprašanje
+          <button
+            type="submit"
+            class="absolute bottom-3 right-3 flex h-11 w-11 items-center justify-center rounded-full bg-crna text-krema transition-colors hover:bg-zelena-temna focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-crna"
+            aria-label="Pošlji vprašanje"
+            title="Pošlji vprašanje"
+          >
+            <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 10h12M11 5l5 5-5 5" />
+            </svg>
           </button>
         </form>
         <p class="mt-2 text-sm font-medium" role="status" id="vprasanje-status">Prototip: obrazec še ne pošilja vprašanj.</p>

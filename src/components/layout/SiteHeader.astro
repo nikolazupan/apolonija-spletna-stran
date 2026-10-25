@@ -1,41 +1,25 @@
 ---
-// Header: partner logo, inline menu on desktop, full-screen overlay menu on mobile/tablet.
+// Header: centered partner logo and a "Meni" button that opens a full-screen overlay (all screen sizes).
 import VesnaLogo from '../brand/VesnaLogo.astro';
-import Risba from '../brand/Risba.astro';
 import { navigation, social } from '../../data/site';
 
 const current = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => (href === '/' ? current === '/' : current.startsWith(href));
-// Desktop header skips "Vstopna stran": the logo links home.
-const desktopItems = navigation.filter((item) => item.href !== '/');
+
+// Shared by the header and the overlay's top bar, so the logo and buttons line up exactly.
+const bar = 'mx-auto grid max-w-[90rem] grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-3 sm:px-8 lg:py-4';
+const logoSize = 'text-[0.9rem] sm:text-[1.1rem] lg:text-[1.25rem]';
+const button = 'flex h-11 items-center justify-center gap-2 rounded-full border-2 border-crna text-sm font-bold max-sm:w-11 sm:px-4';
 ---
 
 <header class="relative z-30 border-b-2 border-crna/10">
-  <div class="mx-auto flex max-w-[90rem] items-center justify-between gap-6 px-5 py-3 sm:px-8 lg:py-4">
-    <a href="/" aria-label="Vstopna stran" class="shrink-0">
-      <VesnaLogo class="text-[0.85rem] sm:text-[1rem] lg:text-[1.1rem]" />
+  <div class={bar}>
+    <span aria-hidden="true"></span>
+    <a href="/" aria-label="Vstopna stran">
+      <VesnaLogo class={logoSize} />
     </a>
-
-    <nav class="hidden lg:block" aria-label="Glavni meni">
-      <ul class="flex flex-wrap justify-end gap-x-5 gap-y-1 text-[0.95rem] font-semibold xl:gap-x-6">
-        {desktopItems.map((item) => (
-          <li>
-            <a href={item.href} class="relative inline-block py-1 hover:text-zelena-temna" aria-current={isCurrent(item.href) ? 'page' : undefined}>
-              {item.short}
-              {isCurrent(item.href) && <Risba name="podcrta" class="absolute -bottom-0.5 left-0 h-1.5 w-full [--risba-w:3px]" />}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-
-    <button
-      type="button"
-      class="meni-odpri flex items-center gap-2 rounded-full border-2 border-crna px-4 py-1.5 text-sm font-bold lg:hidden"
-      aria-expanded="false"
-      aria-controls="meni"
-    >
-      Meni
+    <button type="button" class:list={['meni-odpri justify-self-end', button]} aria-expanded="false" aria-controls="meni" aria-label="Meni">
+      <span class="max-sm:hidden">Meni</span>
       <svg viewBox="0 0 16 12" class="h-3 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
         <path d="M1 2h14M1 6h14M1 10h14" />
       </svg>
@@ -43,27 +27,28 @@ const desktopItems = navigation.filter((item) => item.href !== '/');
   </div>
 </header>
 
-<div id="meni" class="meni fixed inset-0 z-50 overflow-y-auto lg:hidden" role="dialog" aria-modal="true" aria-label="Glavni meni" hidden>
-  <div class="mx-auto flex max-w-[90rem] items-center justify-between gap-6 px-5 py-3 sm:px-8">
-    <VesnaLogo class="text-[0.85rem] sm:text-[1rem]" />
-    <button type="button" class="meni-zapri flex items-center gap-2 rounded-full bg-crna px-4 py-1.5 text-sm font-bold text-krema">
-      Zapri
+<div id="meni" class="meni fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-label="Glavni meni" hidden>
+  <div class={bar}>
+    <span aria-hidden="true"></span>
+    <VesnaLogo class={logoSize} />
+    <button type="button" class:list={['meni-zapri justify-self-end border-crna bg-crna text-krema', button]} aria-label="Zapri meni">
+      <span class="max-sm:hidden">Zapri</span>
       <svg viewBox="0 0 12 12" class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
         <path d="M1 1l10 10M11 1L1 11" />
       </svg>
     </button>
   </div>
 
-  <nav class="mx-auto max-w-[90rem] px-5 pb-10 pt-6 sm:px-8" aria-label="Glavni meni">
-    <ul>
+  <nav class="mx-auto max-w-3xl px-5 pb-12 pt-6 sm:px-8 sm:pt-10" aria-label="Glavni meni">
+    <ul class="md:columns-2 md:gap-x-12">
       {navigation.map((item, i) => (
-        <li class="meni-postavka border-b border-crna/15" style={`--i:${i}`}>
+        <li class="meni-postavka break-inside-avoid border-b border-crna/15" style={`--i:${i}`}>
           <a
             href={item.href}
-            class:list={['flex items-baseline gap-4 py-3 text-2xl font-bold tracking-tight sm:text-3xl', isCurrent(item.href) ? 'text-zelena-temna' : 'hover:text-zelena-temna']}
+            class:list={['flex items-baseline gap-4 py-3 text-2xl font-bold tracking-tight sm:py-4 sm:text-[1.7rem]', isCurrent(item.href) ? 'text-zelena-temna' : 'hover:text-zelena-temna']}
             aria-current={isCurrent(item.href) ? 'page' : undefined}
           >
-            <span class="w-6 text-xs font-semibold tabular-nums opacity-60">{String(i + 1).padStart(2, '0')}</span>
+            <span class="w-6 shrink-0 text-xs font-semibold tabular-nums opacity-60">{String(i + 1).padStart(2, '0')}</span>
             {item.label}
           </a>
         </li>
@@ -119,7 +104,9 @@ const desktopItems = navigation.filter((item) => item.href !== '/');
     menu.hidden = false;
     document.documentElement.style.overflow = 'hidden';
     openBtn?.setAttribute('aria-expanded', 'true');
-    requestAnimationFrame(() => requestAnimationFrame(() => menu.classList.add('is-open')));
+    // force a reflow so the transition starts from the hidden state
+    void menu.offsetWidth;
+    menu.classList.add('is-open');
     closeBtn?.focus();
   };
   const close = () => {
