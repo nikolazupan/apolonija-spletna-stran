@@ -1,5 +1,5 @@
 ---
-import { getEntry } from 'astro:content';
+import { getEntry, getEntries } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HomeHero from '../components/home/HomeHero.astro';
 import AskQuestion from '../components/home/AskQuestion.astro';
@@ -18,13 +18,16 @@ const blok = (id: string) => {
   return b;
 };
 const vprasanja = blok('vprasanja');
+const poudarkiBlok = blok('poudarki');
+// programme areas selected in vstopna.md, in the listed order
+const podrocja = await getEntries(poudarki);
 const objave = (await getObjave()).slice(0, 4);
 ---
 
-<BaseLayout title={naslov} description={opis}>
+<BaseLayout title={naslov} description={opis} fullTitle>
   {hero && <HomeHero hero={hero} />}
   <AskQuestion naslov={[vprasanja.naslov ?? '', vprasanja.besedilo]} povezava="/vprasanja" />
-  <KeyPoints naslov={blok('poudarki').naslov} povezavaBesedilo={blok('poudarki').besedilo} tocke={poudarki} />
+  <KeyPoints naslov={poudarkiBlok.naslov} povezavaBesedilo={poudarkiBlok.besedilo} placeholder={poudarkiBlok.placeholder} podrocja={podrocja} />
   <HomeSkupaj kandidatura={blok('kandidatura')} bio={blok('bio')} skupaj={blok('skupaj')} />
   <LatestPosts objave={objave} naslov={blok('objava').naslov} povezavaArhiv={blok('objava').besedilo} />
 </BaseLayout>

@@ -1,6 +1,6 @@
 ---
-naslov: Apolonija Simon za županjo
-opis: Apolonija Simon, kandidatka liste Vesna in civilna družba za županjo Ljubljane. Lokalne volitve, 15. november 2026.
+naslov: "Apolonija Simon za županjo"
+opis: "Apolonija Simon, kandidatka liste Vesna in civilna družba za županjo Ljubljane. Lokalne volitve, 15. november 2026."
 
 # Real copy from the print material. The name itself is set in CandidateMark.
 hero:
@@ -8,21 +8,13 @@ hero:
   stevilka: 6
   volitve: "Lokalne volitve, 15. november 2026"
 
-# The 3 most important points of the programme (shown under the Q&A box).
-# Not decided yet: labels are campaign themes from the brief, texts describe what will go there.
+# The 3 key programme areas shown under the Q&A box, in this order.
+# Each entry is a file name from src/content/program/ (without .md). Change the selection here.
+# Provisional selection: the section is marked OSNUTEK (block "poudarki" below) until it is decided.
 poudarki:
-  - naslov: "Stanovanja"
-    besedilo: "[Tu bo kratek opis prve ključne točke programa.]"
-    povezava: "/program"
-    placeholder: true
-  - naslov: "Promet"
-    besedilo: "[Tu bo kratek opis druge ključne točke programa.]"
-    povezava: "/program"
-    placeholder: true
-  - naslov: "Čisto okolje"
-    besedilo: "[Tu bo kratek opis tretje ključne točke programa.]"
-    povezava: "/program"
-    placeholder: true
+  - upravljanje-mesta-in-participacija
+  - stanovanjska-politika
+  - okolje-pitna-voda-in-cist-zrak
 
 bloki:
   - id: vprasanja
@@ -33,6 +25,8 @@ bloki:
   - id: poudarki
     naslov: "Ključne točke programa"
     besedilo: "Celoten program"
+    # The final choice of the 3 areas is not decided yet.
+    placeholder: true
 
   - id: kandidatura
     naslov: "Zakaj Apolonija kandidira"

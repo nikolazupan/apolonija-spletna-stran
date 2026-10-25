@@ -1,0 +1,18 @@
+---
+// Privacy notice (legal text still to be supplied by the campaign).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/ui/PageIntro.astro';
+import BlockText from '../components/BlockText.astro';
+import { getStran } from '../lib/strani';
+
+const { naslov, opis, blok } = await getStran('zasebnost');
+const podrobnosti = blok('podrobnosti');
+---
+
+<BaseLayout title={naslov} description={opis}>
+  <PageIntro naslov={naslov} uvod={blok('uvod')} oblika="h" />
+  <section class="site-container pb-16 pt-4 lg:pb-24">
+    <h2 class="naslov-sekcije">{podrobnosti.naslov}</h2>
+    <BlockText blok={podrobnosti} class="mt-4 max-w-prose text-lg leading-relaxed" />
+  </section>
+</BaseLayout>

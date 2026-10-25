@@ -33,8 +33,8 @@ for await (const file of walk(join(root, 'src'))) {
   const lines = (await readFile(file, 'utf8')).split('\n');
   lines.forEach((line, i) => {
     const t = line.trim();
-    // Skip comments, and conditional wrappers driven by a `placeholder` flag (the data itself is listed).
-    if (t.startsWith('//') || t.startsWith('#') || /\?\s*<(Image)?Placeholder\b/.test(t)) return;
+    // Skip comments, and wrappers driven by a `placeholder` flag (`? <Placeholder`, `<Placeholder active=`) and image fallbacks with a data-driven label: the data itself is listed.
+    if (t.startsWith('//') || t.startsWith('#') || /\?\s*<(Image)?Placeholder\b/.test(t) || /<Placeholder active=/.test(t) || /<ImagePlaceholder label=\{/.test(t)) return;
     for (const { re, label } of rules) {
       if (re.test(line)) hits.push({ rel, line: i + 1, label, text: line.trim() });
     }

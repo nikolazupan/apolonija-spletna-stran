@@ -1,11 +1,8 @@
 ---
 // Latest social media posts: title row with archive link, then a row of the newest posts.
-// Horizontally scrollable on mobile. Thumbnails only, no Meta scripts.
+// Horizontally scrollable on mobile. Thumbnails only, embeds load on click (PostCard).
 import type { CollectionEntry } from 'astro:content';
-import { Image } from 'astro:assets';
-import ImagePlaceholder from '../ImagePlaceholder.astro';
-import Placeholder from '../Placeholder.astro';
-import { formatDatum, tipOznaka } from '../../lib/objave';
+import PostCard from '../ui/PostCard.astro';
 
 interface Props {
   objave: CollectionEntry<'objave'>[];
@@ -23,20 +20,9 @@ const tilt = ['-rotate-1', 'rotate-1', 'rotate-[0.5deg]', '-rotate-[1.5deg]'];
   </div>
 
   <ul class="site-container mt-8 flex snap-x snap-mandatory scroll-px-[var(--gutter)] gap-5 overflow-x-auto pb-4 pt-2 md:grid md:grid-cols-4 md:overflow-visible">
-    {objave.map(({ data: o }, i) => (
+    {objave.map((objava, i) => (
       <li class="w-[68%] shrink-0 snap-start sm:w-[42%] md:w-auto">
-        <a href={o.povezava} target="_blank" rel="noopener" class:list={['block border-[8px] border-bela bg-bela transition-transform hover:rotate-0', tilt[i % tilt.length]]}>
-          {o.slika
-            ? <Image src={o.slika} alt={o.opis} widths={[300, 600]} sizes="(min-width: 768px) 22vw, 68vw" class="aspect-square w-full object-cover" />
-            : <ImagePlaceholder label={`OBJAVA: ${tipOznaka[o.tip].toUpperCase()}`} class="aspect-square w-full" />}
-          <div class="px-1 pb-1 pt-3">
-            <p class="flex justify-between gap-2 text-sm font-bold">
-              <time datetime={o.datum.toISOString()}>{formatDatum(o.datum)}</time>
-              <span class="text-zelena-temna">{tipOznaka[o.tip]}</span>
-            </p>
-            <p class="mt-1.5 text-sm leading-snug">{o.placeholder ? <Placeholder>{o.opis}</Placeholder> : o.opis}</p>
-          </div>
-        </a>
+        <PostCard objava={objava} sizes="(min-width: 768px) 22vw, 68vw" class={tilt[i % tilt.length]} />
       </li>
     ))}
   </ul>

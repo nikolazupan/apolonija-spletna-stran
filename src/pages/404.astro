@@ -1,0 +1,27 @@
+---
+// Not found: "404" with the 0 circled by hand, and the main menu as a way back.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Risba from '../components/brand/Risba.astro';
+import TextLink from '../components/ui/TextLink.astro';
+import { getStran } from '../lib/strani';
+import { navigation } from '../data/site';
+
+const { naslov, opis, blok } = await getStran('404');
+const uvod = blok('uvod');
+---
+
+<BaseLayout title={naslov} description={opis} noindex>
+  <section class="site-container grid gap-10 py-14 lg:grid-cols-12 lg:items-center lg:py-24">
+    <p class="display text-[clamp(7rem,30vw,16rem)] text-zelena lg:col-span-6" aria-hidden="true">
+      4<span class="relative inline-block text-crna">0<Risba name="krog" class="absolute -inset-[0.08em] h-[calc(100%+0.16em)] w-[calc(100%+0.16em)] [--risba-w:6px]" /></span>4
+    </p>
+    <div class="lg:col-span-6">
+      <h1 class="naslov-sekcije">{uvod.naslov}</h1>
+      <p class="mt-3 text-lg">{uvod.besedilo}</p>
+      <p class="mt-6 text-lg"><TextLink href="/">Na vstopno stran</TextLink></p>
+      <ul class="mt-8 grid grid-cols-2 gap-x-6 gap-y-2 border-t-2 border-crna pt-4 text-base">
+        {navigation.filter((n) => n.href !== '/').map((n) => <li><a href={n.href} class="font-semibold hover:text-zelena-temna">{n.label}</a></li>)}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

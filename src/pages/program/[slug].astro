@@ -1,0 +1,76 @@
+---
+// Programme area page: number + title, the two flyer points as hand-underlined statements,
+// longer text (markdown body), references, and navigation to the neighbouring areas.
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Blob from '../../components/brand/Blob.astro';
+import Risba from '../../components/brand/Risba.astro';
+import Placeholder from '../../components/Placeholder.astro';
+import TextLink from '../../components/ui/TextLink.astro';
+import { getProgram } from '../../lib/program';
+import { getStran } from '../../lib/strani';
+
+export async function getStaticPaths() {
+  const podrocja = await getProgram();
+  return podrocja.map((p, i) => ({
+    params: { slug: p.id },
+    props: { podrocje: p, prejsnje: podrocja[i - 1], naslednje: podrocja[i + 1] },
+  }));
+}
+
+const { podrocje, prejsnje, naslednje } = Astro.props;
+const { naslov, tocke, viri, placeholder, vrstniRed } = podrocje.data;
+const { Content } = await render(podrocje);
+const { povezave } = await getStran('program');
+---
+
+<BaseLayout title={`${naslov} | Program`} description={`${naslov}: ${tocke.join(' ')} Program Apolonije Simon in liste Vesna in civilna družba.`}>
+  <section class="site-container pb-8 pt-6 lg:pt-10">
+    <a href="/program" class="text-sm font-bold hover:text-zelena-temna">← Vsa področja programa</a>
+    <div class="relative mt-4 max-w-4xl">
+      <Blob variant={vrstniRed % 2 ? 'e' : 'b'} fill="var(--color-bela)" class="absolute inset-0 h-full w-full -rotate-1" />
+      <div class="relative px-6 py-10 sm:px-12 sm:py-14">
+        <span class="relative inline-flex h-16 w-16 items-center justify-center font-display text-4xl font-extrabold" aria-hidden="true">
+          <Risba name="krog" class="absolute -inset-2 h-[calc(100%+1rem)] w-[calc(100%+1rem)] [--risba-w:4px]" />
+          {vrstniRed}
+        </span>
+        <h1 class="display mt-5 text-[clamp(2.5rem,8vw,5rem)]">{naslov}</h1>
+      </div>
+    </div>
+  </section>
+
+  <!-- the two flyer points -->
+  <section class="site-container py-6">
+    <ul class="grid gap-6 md:grid-cols-2">
+      {tocke.map((t) => (
+        <li class="naslov-sekcije text-zelena-temna">
+          {t}
+          <Risba name="podcrta" class="mt-2 h-2.5 w-40 [--risba-w:4px]" />
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="site-container grid gap-12 py-10 lg:grid-cols-12 lg:py-14">
+    <div class="lg:col-span-7">
+      <Placeholder active={placeholder} as="div" class="block space-y-4 text-lg leading-relaxed">
+        <Content />
+      </Placeholder>
+    </div>
+
+    <aside class="lg:col-span-4 lg:col-start-9" aria-labelledby="viri">
+      <h2 id="viri" class="text-xl font-extrabold tracking-tight">Viri in povezave</h2>
+      <ul class="mt-4 space-y-3 border-t-2 border-crna pt-4 text-base">
+        {viri.map((v) => <li><TextLink href={v.url} placeholder={v.placeholder}>{v.naslov}</TextLink></li>)}
+        {povezave.map((l) => <li><TextLink href={l.url}>Celoten program: {l.naslov}</TextLink></li>)}
+      </ul>
+    </aside>
+  </section>
+
+  <nav class="site-container pb-16 text-base" aria-label="Druga področja">
+  <div class="flex flex-wrap justify-between gap-4 border-t-2 border-crna/15 pt-8">
+    {prejsnje ? <a href={`/program/${prejsnje.id}`} class="font-bold hover:text-zelena-temna">← {prejsnje.data.naslov}</a> : <span></span>}
+    {naslednje && <a href={`/program/${naslednje.id}`} class="text-right font-bold hover:text-zelena-temna">{naslednje.data.naslov} →</a>}
+  </div>
+  </nav>
+</BaseLayout>

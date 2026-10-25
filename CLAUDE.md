@@ -32,19 +32,27 @@ Main menu:
    - Hero heading is her name: "Apolonija Simon." + "Županja za vse meščane." ("Kakšno mesto hočemo!" is the domain name, not the page title). Composed like the posters: name on an organic white shape, cut-out photo on its own white paper shape overlapping it
    - Photo of Apolonija, linking to her subpage
    - Q&A box under the hero: "Imaš vprašanje? Apolonija ima odgovore.", a field to ask a question, and a link to `/vprasanja`
-   - Under the Q&A box: the 3 most important programme points, each on its own hand-cut white paper shape (each slightly different, subtle wobble on hover, none with reduced motion), each linking to `/program`; centered title, "Celoten program" link (green underline) below (placeholders until the programme is final)
+   - Under the Q&A box: 3 key programme areas, each on its own hand-cut white paper shape (each slightly different, subtle wobble on hover, none with reduced motion), each linking to its `/program/[slug]` page; centered title, "Celoten program" link (green underline) below. The selection is set in `poudarki` in `src/content/strani/vstopna.md` (file names from `src/content/program/`). Current provisional selection: Upravljanje mesta in participacija, Stanovanjska politika, Okolje, pitna voda in čist zrak. The section stays marked OSNUTEK until the team decides the final 3.
    - Text: why Apolonija is running, then why Vesna and civil society are joining forces (framed blocks of equal size, alternating title/text columns, aligned across both)
    - Latest posts: title with archive link, then a row of the 3–4 newest posts (horizontally scrollable on mobile)
-2. **Apolonija Simon** (`/apolonija-simon`): photos, text, link to her personal website
-3. **Lista Vesna in civilna družba** (`/lista`): short text, city council candidates with photos and descriptions, lists of candidates for četrtne skupnosti
-4. **Program** (`/program`): 8 points in short form; each links to a longer text page (`/program/[slug]`) with references (links or extra text pages)
-5. **Sporni projekti + naše stališče** (`/sporni-projekti`): per project an image, short text and our position
+2. **Apolonija Simon** (`/apolonija-simon`): photos, text, link to her personal website. Uses real quotes from Siol.net, 1. 10. 2026 (source in `src/content/strani/apolonija-simon.md`); any further quotes must also be real and sourced.
+3. **Lista Vesna in civilna družba** (`/lista`): short text, city council candidates with photos and descriptions, lists of candidates for četrtne skupnosti. City council: 45 real names in ballot order (official flyer) in `src/content/kandidati/mestni-svet.yaml`, Denis Striković is nosilec liste. Četrtne skupnosti: `cetrtne-skupnosti.yaml`, collapsible per ČS; which ČS the list runs in and the names are not known yet (placeholders).
+4. **Program** (`/program`): **6 areas** (not 8), from the official campaign flyer (`design-reference/letak A52.jpg`), each with two short points; each area links to a longer text page (`/program/[slug]`) with references (links or extra text pages). Content: one file per area in `src/content/program/` (file name = slug, `vrstniRed` = flyer order, `tocke` = the two flyer points, body = longer text). The area names and points are real; the longer texts are not written yet, so every area is `placeholder: true`.
+   1. Upravljanje mesta in participacija: Mesto posluša, ljudje odločajo. / Čisti računi.
+   2. Okolje, pitna voda in čist zrak: Zaščita pitne vode. / Konec odpadkovnega kolonializma.
+   3. Zelena Ljubljana in podnebna odpornost: Mesto zelenih otokov. / Prilagajanje na spremembe.
+   4. Promet in javni prevoz: Učinkovit javni promet. / Mesto kratkih poti.
+   5. Stanovanjska politika: Dom, ne privilegij. / Prispevek komercialnih gradenj.
+   6. Socialna pravičnost, mladi in kultura: Ljubljana za vse. / Ustvarjalnost in dediščina.
+5. **Sporni projekti + naše stališče** (`/sporni-projekti`): per project an image, short text and our position. One file per project in `src/content/sporni-projekti/`. Real names: kanalizacijski kanal C0, sežigalnica odpadkov; descriptions and positions are placeholders until the team writes them.
 6. **Vprašanja in odgovori** (`/vprasanja`): list of questions residents have asked, with Apolonija's answers, and a form to ask a new one
 7. **Arhiv objav** (`/arhiv`): grid of about 5 per row, newest first (top left), date under each. Posts are mixed: graphics, text, photos, video
 8. **Pomagaj, če lahko** (`/pomagaj`): donation request with payment details
 9. **Kontakt** (`/kontakt`): contact details, links to Apolonija's personal site and Vesna's website
 
-Footer on every page: campaign organizer notice ("Naročnik: ..."), privacy notice link, social links.
+Footer on every page: campaign organizer notice ("Naročnik: ..."), privacy notice link (`/zasebnost`), social links.
+
+Also: `/zasebnost` (privacy notice, legal text still to be supplied) and a custom 404 page. Every page's title and meta description come from its file in `src/content/strani/` (`naslov`, `opis`); the layout appends "| Apolonija Simon za županjo".
 
 ## Design direction
 - The candidate is a painter and heads a design school. The site must feel **art-driven and authored**, not like a template (no Squarespace / generic startup look).
@@ -63,10 +71,10 @@ The hand-made marks of the print material become the structure of the site. Buil
 - **Hand-drawn marks:** crayon stroke before "Apolonija", hand-drawn circle around the ballot number 6 ("Obkroži 6"), underlines, arrows. Each is a separate SVG in `src/assets/risbe/`, rendered via `Risba.astro`; replace files with scanned drawings later (see the README there).
 - **Accents:** green Q&A band, black footer, black pill buttons, thin black frames around text blocks. No gradients, no shadows.
 - **Scale:** bold but not oversized. Keep headlines and section spacing moderate (the team found the first homepage too big); readability on a phone comes first.
-- **Header:** partner logo centered (and fairly large), only a "Meni" button on the right, on all screen sizes (no inline links). On the narrowest phones the button shows only the menu icon (labelled "Meni" for screen readers).
+- **Header:** sticky. Partner logo on the left, only a "Meni" button on the right, both on the same content edges as the page (no inline links). No border line: at the top of the page the header blends into the paper; once scrolled it becomes a cream paper strip with a torn bottom edge and a soft shadow.
 - **Navigation:** the "Meni" button opens a full-screen overlay on all screen sizes: translucent cream with blur, comfortable (not huge) link size, fade + staggered slide-in, clearly visible "Zapri" button, Esc closes, respects `prefers-reduced-motion`.
-- **Hero rule:** photos must never cover text at any width (only the white background shapes may overlap). Name and photo sit close together; no crayon stroke next to the name in the hero.
-- **Side margins:** one shared container (`site-container` / `px-gutter` in `global.css`, `--gutter`: 22px phone, 36px from tablet up, max width 90rem). Every section, the header, the menu and the footer use it; change the margin there only.
+- **Hero rule:** photos must never cover text at any width (only the white background shapes may overlap). Name and photo sit close together, and the composition is centered as a group (equal empty space left and right). No crayon stroke next to the name in the hero. The name size uses container units (`cqi`) so it scales with the content width.
+- **Side margins:** one shared container (`site-container` / `px-gutter` in `global.css`; `--gutter: clamp(1.5rem, 6vw, 5.5rem)` scales with the window, `--container: 84rem` max width). Every section, the header, the menu and the footer use it; change the margin there only.
 - **Links vs buttons:** secondary links ("Celoten program", "Vse objave", "Več o Apoloniji") are text with a green underline, not filled buttons.
 
 **Colors** (defined once in the `@theme` block of `src/styles/global.css`):
@@ -94,8 +102,8 @@ Most texts are still being written. Invented content is allowed only as a clearl
 - Real content (from the background section above or supplied by the team) is not marked.
 
 ## Features: prototype first
-- **Latest post / archive:** for now a manually maintained content collection (image, type, date, link). Automatic import from Instagram is a later decision; keep the data shape compatible with it.
-- **Instagram embeds:** click-to-load (thumbnail first, embed only on click). No Meta scripts on page load.
+- **Latest post / archive:** for now a manually maintained content collection `src/content/objave/` (one file per post: datum, tip, platforma, povezava, opis, slika). **Open decision:** automatic import from Instagram (Graph API) is not decided yet. The fields are chosen to map 1:1 to an Instagram media object (see the comment in `src/content.config.ts`), so an import could later write the same files or replace the loader.
+- **Instagram embeds:** click-to-load (thumbnail first, embed only on click). No Meta scripts on page load. Implemented in `PostCard.astro` (Instagram `/p/…`, `/reel/…` permalinks; posts with a `#` link show a prototype note instead).
 - **Question form (Q&A):** build the UI only; no backend yet. Mark it as non-functional in the prototype. Answered questions will be a content collection shown on `/vprasanja`.
 - **No survey:** the online survey was dropped from the site.
 - **Donations:** placeholder payment details only.

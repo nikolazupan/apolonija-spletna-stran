@@ -1,14 +1,16 @@
 ---
 // Grey labeled box standing in for a missing photo.
+// `mark={false}` drops the OSNUTEK label where many boxes repeat (the grey box and label already say it).
 interface Props {
   label: string;
   class?: string;
+  mark?: boolean;
 }
-const { label, class: className } = Astro.props;
+const { label, class: className, mark = true } = Astro.props;
 ---
 
 <div
-  data-placeholder
+  data-placeholder={mark ? '' : undefined}
   class:list={['flex items-center justify-center bg-neutral-300 p-4 text-center text-sm font-bold tracking-wide text-neutral-700', className]}
 >
   {label}

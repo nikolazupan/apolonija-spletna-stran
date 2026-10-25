@@ -1,0 +1,52 @@
+---
+// Programme overview: the 6 areas from the flyer as hand-cut paper cards, each linking to its page.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/ui/PageIntro.astro';
+import PaperCard from '../../components/ui/PaperCard.astro';
+import ProgramCardBody from '../../components/ui/ProgramCardBody.astro';
+import BlockText from '../../components/BlockText.astro';
+import TextLink from '../../components/ui/TextLink.astro';
+import Risba from '../../components/brand/Risba.astro';
+import { getStran } from '../../lib/strani';
+import { getProgram } from '../../lib/program';
+import { papirji } from '../../lib/blob';
+
+const { naslov, opis, blok, povezave } = await getStran('program');
+const uvod = blok('uvod');
+const celoten = blok('celoten');
+const podrocja = await getProgram();
+---
+
+<BaseLayout title={naslov} description={opis}>
+  <PageIntro naslov={uvod.naslov ?? naslov} uvod={uvod} oblika="g">
+    <p slot="deco" class="relative px-4 text-center font-display font-extrabold leading-none" aria-hidden="true">
+      <span class="block text-[7rem] text-zelena sm:text-[9rem]">{podrocja.length}</span>
+      <span class="block text-xl tracking-tight">področij</span>
+      <Risba name="podcrta" class="mx-auto mt-2 h-2.5 w-28 [--risba-w:4px]" />
+    </p>
+  </PageIntro>
+
+  <section class="site-container pb-12 pt-4 lg:pb-16" aria-label="Področja programa">
+    <ol class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+      {podrocja.map((p, i) => (
+        <li>
+          <PaperCard href={`/program/${p.id}`} {...papirji[i % papirji.length]} class="h-full">
+            <ProgramCardBody podrocje={p} stevilka={p.data.vrstniRed} />
+          </PaperCard>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="site-container pb-16 lg:pb-20">
+    <div class="border-2 border-crna p-6 sm:p-8 md:flex md:items-center md:justify-between md:gap-10">
+      <div>
+        <h2 class="text-2xl font-extrabold tracking-tight">{celoten.naslov}</h2>
+        <BlockText blok={celoten} class="mt-2 max-w-prose text-base leading-relaxed" />
+      </div>
+      <div class="mt-4 shrink-0 text-lg md:mt-0">
+        {povezave.map((l) => <TextLink href={l.url} placeholder={l.placeholder}>{l.naslov}</TextLink>)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

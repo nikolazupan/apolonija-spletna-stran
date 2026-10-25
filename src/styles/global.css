@@ -28,13 +28,10 @@
  * Change it here only; every section uses `site-container` or `px-gutter`.
  */
 :root {
-  --gutter: 1.375rem; /* 22px on phones */
-  --container: 90rem;
-}
-@media (min-width: 40rem) {
-  :root {
-    --gutter: 2.25rem; /* 36px from tablet up */
-  }
+  /* scales with the window: 24px on phones, ~46px on tablets, up to 88px on wide screens */
+  --gutter: clamp(1.5rem, 6vw, 5.5rem);
+  /* max width of the content area including the gutters */
+  --container: 84rem;
 }
 
 @utility site-container {
@@ -64,6 +61,16 @@ html {
   line-height: 0.9;
 }
 
+/* Section headings on subpages. */
+@utility naslov-sekcije {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 85%;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  font-size: clamp(2rem, 6vw, 3.25rem);
+}
+
 /* Paper grain: inline SVG noise, multiplied over the ground color. */
 @utility paper {
   position: relative;
@@ -91,16 +98,24 @@ html {
     transparent 6px 12px
   );
 }
-.ph-on [data-placeholder]::after {
+.ph-on [data-placeholder]::before {
+  /* inline label before the marked text, so it never covers the line above */
   content: "OSNUTEK";
-  position: absolute;
-  top: -0.85rem;
-  left: 0;
-  z-index: 5;
+  display: inline-block;
+  margin-right: 0.35em;
   padding: 0.1rem 0.35rem;
+  vertical-align: 0.15em;
   font: 700 0.625rem/1.2 var(--font-sans);
   font-stretch: 100%;
   letter-spacing: 0.08em;
   color: var(--color-bela);
   background: var(--color-rdeca);
+}
+/* image boxes and other flex/grid blocks: label sits in the top-left corner inside */
+.ph-on .flex[data-placeholder]::before,
+.ph-on .grid[data-placeholder]::before {
+  position: absolute;
+  top: 0.4rem;
+  left: 0.4rem;
+  z-index: 5;
 }

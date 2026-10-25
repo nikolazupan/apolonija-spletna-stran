@@ -1,0 +1,41 @@
+---
+// Question form for Apolonija (UI only, no backend yet): marked OSNUTEK and says so on submit.
+// Arrow submit button sits inside the field's bottom-right corner. Use once per page.
+import Placeholder from '../Placeholder.astro';
+---
+
+<Placeholder as="div" class="block">
+  <form data-vprasanje class="relative" novalidate>
+    <label for="vprasanje" class="sr-only">Vprašanje za Apolonijo</label>
+    <textarea
+      id="vprasanje"
+      name="vprasanje"
+      rows="3"
+      required
+      class="block w-full resize-y rounded-2xl border-2 border-crna bg-krema py-3 pl-4 pr-16 text-lg placeholder:text-crna/55 focus:outline-none focus:ring-4 focus:ring-crna/30"
+      placeholder="Kaj bi vprašal/a Apolonijo?"
+    ></textarea>
+    <button
+      type="submit"
+      class="absolute bottom-3 right-3 flex h-11 w-11 items-center justify-center rounded-full bg-crna text-krema transition-colors hover:bg-zelena-temna focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-crna"
+      aria-label="Pošlji vprašanje"
+      title="Pošlji vprašanje"
+    >
+      <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 10h12M11 5l5 5-5 5" />
+      </svg>
+    </button>
+  </form>
+  <p class="mt-2 text-sm font-medium" role="status" data-vprasanje-status>Prototip: obrazec še ne pošilja vprašanj.</p>
+</Placeholder>
+
+<script>
+  // No backend yet: keep the user on the page and say so.
+  document.querySelectorAll<HTMLFormElement>('[data-vprasanje]').forEach((form) => {
+    const status = form.parentElement?.querySelector('[data-vprasanje-status]');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (status) status.textContent = 'Prototip: vprašanje ni bilo poslano. Pošiljanje bo delovalo v končni verziji.';
+    });
+  });
+</script>

@@ -5,11 +5,15 @@ import SiteHeader from '../components/layout/SiteHeader.astro';
 import SiteFooter from '../components/layout/SiteFooter.astro';
 
 interface Props {
+  // page title; the site name is appended unless `fullTitle` is set (homepage)
   title: string;
   description?: string;
   noindex?: boolean;
+  fullTitle?: boolean;
 }
-const { title, description, noindex = false } = Astro.props;
+const { title, description, noindex = false, fullTitle = false } = Astro.props;
+const siteName = 'Apolonija Simon za županjo';
+const pageTitle = fullTitle ? title : `${title} | ${siteName}`;
 ---
 
 <!doctype html>
@@ -18,7 +22,9 @@ const { title, description, noindex = false } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
+    <title>{pageTitle}</title>
+    <meta property="og:title" content={pageTitle} />
+    {description && <meta property="og:description" content={description} />}
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex, nofollow" />}
   </head>

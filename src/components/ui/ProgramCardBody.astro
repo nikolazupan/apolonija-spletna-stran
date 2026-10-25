@@ -1,0 +1,19 @@
+---
+// Content of a programme-area card: number, area name, the two flyer points, "Več" link label.
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  podrocje: CollectionEntry<'program'>;
+  stevilka: number;
+}
+const { podrocje, stevilka } = Astro.props;
+---
+
+<div class="flex h-full flex-col items-center gap-3 px-[12%] py-10 text-center sm:py-12">
+  <span class="display text-5xl text-zelena">{String(stevilka).padStart(2, '0')}</span>
+  <h3 class="text-2xl font-extrabold leading-tight tracking-tight">{podrocje.data.naslov}</h3>
+  <ul class="space-y-1 text-base leading-snug">
+    {podrocje.data.tocke.map((t) => <li>{t}</li>)}
+  </ul>
+  <span class="mt-auto pt-2 text-sm font-bold group-hover:text-zelena-temna">Več o področju →</span>
+</div>

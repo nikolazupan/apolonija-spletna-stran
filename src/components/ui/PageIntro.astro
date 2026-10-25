@@ -1,0 +1,29 @@
+---
+// Page heading for subpages: big title on a white hand-cut shape, optional intro text.
+// The `deco` slot holds the page's own small creative touch (number, drawing, photo, ...).
+import Blob from '../brand/Blob.astro';
+import BlockText from '../BlockText.astro';
+import type { BlobVariant } from '../../lib/blob';
+
+interface Props {
+  naslov: string;
+  uvod?: { besedilo: string; placeholder: boolean };
+  oblika?: BlobVariant;
+  // tailwind rotate class for the paper
+  nagib?: string;
+}
+const { naslov, uvod, oblika = 'g', nagib = '-rotate-1' } = Astro.props;
+---
+
+<section class="site-container pb-8 pt-6 lg:pb-12 lg:pt-10">
+  <div class="relative grid items-center gap-6 md:grid-cols-[minmax(0,1fr)_auto]">
+    <div class="relative max-w-3xl">
+      <Blob variant={oblika} fill="var(--color-bela)" class:list={['absolute inset-0 h-full w-full', nagib]} />
+      <div class="relative px-6 py-10 sm:px-10 sm:py-12 lg:px-14">
+        <h1 class="display text-[clamp(2.75rem,9vw,5.5rem)]">{naslov}</h1>
+        {uvod && <BlockText blok={uvod} class="mt-4 max-w-xl text-lg leading-relaxed sm:text-xl" />}
+      </div>
+    </div>
+    {Astro.slots.has('deco') && <div class="relative justify-self-center md:justify-self-end"><slot name="deco" /></div>}
+  </div>
+</section>

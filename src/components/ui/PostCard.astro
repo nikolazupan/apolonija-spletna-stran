@@ -1,0 +1,81 @@
+---
+// One social media post as a white "print" card: thumbnail, date, type, caption.
+// Click-to-load: Instagram content (and video) is only embedded after a click. No Meta scripts on page load.
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import ImagePlaceholder from '../ImagePlaceholder.astro';
+import Placeholder from '../Placeholder.astro';
+import { formatDatum, tipOznaka, embedUrl } from '../../lib/objave';
+
+interface Props {
+  objava: CollectionEntry<'objave'>;
+  class?: string;
+  sizes?: string;
+}
+const { objava, class: className, sizes = '(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 46vw' } = Astro.props;
+const o = objava.data;
+const embed = embedUrl(o.povezava, o.platforma);
+const platforma = o.platforma === 'instagram' ? 'Instagramu' : 'Facebooku';
+---
+
+<article class:list={['flex h-full flex-col border-[6px] border-bela bg-bela', className]}>
+  <div class="objava-medij relative aspect-square overflow-hidden bg-neutral-200" data-embed={embed ?? ''}>
+    {o.tip === 'besedilo' && !o.slika ? (
+      <div class="paper flex h-full items-center bg-zelena p-4">
+        <p class="display line-clamp-6 text-[clamp(1.1rem,2.2vw,1.5rem)] text-krema [font-stretch:90%]">
+          <Placeholder active={o.placeholder}>{o.opis}</Placeholder>
+        </p>
+      </div>
+    ) : o.slika ? (
+      <Image src={o.slika} alt={o.opis} widths={[300, 600]} sizes={sizes} class="h-full w-full object-cover" />
+    ) : (
+      <ImagePlaceholder label={`OBJAVA: ${tipOznaka[o.tip].toUpperCase()}`} class="h-full w-full text-xs" />
+    )}
+
+    <!-- click-to-load: the whole thumbnail is a button -->
+    <button type="button" class="objava-nalozi group absolute inset-0 flex items-center justify-center" aria-label={`Naloži objavo z ${platforma} (${tipOznaka[o.tip]}, ${formatDatum(o.datum)})`}>
+      {o.tip === 'video' && (
+        <span class="flex h-14 w-14 items-center justify-center rounded-full bg-crna text-krema transition-transform group-hover:scale-110" aria-hidden="true">
+          <svg viewBox="0 0 20 20" class="ml-1 h-6 w-6" fill="currentColor"><path d="M5 3.5v13l11-6.5z" /></svg>
+        </span>
+      )}
+    </button>
+  </div>
+
+  <div class="flex flex-1 flex-col px-1 pb-1 pt-3">
+    <p class="flex flex-wrap justify-between gap-x-2 text-sm font-bold">
+      <time datetime={o.datum.toISOString()}>{formatDatum(o.datum)}</time>
+      <span class="text-zelena-temna">{tipOznaka[o.tip]}</span>
+    </p>
+    {o.tip !== 'besedilo' && (
+      <p class="mt-1.5 line-clamp-3 text-sm leading-snug"><Placeholder active={o.placeholder}>{o.opis}</Placeholder></p>
+    )}
+    <a href={o.povezava} target="_blank" rel="noopener" class="mt-auto pt-2 text-xs font-bold underline underline-offset-2 hover:text-zelena-temna">Odpri na {platforma} ↗</a>
+  </div>
+</article>
+
+<script>
+  // Replace the thumbnail with the embed only after a click (no third-party requests before that).
+  document.querySelectorAll<HTMLButtonElement>('.objava-nalozi').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const box = btn.closest<HTMLElement>('.objava-medij');
+      if (!box) return;
+      const url = box.dataset.embed;
+      if (!url) {
+        box.insertAdjacentHTML(
+          'beforeend',
+          '<p class="absolute inset-x-2 bottom-2 rounded bg-crna px-2 py-1 text-xs font-medium text-krema">Prototip: tu se bo ob kliku naložila objava.</p>',
+        );
+        btn.remove();
+        return;
+      }
+      const frame = document.createElement('iframe');
+      frame.src = url;
+      frame.title = btn.getAttribute('aria-label') ?? 'Objava';
+      frame.loading = 'lazy';
+      frame.allowFullscreen = true;
+      frame.className = 'absolute inset-0 h-full w-full border-0 bg-bela';
+      box.replaceChildren(frame);
+    });
+  });
+</script>

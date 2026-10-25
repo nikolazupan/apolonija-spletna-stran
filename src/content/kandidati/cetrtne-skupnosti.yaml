@@ -1,0 +1,179 @@
+# Candidate lists for četrtne skupnosti (17 ČS of MOL).
+# Not confirmed: in which ČS the list runs and who the candidates are (placeholder names only).
+
+- id: bezigrad
+  ime: "Bežigrad"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+    - "Kandidat/ka 4"
+    - "Kandidat/ka 5"
+    - "Kandidat/ka 6"
+    - "Kandidat/ka 7"
+
+- id: center
+  ime: "Center"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+    - "Kandidat/ka 4"
+    - "Kandidat/ka 5"
+
+- id: crnuce
+  ime: "Črnuče"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+    - "Kandidat/ka 4"
+    - "Kandidat/ka 5"
+    - "Kandidat/ka 6"
+
+- id: dravlje
+  ime: "Dravlje"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+    - "Kandidat/ka 4"
+
+- id: golovec
+  ime: "Golovec"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+    - "Kandidat/ka 4"
+    - "Kandidat/ka 5"
+
+- id: jarse
+  ime: "Jarše"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+    - "Kandidat/ka 4"
+    - "Kandidat/ka 5"
+    - "Kandidat/ka 6"
+
+- id: moste
+  ime: "Moste"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+    - "Kandidat/ka 4"
+    - "Kandidat/ka 5"
+    - "Kandidat/ka 6"
+    - "Kandidat/ka 7"
+
+- id: polje
+  ime: "Polje"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+    - "Kandidat/ka 4"
+    - "Kandidat/ka 5"
+
+- id: posavje
+  ime: "Posavje"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+    - "Kandidat/ka 4"
+
+- id: roznik
+  ime: "Rožnik"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+    - "Kandidat/ka 4"
+    - "Kandidat/ka 5"
+    - "Kandidat/ka 6"
+
+- id: rudnik
+  ime: "Rudnik"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+    - "Kandidat/ka 4"
+    - "Kandidat/ka 5"
+
+- id: sostro
+  ime: "Sostro"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+
+- id: sentvid
+  ime: "Šentvid"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+    - "Kandidat/ka 4"
+    - "Kandidat/ka 5"
+
+- id: siska
+  ime: "Šiška"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+    - "Kandidat/ka 4"
+    - "Kandidat/ka 5"
+    - "Kandidat/ka 6"
+    - "Kandidat/ka 7"
+
+- id: smarna-gora
+  ime: "Šmarna gora"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+    - "Kandidat/ka 4"
+
+- id: trnovo
+  ime: "Trnovo"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+    - "Kandidat/ka 4"
+    - "Kandidat/ka 5"
+    - "Kandidat/ka 6"
+
+- id: vic
+  ime: "Vič"
+  placeholder: true
+  kandidati:
+    - "Kandidat/ka 1"
+    - "Kandidat/ka 2"
+    - "Kandidat/ka 3"
+    - "Kandidat/ka 4"
+    - "Kandidat/ka 5"
+    - "Kandidat/ka 6"
+    - "Kandidat/ka 7"

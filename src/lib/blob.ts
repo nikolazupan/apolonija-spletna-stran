@@ -37,3 +37,13 @@ export function blobPath(variant: BlobVariant, scale = 1, round = 0.3): string {
   });
   return d + 'Z';
 }
+
+// Ready-made hand-cut paper looks for card grids (shape, resting tilt, mirrored), cycled per card.
+export const papirji: { oblika: BlobVariant; nagib: string; zrcali?: boolean }[] = [
+  { oblika: 'g', nagib: '-1.5deg' },
+  { oblika: 'h', nagib: '1deg' },
+  { oblika: 'i', nagib: '-0.5deg' },
+  { oblika: 'h', nagib: '-1deg', zrcali: true },
+  { oblika: 'i', nagib: '1.5deg', zrcali: true },
+  { oblika: 'g', nagib: '0.5deg', zrcali: true },
+];

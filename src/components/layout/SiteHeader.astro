@@ -1,5 +1,7 @@
 ---
-// Header: centered partner logo and a "Meni" button that opens a full-screen overlay (all screen sizes).
+// Sticky header: partner logo left, "Meni" button right (same content edges as the page).
+// Once the page is scrolled it turns into a cream paper strip with a torn bottom edge.
+// The "Meni" button opens a full-screen overlay (all screen sizes).
 import VesnaLogo from '../brand/VesnaLogo.astro';
 import { navigation, social } from '../../data/site';
 
@@ -7,19 +9,35 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => (href === '/' ? current === '/' : current.startsWith(href));
 
 // Shared by the header and the overlay's top bar, so the logo and buttons line up exactly.
-const bar = 'site-container grid grid-cols-[1fr_auto_1fr] items-center gap-3 py-3 lg:py-4';
-const logoSize = 'text-[0.9rem] sm:text-[1.1rem] lg:text-[1.25rem]';
-const button = 'flex h-11 items-center justify-center gap-2 rounded-full border-2 border-crna text-sm font-bold max-sm:w-11 sm:px-4';
+const bar = 'site-container relative flex items-center justify-between gap-4 py-3 lg:py-4';
+const logoSize = 'text-[0.82rem] sm:text-[1.05rem] lg:text-[1.2rem]';
+const button = 'flex h-11 shrink-0 items-center justify-center gap-2 rounded-full border-2 border-crna px-4 text-sm font-bold';
+
+// Torn paper edge under the scrolled header: a jagged line, fixed seed so it is stable between builds.
+let seed = 7;
+const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+let rob = 'M0,0 L0,6';
+for (let x = 0; x < 1000; ) {
+  x = Math.min(1000, x + 10 + rnd() * 22);
+  rob += ` L${x.toFixed(1)},${(3 + rnd() * 9).toFixed(1)}`;
+}
+rob += ' L1000,0 Z';
 ---
 
-<header class="relative z-30 border-b-2 border-crna/10">
+<header class="glava sticky top-0 z-40" data-glava>
+  <!-- paper strip + torn edge, visible only once scrolled -->
+  <div class="glava-papir pointer-events-none absolute inset-0" aria-hidden="true">
+    <div class="absolute inset-0"><div class="paper h-full bg-krema"></div></div>
+    <svg class="absolute left-0 top-full h-3.5 w-full" viewBox="0 0 1000 14" preserveAspectRatio="none">
+      <path d={rob} fill="var(--color-krema)"></path>
+    </svg>
+  </div>
   <div class={bar}>
-    <span aria-hidden="true"></span>
     <a href="/" aria-label="Vstopna stran">
       <VesnaLogo class={logoSize} />
     </a>
-    <button type="button" class:list={['meni-odpri justify-self-end', button]} aria-expanded="false" aria-controls="meni" aria-label="Meni">
-      <span class="max-sm:hidden">Meni</span>
+    <button type="button" class:list={['meni-odpri', button]} aria-expanded="false" aria-controls="meni">
+      <span>Meni</span>
       <svg viewBox="0 0 16 12" class="h-3 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
         <path d="M1 2h14M1 6h14M1 10h14" />
       </svg>
@@ -29,10 +47,9 @@ const button = 'flex h-11 items-center justify-center gap-2 rounded-full border-
 
 <div id="meni" class="meni fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-label="Glavni meni" hidden>
   <div class={bar}>
-    <span aria-hidden="true"></span>
     <VesnaLogo class={logoSize} />
-    <button type="button" class:list={['meni-zapri justify-self-end border-crna bg-crna text-krema', button]} aria-label="Zapri meni">
-      <span class="max-sm:hidden">Zapri</span>
+    <button type="button" class:list={['meni-zapri border-crna bg-crna text-krema', button]} aria-label="Zapri meni">
+      <span>Zapri</span>
       <svg viewBox="0 0 12 12" class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
         <path d="M1 1l10 10M11 1L1 11" />
       </svg>
@@ -61,6 +78,16 @@ const button = 'flex h-11 items-center justify-center gap-2 rounded-full border-
 </div>
 
 <style>
+  /* Header paper: hidden at the top of the page, fades in with a soft shadow under the torn edge once scrolled. */
+  .glava-papir {
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    filter: drop-shadow(0 3px 5px rgb(20 20 20 / 0.12));
+  }
+  .glava[data-scrolled] .glava-papir {
+    opacity: 1;
+  }
+
   /* Overlay: translucent cream with blur, page faintly visible behind. */
   .meni {
     background: rgb(240 232 212 / 0.9);
@@ -85,6 +112,7 @@ const button = 'flex h-11 items-center justify-center gap-2 rounded-full border-
     transition-delay: calc(80ms + var(--i) * 35ms);
   }
   @media (prefers-reduced-motion: reduce) {
+    .glava-papir,
     .meni,
     .meni-postavka {
       transition: none;
@@ -94,6 +122,12 @@ const button = 'flex h-11 items-center justify-center gap-2 rounded-full border-
 </style>
 
 <script>
+  // Header turns into a paper strip once the page is scrolled.
+  const glava = document.querySelector<HTMLElement>('[data-glava]');
+  const onScroll = () => glava?.toggleAttribute('data-scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
   const menu = document.getElementById('meni');
   const openBtn = document.querySelector<HTMLButtonElement>('.meni-odpri');
   const closeBtn = document.querySelector<HTMLButtonElement>('.meni-zapri');

@@ -1,6 +1,6 @@
 ---
 // Q&A box: ask Apolonija a question (UI only, no backend yet) + link to answered questions.
-import Placeholder from '../Placeholder.astro';
+import QuestionForm from '../ui/QuestionForm.astro';
 
 interface Props {
   naslov: string[];
@@ -22,31 +22,7 @@ const imaVprasaj = vprasanje !== naslov[0];
     </h2>
 
     <div class="lg:col-span-6 lg:col-start-7">
-      <Placeholder as="div" class="block">
-        <!-- arrow submit button sits inside the field's bottom-right corner -->
-        <form id="vprasanje-obrazec" class="relative" novalidate>
-          <label for="vprasanje" class="sr-only">Vprašanje za Apolonijo</label>
-          <textarea
-            id="vprasanje"
-            name="vprasanje"
-            rows="3"
-            required
-            class="block w-full resize-y rounded-2xl border-2 border-crna bg-krema py-3 pl-4 pr-16 text-lg placeholder:text-crna/55 focus:outline-none focus:ring-4 focus:ring-crna/30"
-            placeholder="Kaj bi vprašal/a Apolonijo?"
-          ></textarea>
-          <button
-            type="submit"
-            class="absolute bottom-3 right-3 flex h-11 w-11 items-center justify-center rounded-full bg-crna text-krema transition-colors hover:bg-zelena-temna focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-crna"
-            aria-label="Pošlji vprašanje"
-            title="Pošlji vprašanje"
-          >
-            <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M4 10h12M11 5l5 5-5 5" />
-            </svg>
-          </button>
-        </form>
-        <p class="mt-2 text-sm font-medium" role="status" id="vprasanje-status">Prototip: obrazec še ne pošilja vprašanj.</p>
-      </Placeholder>
+      <QuestionForm />
 
       <a href={povezava} class="mt-6 inline-flex items-center gap-2 border-b-[3px] border-crna pb-0.5 text-lg font-bold hover:border-krema hover:text-krema">
         Preberi vprašanja in odgovore →
@@ -54,13 +30,3 @@ const imaVprasaj = vprasanje !== naslov[0];
     </div>
   </div>
 </section>
-
-<script>
-  // No backend yet: keep the user on the page and say so.
-  const form = document.getElementById('vprasanje-obrazec') as HTMLFormElement | null;
-  const status = document.getElementById('vprasanje-status');
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (status) status.textContent = 'Prototip: vprašanje ni bilo poslano. Pošiljanje bo delovalo v končni verziji.';
-  });
-</script>

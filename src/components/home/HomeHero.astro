@@ -18,8 +18,10 @@ interface Props {
 const { hero } = Astro.props;
 ---
 
-<section class="site-container overflow-x-clip pb-12 pt-6 lg:pb-24 lg:pt-10">
-  <div class="grid lg:grid-cols-12 lg:items-center">
+<!-- @container: the name scales with the content width (cqi), not the window, so it stays inside its column -->
+<section class="site-container @container overflow-x-clip pb-12 pt-6 lg:pb-24 lg:pt-10">
+  <!-- lg:pl shifts the whole composition right, so the empty space left and right of it is balanced -->
+  <div class="hero-mreza grid lg:grid-cols-12 lg:items-center lg:pl-[5%]">
     <!-- name: text in columns 1–6, white shape reaches further right, under the photo's paper -->
     <div class="relative z-10 lg:col-span-6 lg:col-start-1 lg:row-start-1">
       <Blob variant="e" fill="var(--color-bela)" class="absolute inset-y-0 left-0 h-full w-full lg:w-[128%]" />
@@ -28,7 +30,7 @@ const { hero } = Astro.props;
           as="h1"
           stroke={false}
           tagline={hero.podnaslov}
-          class="text-[clamp(3.6rem,16.5vw,7.5rem)] lg:text-[clamp(4.25rem,8.8vw,9.25rem)]"
+          class="text-[clamp(3.6rem,16.5vw,7.5rem)] lg:text-[clamp(4rem,10cqi,9rem)]"
         />
 
         <div class="mt-7 flex items-center gap-5 lg:mt-9">
@@ -47,7 +49,7 @@ const { hero } = Astro.props;
     <!-- photo on its own paper shape: right under the name's padding on mobile, columns 7–12 on desktop -->
     <a
       href="/apolonija-simon"
-      class="hero-foto group relative z-20 -mt-8 mr-3 ml-auto block w-[72%] max-w-sm sm:-mt-10 sm:w-[50%] lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:mt-0 lg:mr-0 lg:ml-0 lg:w-[78%] lg:max-w-[30rem] lg:translate-y-8 lg:justify-self-start"
+      class="hero-foto group relative z-20 -mt-8 mr-[9%] ml-auto block w-[72%] max-w-sm sm:-mt-10 sm:w-[50%] lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:mt-0 lg:mr-0 lg:ml-0 lg:w-[78%] lg:max-w-[30rem] lg:translate-y-8 lg:justify-self-start"
       aria-label="Več o Apoloniji Simon"
     >
       <Blob variant="f" fill="var(--color-bela)" class="absolute -inset-[7%] h-[114%] w-[114%] -rotate-6 transition-transform duration-500 group-hover:-rotate-3" />

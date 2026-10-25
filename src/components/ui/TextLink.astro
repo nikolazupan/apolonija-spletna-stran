@@ -1,0 +1,22 @@
+---
+// Secondary link: bold text with a green underline. External links open in a new tab.
+// `placeholder` marks a link whose target is not confirmed yet (OSNUTEK).
+import Placeholder from '../Placeholder.astro';
+
+interface Props {
+  href: string;
+  placeholder?: boolean;
+  class?: string;
+}
+const { href, placeholder = false, class: className } = Astro.props;
+const external = /^https?:\/\//.test(href);
+---
+
+<Placeholder active={placeholder}>
+  <a
+    href={href}
+    class:list={['inline-block border-b-[3px] border-zelena pb-0.5 font-bold hover:text-zelena-temna', className]}
+    target={external ? '_blank' : undefined}
+    rel={external ? 'noopener' : undefined}
+  ><slot />{external ? ' ↗' : ' →'}</a>
+</Placeholder>
