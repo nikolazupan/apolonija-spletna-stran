@@ -1,0 +1,45 @@
+---
+// Photo clipped into the organic blob shape, like a paper cut-out.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { blobPath, type BlobVariant } from '../../lib/blob';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  variant?: BlobVariant;
+  widths?: number[];
+  sizes?: string;
+  class?: string;
+  imgClass?: string;
+  loading?: 'eager' | 'lazy';
+}
+const {
+  src,
+  alt,
+  variant = 'd',
+  widths = [480, 800, 1200],
+  sizes = '100vw',
+  class: className,
+  imgClass,
+  loading = 'lazy',
+} = Astro.props;
+const id = `izrez-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class={className}>
+  <svg width="0" height="0" class="absolute" aria-hidden="true">
+    <clipPath id={id} clipPathUnits="objectBoundingBox">
+      <path d={blobPath(variant)}></path>
+    </clipPath>
+  </svg>
+  <Image
+    src={src}
+    alt={alt}
+    widths={widths.filter((w) => w <= src.width)}
+    sizes={sizes}
+    loading={loading}
+    class:list={['block w-full object-cover', imgClass]}
+    style={`clip-path: url(#${id})`}
+  />
+</div>

@@ -1,0 +1,11 @@
+---
+// Wraps invented / not yet approved content. Marking is styled in global.css
+// and switched on/off with SHOW_PLACEHOLDERS (src/config.ts).
+interface Props {
+  as?: string;
+  class?: string;
+}
+const { as: Tag = 'span', class: className } = Astro.props;
+---
+
+<Tag data-placeholder class={className}><slot /></Tag>

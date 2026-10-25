@@ -1,0 +1,32 @@
+---
+// Why Vesna and civil society join forces, and why Apolonija is running.
+import portret from '../../assets/foto/portret-temno.jpg';
+import CutoutImage from '../brand/CutoutImage.astro';
+import BlockText from '../BlockText.astro';
+
+type Blok = { naslov?: string; besedilo: string; placeholder: boolean };
+interface Props {
+  skupaj: Blok;
+  kandidatura: Blok;
+  bio: Blok;
+}
+const { skupaj, kandidatura, bio } = Astro.props;
+---
+
+<section class="mx-auto grid max-w-[90rem] gap-14 px-5 py-16 sm:px-10 lg:grid-cols-12 lg:gap-x-6 lg:py-28">
+  <div class="lg:col-span-6 lg:col-start-7 lg:row-start-1">
+    <h2 class="display text-5xl sm:text-7xl">{skupaj.naslov}</h2>
+    <BlockText blok={skupaj} class="mt-6 max-w-prose text-lg leading-relaxed sm:text-xl" />
+  </div>
+
+  <a href="/apolonija-simon" class="block w-[80%] -rotate-2 transition-transform hover:rotate-0 sm:w-[55%] lg:col-span-5 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:w-full lg:self-center" aria-label="Več o Apoloniji Simon">
+    <CutoutImage src={portret} alt="Portret Apolonije Simon" variant="c" sizes="(min-width: 1024px) 40vw, 80vw" imgClass="aspect-square object-[30%_30%]" />
+  </a>
+
+  <div class="lg:col-span-5 lg:col-start-8 lg:row-start-2">
+    <h2 class="display text-4xl sm:text-6xl">{kandidatura.naslov}</h2>
+    <BlockText blok={kandidatura} class="mt-6 max-w-prose text-lg leading-relaxed sm:text-xl" />
+    <BlockText blok={bio} class="mt-6 max-w-prose text-lg font-bold leading-snug" />
+    <a href="/apolonija-simon" class="mt-6 inline-block border-b-[3px] border-zelena pb-0.5 text-lg font-bold hover:text-zelena-temna">Več o Apoloniji →</a>
+  </div>
+</section>

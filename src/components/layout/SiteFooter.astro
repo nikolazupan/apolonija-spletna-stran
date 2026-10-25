@@ -1,0 +1,47 @@
+---
+// Footer on every page: organizer notice, privacy link, social and external links, menu.
+import VesnaLogo from '../brand/VesnaLogo.astro';
+import Placeholder from '../Placeholder.astro';
+import { navigation, narocnik, links, social } from '../../data/site';
+---
+
+<footer class="bg-crna text-krema">
+  <div class="mx-auto grid max-w-[90rem] gap-10 px-5 py-12 sm:px-10 lg:grid-cols-12">
+    <div class="lg:col-span-4">
+      <VesnaLogo class="text-xs" color="var(--color-krema)" />
+      <p class="mt-8 text-sm leading-relaxed">
+        <strong class="font-bold">{narocnik.oznaka}</strong><br />
+        {narocnik.besedilo}<br />
+        <Placeholder>[Naslov naročnika]</Placeholder><br />
+        {narocnik.volitve}
+      </p>
+    </div>
+
+    <nav class="lg:col-span-4" aria-label="Noga">
+      <ul class="columns-2 gap-6 space-y-2 text-base leading-snug">
+        {navigation.map((item) => (
+          <li class="break-inside-avoid"><a href={item.href} class="underline-offset-4 hover:underline">{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="space-y-6 text-base lg:col-span-3 lg:col-start-10">
+      <ul class="flex flex-wrap gap-x-5 gap-y-2 font-bold">
+        {social.map((s) => (
+          <li>
+            {s.placeholder ? <Placeholder><a href={s.href}>{s.label}</a></Placeholder> : <a href={s.href}>{s.label}</a>}
+          </li>
+        ))}
+      </ul>
+      <ul class="space-y-1">
+        {Object.values(links).map((l) => (
+          <li>
+            {l.placeholder
+              ? <Placeholder><a href={l.href} class="underline underline-offset-4">{l.label}</a></Placeholder>
+              : <a href={l.href} class="underline underline-offset-4">{l.label}</a>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</footer>

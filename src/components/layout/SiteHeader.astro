@@ -1,0 +1,66 @@
+---
+// Top bar with logo and a full-screen menu overlay.
+import VesnaLogo from '../brand/VesnaLogo.astro';
+import HandLine from '../brand/HandLine.astro';
+import { navigation } from '../../data/site';
+
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => (href === '/' ? current === '/' : current.startsWith(href));
+---
+
+<header class="relative z-30 mx-auto flex max-w-[90rem] items-start justify-between px-5 pt-5 sm:px-10 sm:pt-6">
+  <a href="/" aria-label="Vstopna stran">
+    <VesnaLogo class="text-[0.7rem] sm:text-sm" color="var(--color-crna)" />
+  </a>
+  <button
+    type="button"
+    class="menu-toggle -mr-2 px-2 py-1 text-sm font-bold uppercase tracking-widest"
+    aria-expanded="false"
+    aria-controls="glavni-meni"
+  >
+    Meni
+  </button>
+</header>
+
+<div id="glavni-meni" class="paper fixed inset-0 z-50 hidden overflow-y-auto bg-krema" role="dialog" aria-modal="true" aria-label="Glavni meni">
+  <div class="mx-auto flex max-w-[90rem] items-start justify-between px-5 pt-5 sm:px-10 sm:pt-6">
+    <VesnaLogo class="text-[0.7rem] sm:text-sm" color="var(--color-crna)" />
+    <button type="button" class="menu-toggle -mr-2 px-2 py-1 text-sm font-bold uppercase tracking-widest" aria-expanded="true" aria-controls="glavni-meni">
+      Zapri
+    </button>
+  </div>
+  <nav class="mx-auto max-w-[90rem] px-5 pb-16 pt-10 sm:px-10">
+    <ol class="space-y-1 sm:space-y-2">
+      {navigation.map((item, i) => (
+        <li class:list={[i % 3 === 1 && 'pl-[8vw]', i % 3 === 2 && 'pl-[3vw]']}>
+          <a href={item.href} class="group relative inline-flex items-baseline gap-3 hover:text-zelena-temna" aria-current={isCurrent(item.href) ? 'page' : undefined}>
+            <span class="w-6 text-sm font-bold tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+            <span class="display relative text-[clamp(2.25rem,9vw,5.5rem)]">
+              {item.label}
+              {isCurrent(item.href) && (
+                <HandLine class="absolute -bottom-[0.05em] left-0 h-[0.15em] w-full [--line-w:4px]" color="var(--color-zelena)" />
+              )}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+</div>
+
+<script>
+  const menu = document.getElementById('glavni-meni');
+  const toggles = document.querySelectorAll<HTMLButtonElement>('.menu-toggle');
+  const setOpen = (open: boolean) => {
+    if (!menu) return;
+    menu.classList.toggle('hidden', !open);
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    toggles.forEach((t) => t.setAttribute('aria-expanded', String(open)));
+    if (open) menu.querySelector<HTMLAnchorElement>('nav a')?.focus();
+    else toggles[0]?.focus();
+  };
+  toggles.forEach((t) => t.addEventListener('click', () => setOpen(menu?.classList.contains('hidden') ?? false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu && !menu.classList.contains('hidden')) setOpen(false);
+  });
+</script>

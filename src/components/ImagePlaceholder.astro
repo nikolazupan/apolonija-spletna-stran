@@ -1,0 +1,15 @@
+---
+// Grey labeled box standing in for a missing photo.
+interface Props {
+  label: string;
+  class?: string;
+}
+const { label, class: className } = Astro.props;
+---
+
+<div
+  data-placeholder
+  class:list={['flex items-center justify-center bg-neutral-300 p-4 text-center text-sm font-bold tracking-wide text-neutral-700', className]}
+>
+  {label}
+</div>

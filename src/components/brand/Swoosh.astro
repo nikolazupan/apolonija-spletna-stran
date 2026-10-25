@@ -1,0 +1,37 @@
+---
+// Hand-drawn crayon loop (the green "C" stroke before "Apolonija" on the posters).
+// Redrawn as SVG with a roughened edge; replace with the designer's original vector if available.
+interface Props {
+  class?: string;
+  shape?: 'c' | 'ring';
+  color?: string;
+}
+const { class: className, shape = 'c', color = 'var(--color-zelena)' } = Astro.props;
+const id = `rough-${Math.random().toString(36).slice(2, 8)}`;
+
+const paths = {
+  // open loop, like the poster mark
+  c: 'M78,10 C60,2 30,6 18,30 C8,52 10,80 20,96 M66,8 C74,4 84,6 80,14 C76,20 62,18 56,14',
+  // hand-circled ballot number ("obkroži")
+  ring: 'M60,8 C30,4 6,24 8,52 C10,82 40,96 66,90 C90,84 98,56 90,34 C84,18 66,8 44,12 C36,14 30,18 26,22',
+};
+---
+
+<svg class={className} viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" aria-hidden="true" overflow="visible">
+  <defs>
+    <filter id={id} x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" />
+      <feDisplacementMap in="SourceGraphic" scale="3" />
+    </filter>
+  </defs>
+  <path
+    d={paths[shape]}
+    stroke={color}
+    stroke-width="6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    filter={`url(#${id})`}
+    vector-effect="non-scaling-stroke"
+    style="stroke-width: var(--swoosh-w, 6px)"
+  ></path>
+</svg>

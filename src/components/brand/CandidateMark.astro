@@ -1,0 +1,23 @@
+---
+// Campaign mark "Apolonija Simon. ZA županjo." with the crayon swoosh, as on the billboards.
+import Swoosh from './Swoosh.astro';
+
+interface Props {
+  class?: string;
+  tagline?: string;
+  inverse?: boolean;
+}
+const { class: className, tagline = 'ZA županjo.', inverse = false } = Astro.props;
+---
+
+<p class:list={['font-display font-extrabold leading-[0.9] tracking-[-0.03em]', inverse ? 'text-bela' : 'text-crna', className]}>
+  <span class="relative block w-fit pl-[0.3em]">
+    <Swoosh class="absolute -left-[0.3em] -top-[0.35em] h-[1.7em] w-[0.7em] [--swoosh-w:6px]" />
+    Apolonija<br /><span class="pl-[1.2em]">Simon.</span>
+  </span>
+  {tagline && (
+    <span class:list={['mt-[0.3em] block text-[0.38em] tracking-[-0.01em]', inverse ? 'text-zelena' : 'text-zelena-temna']}>
+      {tagline}
+    </span>
+  )}
+</p>

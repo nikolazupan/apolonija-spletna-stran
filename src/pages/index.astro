@@ -1,17 +1,27 @@
 ---
-import '../styles/global.css';
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeHero from '../components/home/HomeHero.astro';
+import HomeSkupaj from '../components/home/HomeSkupaj.astro';
+import SurveyCallout from '../components/home/SurveyCallout.astro';
+import LatestPost from '../components/home/LatestPost.astro';
+import { getObjave } from '../lib/objave';
+
+const stran = await getEntry('strani', 'vstopna');
+if (!stran) throw new Error('Missing src/content/strani/vstopna.md');
+const { naslov, opis, hero, bloki } = stran.data;
+
+const blok = (id: string) => {
+  const b = bloki.find((b) => b.id === id);
+  if (!b) throw new Error(`vstopna.md: missing block "${id}"`);
+  return b;
+};
+const [zadnja] = await getObjave();
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={naslov} description={opis}>
+  {hero && <HomeHero hero={hero} />}
+  <SurveyCallout blok={blok('anketa')} />
+  <HomeSkupaj skupaj={blok('skupaj')} kandidatura={blok('kandidatura')} bio={blok('bio')} />
+  <LatestPost objava={zadnja} naslov={blok('objava').naslov} povezavaArhiv={blok('objava').besedilo} />
+</BaseLayout>

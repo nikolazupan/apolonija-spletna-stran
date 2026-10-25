@@ -1,0 +1,28 @@
+---
+// Party + civil society wordmark as set on the print material.
+// The tulip symbol is an approximate redraw: replace with the official SVG.
+interface Props {
+  class?: string;
+  color?: string;
+  stacked?: boolean;
+}
+const { class: className, color = 'var(--color-zelena)', stacked = false } = Astro.props;
+---
+
+<div
+  class:list={['flex gap-[0.9em] font-display font-extrabold uppercase leading-[1.05] tracking-[0.01em]', stacked ? 'flex-col items-start' : 'items-center', className]}
+  style={`color:${color}`}
+  aria-label="Vesna – zelena stranka in civilna družba"
+  role="img"
+>
+  <svg viewBox="0 0 64 56" class="h-[3.2em] w-auto shrink-0" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+    <path d="M32 52 C32 40 32 34 32 28" />
+    <path d="M32 46 C18 46 6 36 4 20 C16 20 26 26 32 36" />
+    <path d="M32 46 C46 46 58 36 60 20 C48 20 38 26 32 36" />
+    <path d="M20 22 C20 12 24 8 26 4 L29 9 L32 3 L35 9 L38 4 C40 8 44 12 44 22 C44 28 38 32 32 32 C26 32 20 28 20 22Z" />
+  </svg>
+  <div class:list={['flex gap-[1.2em]', stacked && 'flex-col gap-[0.6em]']}>
+    <span class="block">Vesna<br />zelena<br />stranka</span>
+    <span class="block"><span class="normal-case">in</span><br />civilna<br />družba</span>
+  </div>
+</div>

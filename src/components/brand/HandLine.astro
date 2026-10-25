@@ -1,0 +1,19 @@
+---
+// Hand-drawn line: underline under a word, or an arrow pointing somewhere.
+interface Props {
+  shape?: 'underline' | 'arrow';
+  class?: string;
+  color?: string;
+}
+const { shape = 'underline', class: className, color = 'var(--color-crna)' } = Astro.props;
+
+const paths = {
+  underline: { viewBox: '0 0 300 20', d: 'M2 14 C60 6 140 4 200 9 C240 12 270 8 298 5' },
+  arrow: { viewBox: '0 0 120 60', d: 'M4 8 C30 40 70 52 110 40 M96 28 L112 40 L94 52' },
+};
+const { viewBox, d } = paths[shape];
+---
+
+<svg class={className} viewBox={viewBox} preserveAspectRatio="none" fill="none" aria-hidden="true">
+  <path d={d} stroke={color} stroke-width="5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" style="stroke-width: var(--line-w, 4px)"></path>
+</svg>

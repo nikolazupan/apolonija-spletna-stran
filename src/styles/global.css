@@ -1,1 +1,81 @@
 @import "tailwindcss";
+@import "@fontsource-variable/bricolage-grotesque/standard.css";
+
+/*
+ * Design tokens. Change colors and fonts here only.
+ * Print values come from design-reference/ PDFs (CMYK), converted to sRGB.
+ */
+@theme {
+  /* C100 M0 Y90 K0 – exact print value, sRGB conversion */
+  --color-zelena: #009854;
+  /* darker shade of the print green for small text on light grounds (AA contrast) */
+  --color-zelena-temna: #00733f;
+  /* C4 M6 Y13 K0 – exact print value (blob behind headlines, paper ground) */
+  --color-krema: #f0e8d4;
+  /* K100 */
+  --color-crna: #141414;
+  --color-bela: #ffffff;
+  /* ballot "9" circle on poster 35x504, estimated from JPEG; also used for OSNUTEK marks */
+  --color-rdeca: #dc4c28;
+
+  /* Print uses Area Inktrap (commercial). Free stand-in with ink traps: */
+  --font-sans: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  background: var(--color-krema);
+  color: var(--color-crna);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Condensed, tight display type used for big headlines. */
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 85%;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+
+/* Paper grain: inline SVG noise, multiplied over the ground color. */
+@utility paper {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.4 0 0 0 0 0.3 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* Placeholder marking, toggled by SHOW_PLACEHOLDERS in src/config.ts */
+.ph-on [data-placeholder] {
+  position: relative;
+  outline: 2px dashed var(--color-rdeca);
+  outline-offset: 2px;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgb(220 76 40 / 0.1) 0 6px,
+    transparent 6px 12px
+  );
+}
+.ph-on [data-placeholder]::after {
+  content: "OSNUTEK";
+  position: absolute;
+  top: -0.85rem;
+  left: 0;
+  z-index: 5;
+  padding: 0.1rem 0.35rem;
+  font: 700 0.625rem/1.2 var(--font-sans);
+  font-stretch: 100%;
+  letter-spacing: 0.08em;
+  color: var(--color-bela);
+  background: var(--color-rdeca);
+}
