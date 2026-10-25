@@ -1,7 +1,6 @@
 ---
 // Why Vesna and civil society join forces, and why Apolonija is running.
-import portret from '../../assets/foto/portret-temno.jpg';
-import CutoutImage from '../brand/CutoutImage.astro';
+// Framed blocks with alternating columns: title | text, then text | title. Stacked on mobile.
 import BlockText from '../BlockText.astro';
 
 type Blok = { naslov?: string; besedilo: string; placeholder: boolean };
@@ -11,22 +10,21 @@ interface Props {
   bio: Blok;
 }
 const { skupaj, kandidatura, bio } = Astro.props;
+const frame = 'grid gap-4 border-2 border-crna p-6 sm:p-8 md:grid-cols-2 md:gap-10 lg:p-10';
 ---
 
-<section class="mx-auto grid max-w-[90rem] gap-14 px-5 py-16 sm:px-10 lg:grid-cols-12 lg:gap-x-6 lg:py-28">
-  <div class="lg:col-span-6 lg:col-start-7 lg:row-start-1">
-    <h2 class="display text-5xl sm:text-7xl">{skupaj.naslov}</h2>
-    <BlockText blok={skupaj} class="mt-6 max-w-prose text-lg leading-relaxed sm:text-xl" />
-  </div>
+<section class="mx-auto max-w-[90rem] space-y-6 px-5 py-12 sm:px-8 lg:space-y-8 lg:py-16">
+  <article class={frame}>
+    <h2 class="display text-[clamp(2.25rem,7vw,3.5rem)]">{skupaj.naslov}</h2>
+    <BlockText blok={skupaj} class="max-w-prose text-lg leading-relaxed md:self-center" />
+  </article>
 
-  <a href="/apolonija-simon" class="block w-[80%] -rotate-2 transition-transform hover:rotate-0 sm:w-[55%] lg:col-span-5 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:w-full lg:self-center" aria-label="Več o Apoloniji Simon">
-    <CutoutImage src={portret} alt="Portret Apolonije Simon" variant="c" sizes="(min-width: 1024px) 40vw, 80vw" imgClass="aspect-square object-[30%_30%]" />
-  </a>
-
-  <div class="lg:col-span-5 lg:col-start-8 lg:row-start-2">
-    <h2 class="display text-4xl sm:text-6xl">{kandidatura.naslov}</h2>
-    <BlockText blok={kandidatura} class="mt-6 max-w-prose text-lg leading-relaxed sm:text-xl" />
-    <BlockText blok={bio} class="mt-6 max-w-prose text-lg font-bold leading-snug" />
-    <a href="/apolonija-simon" class="mt-6 inline-block border-b-[3px] border-zelena pb-0.5 text-lg font-bold hover:text-zelena-temna">Več o Apoloniji →</a>
-  </div>
+  <article class:list={[frame, 'md:ml-[6%]']}>
+    <h2 class="display text-[clamp(2.25rem,7vw,3.5rem)] md:order-2 md:text-right">{kandidatura.naslov}</h2>
+    <div class="md:order-1 md:self-center">
+      <BlockText blok={kandidatura} class="max-w-prose text-lg leading-relaxed" />
+      <BlockText blok={bio} class="mt-4 max-w-prose text-base font-bold leading-snug" />
+      <a href="/apolonija-simon" class="mt-4 inline-block border-b-[3px] border-zelena pb-0.5 text-base font-bold hover:text-zelena-temna">Več o Apoloniji →</a>
+    </div>
+  </article>
 </section>

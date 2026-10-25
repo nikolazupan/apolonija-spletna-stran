@@ -1,57 +1,27 @@
 ---
-// Homepage hero: big stepped slogan, cut-out photo of Apolonija, campaign mark and circled ballot number.
-import dezniki from '../../assets/foto/dezniki.jpg';
+// Homepage hero: her name as the page heading, cut-out photo, circled ballot number.
+import foto from '../../assets/foto/dezniki-izrez.jpg';
 import CutoutImage from '../brand/CutoutImage.astro';
 import CandidateMark from '../brand/CandidateMark.astro';
 import Risba from '../brand/Risba.astro';
 
 interface Props {
   hero: {
-    slogan: string[];
+    podnaslov: string;
     stevilka: number;
-    stevilkaOznaka: string;
     volitve: string;
   };
 }
 const { hero } = Astro.props;
-const [prva, druga, tretja] = hero.slogan;
 ---
 
-<section class="mx-auto max-w-[90rem] px-5 pb-16 pt-8 sm:px-10 lg:pb-24 lg:pt-4">
-  <div class="grid lg:grid-cols-12">
-    <h1 class="display relative z-10 text-[clamp(4.5rem,22vw,15rem)] lg:col-span-9 lg:col-start-1 lg:row-start-1">
-      <span class="block">{prva}</span>
-      <span class="relative block w-fit pl-[0.55em] text-zelena lg:pl-[1.4em]">
-        {druga}
-        <Risba name="podcrta" color="var(--color-crna)" class="absolute -bottom-[0.02em] left-[0.5em] h-[0.18em] w-[calc(100%-0.4em)] [--risba-w:5px] lg:left-[1.3em] lg:w-[calc(100%-1.3em)]" />
-      </span>
-      <span class="block pl-[0.15em]">{tretja}</span>
-    </h1>
+<section class="mx-auto grid max-w-[90rem] items-center gap-8 px-5 pb-12 pt-8 sm:px-8 lg:grid-cols-12 lg:gap-6 lg:pb-16 lg:pt-12">
+  <div class="lg:col-span-7">
+    <CandidateMark as="h1" tagline={hero.podnaslov} class="ml-[0.3em] text-[clamp(3.75rem,16vw,8.5rem)]" />
 
-    <a
-      href="/apolonija-simon"
-      class="relative z-0 -mt-[18vw] ml-auto block w-[82%] rotate-[3deg] transition-transform hover:rotate-[1deg] sm:w-[60%] lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:mt-0 lg:w-full lg:translate-y-24 lg:self-end"
-      aria-label="Več o Apoloniji Simon"
-    >
-      <CutoutImage
-        src={dezniki}
-        alt="Apolonija Simon pod dežnikom ob vodnjaku v središču Ljubljane"
-        variant="d"
-        sizes="(min-width: 1024px) 40vw, 82vw"
-        loading="eager"
-        imgClass="aspect-[4/5] object-[45%_80%]"
-      />
-    </a>
-  </div>
-
-  <div class="mt-12 grid items-end gap-10 lg:mt-0 lg:grid-cols-12">
-    <a href="/apolonija-simon" class="block w-fit lg:col-span-5">
-      <CandidateMark class="text-5xl sm:text-6xl" tagline={hero.stevilkaOznaka} />
-    </a>
-
-    <div class="flex items-center gap-5 lg:col-span-4">
-      <span class="relative inline-flex h-28 w-28 shrink-0 items-center justify-center font-display text-7xl font-extrabold" aria-hidden="true">
-        <Risba name="krog" class="absolute -inset-3 h-[calc(100%+1.5rem)] w-[calc(100%+1.5rem)] [--risba-w:5px]" />
+    <div class="mt-8 flex items-center gap-5 lg:mt-10">
+      <span class="relative inline-flex h-20 w-20 shrink-0 items-center justify-center font-display text-5xl font-extrabold" aria-hidden="true">
+        <Risba name="krog" class="absolute -inset-2.5 h-[calc(100%+1.25rem)] w-[calc(100%+1.25rem)] [--risba-w:4px]" />
         {hero.stevilka}
       </span>
       <p class="text-sm font-bold uppercase leading-tight tracking-wide">
@@ -60,4 +30,20 @@ const [prva, druga, tretja] = hero.slogan;
       </p>
     </div>
   </div>
+
+  <a
+    href="/apolonija-simon"
+    class="mx-auto block w-[85%] max-w-sm rotate-2 transition-transform hover:rotate-0 sm:w-[60%] lg:col-span-5 lg:w-full lg:max-w-md"
+    aria-label="Več o Apoloniji Simon"
+  >
+    <CutoutImage
+      src={foto}
+      alt="Apolonija Simon pod dežnikom ob vodnjaku v središču Ljubljane"
+      variant="d"
+      widths={[400, 500]}
+      sizes="(min-width: 1024px) 28rem, 85vw"
+      loading="eager"
+      imgClass="aspect-[4/5] object-[50%_40%]"
+    />
+  </a>
 </section>

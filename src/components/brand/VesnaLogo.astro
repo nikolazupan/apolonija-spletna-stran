@@ -1,28 +1,32 @@
 ---
-// Party + civil society wordmark as set on the print material.
+// Partner logo block as on the banners: "Vesna – zelena stranka" logo, "in", "civilna družba".
+// Two partners side by side, not one merged organization.
 // The tulip symbol is an approximate redraw: replace with the official SVG.
 interface Props {
   class?: string;
   color?: string;
-  stacked?: boolean;
+  // row: header/footer; stack: vertical, like the Facebook banner
+  layout?: 'row' | 'stack';
 }
-const { class: className, color = 'var(--color-zelena)', stacked = false } = Astro.props;
+const { class: className, color = 'var(--color-zelena)', layout = 'row' } = Astro.props;
+const stack = layout === 'stack';
 ---
 
 <div
-  class:list={['flex gap-[0.9em] font-display font-extrabold uppercase leading-[1.05] tracking-[0.01em]', stacked ? 'flex-col items-start' : 'items-center', className]}
+  class:list={['flex font-display font-extrabold uppercase leading-[1.02] tracking-[0.01em]', stack ? 'flex-col items-start gap-[0.7em]' : 'items-center gap-[0.9em]', className]}
   style={`color:${color}`}
-  aria-label="Vesna – zelena stranka in civilna družba"
   role="img"
+  aria-label="Vesna – zelena stranka in civilna družba"
 >
-  <svg viewBox="0 0 64 56" class="h-[3.2em] w-auto shrink-0" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
-    <path d="M32 52 C32 40 32 34 32 28" />
-    <path d="M32 46 C18 46 6 36 4 20 C16 20 26 26 32 36" />
-    <path d="M32 46 C46 46 58 36 60 20 C48 20 38 26 32 36" />
-    <path d="M20 22 C20 12 24 8 26 4 L29 9 L32 3 L35 9 L38 4 C40 8 44 12 44 22 C44 28 38 32 32 32 C26 32 20 28 20 22Z" />
-  </svg>
-  <div class:list={['flex gap-[1.2em]', stacked && 'flex-col gap-[0.6em]']}>
-    <span class="block">Vesna<br />zelena<br />stranka</span>
-    <span class="block"><span class="normal-case">in</span><br />civilna<br />družba</span>
-  </div>
+  <span class:list={['flex gap-[0.6em]', stack ? 'flex-col items-start' : 'items-center']}>
+    <svg viewBox="0 0 64 56" class="h-[3.3em] w-auto shrink-0" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+      <path d="M32 52 C32 40 32 34 32 28" />
+      <path d="M32 46 C18 46 6 36 4 20 C16 20 26 26 32 36" />
+      <path d="M32 46 C46 46 58 36 60 20 C48 20 38 26 32 36" />
+      <path d="M20 22 C20 12 24 8 26 4 L29 9 L32 3 L35 9 L38 4 C40 8 44 12 44 22 C44 28 38 32 32 32 C26 32 20 28 20 22Z" />
+    </svg>
+    <span>Vesna<br />zelena<br />stranka</span>
+  </span>
+  <span class="text-[1.5em] font-bold normal-case leading-none tracking-normal" aria-hidden="true">in</span>
+  <span>Civilna<br />družba</span>
 </div>

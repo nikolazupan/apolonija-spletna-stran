@@ -16,15 +16,15 @@ const { objava, naslov = 'Zadnja objava', povezavaArhiv = 'Vse objave' } = Astro
 const o = objava?.data;
 ---
 
-<section class="mx-auto grid max-w-[90rem] gap-10 px-5 py-16 sm:px-10 lg:grid-cols-12 lg:py-24">
+<section class="mx-auto grid max-w-[90rem] gap-8 px-5 pb-14 pt-4 sm:px-8 lg:grid-cols-12 lg:pb-20">
   <div class="relative lg:col-span-5">
-    <h2 class="display text-6xl sm:text-8xl">{naslov}</h2>
-    <Risba name="puscica" color="var(--color-crna)" class="mt-4 hidden h-16 w-40 rotate-6 lg:ml-auto lg:block [--risba-w:4px]" />
-    <a href="/arhiv" class="mt-8 inline-block border-b-[3px] border-zelena pb-0.5 text-lg font-bold hover:text-zelena-temna">{povezavaArhiv} →</a>
+    <h2 class="display text-[clamp(2.25rem,7vw,3.5rem)]">{naslov}</h2>
+    <Risba name="puscica" color="var(--color-crna)" class="mt-3 hidden h-12 w-32 rotate-6 lg:ml-auto lg:block [--risba-w:4px]" />
+    <a href="/arhiv" class="mt-6 inline-block border-b-[3px] border-zelena pb-0.5 text-lg font-bold hover:text-zelena-temna">{povezavaArhiv} →</a>
   </div>
 
   {o && (
-    <article class="max-w-md lg:col-span-5 lg:col-start-7">
+    <article class="max-w-sm lg:col-span-4 lg:col-start-7">
       <a href={o.povezava} target="_blank" rel="noopener" class="block rotate-2 border-[10px] border-bela bg-bela transition-transform hover:rotate-0">
         {o.slika
           ? <Image src={o.slika} alt={o.opis} widths={[400, 800]} sizes="(min-width: 1024px) 28rem, 100vw" class="aspect-square w-full object-cover" />

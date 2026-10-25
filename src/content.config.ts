@@ -19,10 +19,8 @@ const strani = defineCollection({
     placeholder: z.boolean().default(false),
     hero: z
       .object({
-        slogan: z.array(z.string()),
-        podnapis: z.string(),
+        podnaslov: z.string(),
         stevilka: z.number(),
-        stevilkaOznaka: z.string(),
         volitve: z.string(),
       })
       .optional(),

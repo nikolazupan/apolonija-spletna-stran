@@ -1,66 +1,80 @@
 ---
-// Top bar with logo and a full-screen menu overlay.
+// Header: partner logo, inline menu on desktop, compact dropdown panel on mobile.
 import VesnaLogo from '../brand/VesnaLogo.astro';
 import Risba from '../brand/Risba.astro';
 import { navigation } from '../../data/site';
 
 const current = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => (href === '/' ? current === '/' : current.startsWith(href));
+// Desktop header skips "Vstopna stran": the logo links home.
+const desktopItems = navigation.filter((item) => item.href !== '/');
 ---
 
-<header class="relative z-30 mx-auto flex max-w-[90rem] items-start justify-between px-5 pt-5 sm:px-10 sm:pt-6">
-  <a href="/" aria-label="Vstopna stran">
-    <VesnaLogo class="text-[0.7rem] sm:text-sm" color="var(--color-crna)" />
-  </a>
-  <button
-    type="button"
-    class="menu-toggle -mr-2 px-2 py-1 text-sm font-bold uppercase tracking-widest"
-    aria-expanded="false"
-    aria-controls="glavni-meni"
-  >
-    Meni
-  </button>
-</header>
+<header class="relative z-30 border-b-2 border-crna/10">
+  <div class="mx-auto flex max-w-[90rem] items-center justify-between gap-6 px-5 py-3 sm:px-8 lg:py-4">
+    <a href="/" aria-label="Vstopna stran" class="shrink-0">
+      <VesnaLogo class="text-[0.85rem] sm:text-[1rem] lg:text-[1.1rem]" />
+    </a>
 
-<div id="glavni-meni" class="paper fixed inset-0 z-50 hidden overflow-y-auto bg-krema" role="dialog" aria-modal="true" aria-label="Glavni meni">
-  <div class="mx-auto flex max-w-[90rem] items-start justify-between px-5 pt-5 sm:px-10 sm:pt-6">
-    <VesnaLogo class="text-[0.7rem] sm:text-sm" color="var(--color-crna)" />
-    <button type="button" class="menu-toggle -mr-2 px-2 py-1 text-sm font-bold uppercase tracking-widest" aria-expanded="true" aria-controls="glavni-meni">
-      Zapri
+    <nav class="hidden lg:block" aria-label="Glavni meni">
+      <ul class="flex flex-wrap justify-end gap-x-5 gap-y-1 text-[0.95rem] font-semibold xl:gap-x-6">
+        {desktopItems.map((item) => (
+          <li>
+            <a href={item.href} class="relative inline-block py-1 hover:text-zelena-temna" aria-current={isCurrent(item.href) ? 'page' : undefined}>
+              {item.short}
+              {isCurrent(item.href) && <Risba name="podcrta" class="absolute -bottom-0.5 left-0 h-1.5 w-full [--risba-w:3px]" />}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <button
+      type="button"
+      id="meni-gumb"
+      class="flex items-center gap-2 rounded-full border-2 border-crna px-4 py-1.5 text-sm font-bold lg:hidden"
+      aria-expanded="false"
+      aria-controls="meni-panel"
+    >
+      <span class="meni-label">Meni</span>
+      <svg viewBox="0 0 16 12" class="h-3 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M1 2h14M1 6h14M1 10h14" />
+      </svg>
     </button>
   </div>
-  <nav class="mx-auto max-w-[90rem] px-5 pb-16 pt-10 sm:px-10">
-    <ol class="space-y-1 sm:space-y-2">
-      {navigation.map((item, i) => (
-        <li class:list={[i % 3 === 1 && 'pl-[8vw]', i % 3 === 2 && 'pl-[3vw]']}>
-          <a href={item.href} class="group relative inline-flex items-baseline gap-3 hover:text-zelena-temna" aria-current={isCurrent(item.href) ? 'page' : undefined}>
-            <span class="w-6 text-sm font-bold tabular-nums">{String(i + 1).padStart(2, '0')}</span>
-            <span class="display relative text-[clamp(2.25rem,9vw,5.5rem)]">
-              {item.label}
-              {isCurrent(item.href) && (
-                <Risba name="podcrta" class="absolute -bottom-[0.05em] left-0 h-[0.15em] w-full [--risba-w:4px]" />
-              )}
-            </span>
+
+  <nav id="meni-panel" class="absolute inset-x-0 top-full hidden border-b-2 border-crna bg-krema lg:hidden" aria-label="Glavni meni">
+    <ul class="mx-auto max-w-[90rem] px-5 py-3 sm:px-8">
+      {navigation.map((item) => (
+        <li class="border-b border-crna/10 last:border-0">
+          <a
+            href={item.href}
+            class:list={['flex items-center justify-between py-3 text-lg font-semibold', isCurrent(item.href) ? 'text-zelena-temna' : 'hover:text-zelena-temna']}
+            aria-current={isCurrent(item.href) ? 'page' : undefined}
+          >
+            {item.label}
+            <span aria-hidden="true">→</span>
           </a>
         </li>
       ))}
-    </ol>
+    </ul>
   </nav>
-</div>
+</header>
 
 <script>
-  const menu = document.getElementById('glavni-meni');
-  const toggles = document.querySelectorAll<HTMLButtonElement>('.menu-toggle');
+  const button = document.getElementById('meni-gumb');
+  const panel = document.getElementById('meni-panel');
+  const label = button?.querySelector('.meni-label');
   const setOpen = (open: boolean) => {
-    if (!menu) return;
-    menu.classList.toggle('hidden', !open);
-    document.documentElement.style.overflow = open ? 'hidden' : '';
-    toggles.forEach((t) => t.setAttribute('aria-expanded', String(open)));
-    if (open) menu.querySelector<HTMLAnchorElement>('nav a')?.focus();
-    else toggles[0]?.focus();
+    panel?.classList.toggle('hidden', !open);
+    button?.setAttribute('aria-expanded', String(open));
+    if (label) label.textContent = open ? 'Zapri' : 'Meni';
   };
-  toggles.forEach((t) => t.addEventListener('click', () => setOpen(menu?.classList.contains('hidden') ?? false)));
+  button?.addEventListener('click', () => setOpen(panel?.classList.contains('hidden') ?? false));
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && menu && !menu.classList.contains('hidden')) setOpen(false);
+    if (e.key === 'Escape' && panel && !panel.classList.contains('hidden')) {
+      setOpen(false);
+      button?.focus();
+    }
   });
 </script>

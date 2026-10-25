@@ -1,0 +1,59 @@
+---
+// Q&A box: ask Apolonija a question (UI only, no backend yet) + link to answered questions.
+import Risba from '../brand/Risba.astro';
+import Placeholder from '../Placeholder.astro';
+
+interface Props {
+  naslov: string[];
+  povezava: string;
+}
+const { naslov, povezava } = Astro.props;
+---
+
+<section class="paper bg-zelena text-crna">
+  <div class="mx-auto grid max-w-[90rem] gap-8 px-5 py-10 sm:px-8 lg:grid-cols-12 lg:gap-6 lg:py-14">
+    <h2 class="display text-[clamp(2.5rem,9vw,4.25rem)] lg:col-span-5">
+      <span class="relative block w-fit">
+        {naslov[0]}
+        <Risba name="krog" color="var(--color-krema)" class="absolute -right-[0.18em] -top-[0.12em] h-[1.2em] w-[0.75em] [--risba-w:3px]" />
+      </span>
+      <span class="block pl-[0.6em] text-krema">{naslov[1]}</span>
+    </h2>
+
+    <div class="lg:col-span-6 lg:col-start-7">
+      <Placeholder as="div" class="block">
+        <form id="vprasanje-obrazec" class="space-y-3" novalidate>
+          <label for="vprasanje" class="block text-base font-bold">Tvoje vprašanje</label>
+          <textarea
+            id="vprasanje"
+            name="vprasanje"
+            rows="3"
+            required
+            class="block w-full resize-y rounded-2xl border-2 border-crna bg-krema px-4 py-3 text-lg placeholder:text-crna/50 focus:outline-none focus:ring-4 focus:ring-crna/30"
+            placeholder="Napiši vprašanje za Apolonijo …"
+          ></textarea>
+          <div class="flex flex-wrap items-center gap-3">
+            <button type="submit" class="rounded-full bg-crna px-6 py-2.5 text-base font-bold text-krema hover:bg-krema hover:text-crna">
+              Pošlji vprašanje
+            </button>
+            <p class="text-sm font-medium" role="status" id="vprasanje-status">Prototip: obrazec še ne pošilja vprašanj.</p>
+          </div>
+        </form>
+      </Placeholder>
+
+      <a href={povezava} class="mt-6 inline-flex items-center gap-2 border-b-[3px] border-crna pb-0.5 text-lg font-bold hover:text-krema hover:border-krema">
+        Vprašanja in odgovori →
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // No backend yet: keep the user on the page and say so.
+  const form = document.getElementById('vprasanje-obrazec') as HTMLFormElement | null;
+  const status = document.getElementById('vprasanje-status');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (status) status.textContent = 'Prototip: vprašanje ni bilo poslano. Pošiljanje bo delovalo v končni verziji.';
+  });
+</script>

@@ -28,16 +28,17 @@ Use these facts where relevant. Do not invent further facts about her or the lis
 ## Site structure
 Main menu:
 1. **Vstopna stran** (`/`)
-   - Logos: Vesna in civilna družba + "Apolonija Simon. za županjo"
+   - Partner logos shown as a collaboration: "Vesna – zelena stranka" logo, "in", "civilna družba" (as on the banners), prominent
+   - Hero heading is her name: "Apolonija Simon." + "za županjo." ("Kakšno mesto hočemo!" is the domain name, not the page title)
    - Photo of Apolonija, linking to her subpage
-   - Text: why Vesna and civil society are joining forces, and why Apolonija is running
+   - Q&A box under the hero: "Imaš vprašanje? Apolonija ima odgovore.", a field to ask a question, and a link to `/vprasanja`
+   - Text: why Vesna and civil society are joining forces, and why Apolonija is running (framed blocks, alternating title/text columns)
    - Box: latest social media post, linking to the post archive
-   - Prominent icon/box linking to the online survey
 2. **Apolonija Simon** (`/apolonija-simon`): photos, text, link to her personal website
 3. **Lista Vesna in civilna družba** (`/lista`): short text, city council candidates with photos and descriptions, lists of candidates for četrtne skupnosti
 4. **Program** (`/program`): 8 points in short form; each links to a longer text page (`/program/[slug]`) with references (links or extra text pages)
 5. **Sporni projekti + naše stališče** (`/sporni-projekti`): per project an image, short text and our position
-6. **Spletna anketa** (`/anketa`): send suggestions, join us, sign up for updates
+6. **Vprašanja in odgovori** (`/vprasanja`): list of questions residents have asked, with Apolonija's answers, and a form to ask a new one
 7. **Arhiv objav** (`/arhiv`): grid of about 5 per row, newest first (top left), date under each. Posts are mixed: graphics, text, photos, video
 8. **Pomagaj, če lahko** (`/pomagaj`): donation request with payment details
 9. **Kontakt** (`/kontakt`): contact details, links to Apolonija's personal site and Vesna's website
@@ -59,7 +60,9 @@ The hand-made marks of the print material become the structure of the site. Buil
 - **Photos:** clipped into the organic blob shape from the posters, slightly rotated, like paper cut-outs (`CutoutImage`, shapes in `src/lib/blob.ts`). Photos may overlap headlines.
 - **Typography:** oversized, condensed, tight headlines with stepped line indents (`display` utility), like the posters' "Kakšno / ·mesto / hočemo!".
 - **Hand-drawn marks:** crayon stroke before "Apolonija", hand-drawn circle around the ballot number 6 ("Obkroži 6"), underlines, arrows. Each is a separate SVG in `src/assets/risbe/`, rendered via `Risba.astro`; replace files with scanned drawings later (see the README there).
-- **Accents:** green survey band, black footer, black pill buttons. No gradients, no shadows.
+- **Accents:** green Q&A band, black footer, black pill buttons, thin black frames around text blocks. No gradients, no shadows.
+- **Scale:** bold but not oversized. Keep headlines and section spacing moderate (the team found the first homepage too big); readability on a phone comes first.
+- **Navigation:** menu links inline in the header on desktop; compact dropdown panel under the header on mobile (normal-sized links, no full-screen menu).
 
 **Colors** (defined once in the `@theme` block of `src/styles/global.css`):
 | Token | Hex | Source |
@@ -88,7 +91,8 @@ Most texts are still being written. Invented content is allowed only as a clearl
 ## Features: prototype first
 - **Latest post / archive:** for now a manually maintained content collection (image, type, date, link). Automatic import from Instagram is a later decision; keep the data shape compatible with it.
 - **Instagram embeds:** click-to-load (thumbnail first, embed only on click). No Meta scripts on page load.
-- **Survey / sign-up:** build the UI only; no backend yet. Mark it as non-functional in the prototype.
+- **Question form (Q&A):** build the UI only; no backend yet. Mark it as non-functional in the prototype. Answered questions will be a content collection shown on `/vprasanja`.
+- **No survey:** the online survey was dropped from the site.
 - **Donations:** placeholder payment details only.
 - **Analytics / cookies:** none for now.
 

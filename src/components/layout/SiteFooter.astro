@@ -6,13 +6,12 @@ import { navigation, narocnik, links, social } from '../../data/site';
 ---
 
 <footer class="bg-crna text-krema">
-  <div class="mx-auto grid max-w-[90rem] gap-10 px-5 py-12 sm:px-10 lg:grid-cols-12">
+  <div class="mx-auto grid max-w-[90rem] gap-8 px-5 py-10 sm:px-8 lg:grid-cols-12">
     <div class="lg:col-span-4">
-      <VesnaLogo class="text-xs" color="var(--color-krema)" />
-      <p class="mt-8 text-sm leading-relaxed">
+      <VesnaLogo class="text-[0.8rem]" color="var(--color-krema)" />
+      <p class="mt-6 text-sm leading-relaxed">
         <strong class="font-bold">{narocnik.oznaka}</strong><br />
-        {narocnik.besedilo}<br />
-        <Placeholder>[Naslov naročnika]</Placeholder><br />
+        {narocnik.placeholder ? <Placeholder>{narocnik.besedilo}</Placeholder> : narocnik.besedilo}<br />
         {narocnik.volitve}
       </p>
     </div>

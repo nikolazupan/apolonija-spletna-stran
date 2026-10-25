@@ -6,8 +6,8 @@ Each hand-made mark on the site is one SVG file here. They are rendered inline b
 | File | Where it's used |
 |---|---|
 | `poteza.svg` | crayon stroke before "Apolonija" (campaign mark) |
-| `krog.svg` | hand-drawn circle around the ballot number 6 and the survey "?" |
-| `podcrta.svg` | underline under "mesto" in the hero, current item in the menu |
+| `krog.svg` | hand-drawn circle around the ballot number 6 and the "?" in the Q&A heading |
+| `podcrta.svg` | underline under the current item in the desktop menu |
 | `puscica.svg` | arrow next to "Zadnja objava" |
 
 The current files are vector redraws of the print marks. A rough edge is added by the

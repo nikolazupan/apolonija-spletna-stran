@@ -1,23 +1,25 @@
 ---
-// Campaign mark "Apolonija Simon. ZA županjo." with the crayon swoosh, as on the billboards.
+// Campaign mark "Apolonija Simon. za županjo." with the crayon stroke, as on the billboards.
+// Rendered as the page heading on the homepage (as="h1").
 import Risba from './Risba.astro';
 
 interface Props {
+  as?: 'p' | 'h1' | 'h2';
   class?: string;
   tagline?: string;
   inverse?: boolean;
 }
-const { class: className, tagline = 'ZA županjo.', inverse = false } = Astro.props;
+const { as: Tag = 'p', class: className, tagline = 'za županjo.', inverse = false } = Astro.props;
 ---
 
-<p class:list={['font-display font-extrabold leading-[0.9] tracking-[-0.03em]', inverse ? 'text-bela' : 'text-crna', className]}>
+<Tag class:list={['display', inverse ? 'text-bela' : 'text-crna', className]}>
   <span class="relative block w-fit pl-[0.3em]">
-    <Risba name="poteza" class="absolute -left-[0.3em] -top-[0.35em] h-[1.7em] w-[0.7em] [--risba-w:6px]" />
-    Apolonija<br /><span class="pl-[1.2em]">Simon.</span>
+    <Risba name="poteza" class="absolute -left-[0.28em] -top-[0.32em] h-[1.7em] w-[0.7em] [--risba-w:6px]" />
+    Apolonija<br /><span class="pl-[1.1em]">Simon.</span>
   </span>
   {tagline && (
-    <span class:list={['mt-[0.3em] block text-[0.38em] tracking-[-0.01em]', inverse ? 'text-zelena' : 'text-zelena-temna']}>
+    <span class:list={['mt-[0.12em] block pl-[1.15em] text-[0.42em] tracking-[-0.02em]', inverse ? 'text-zelena' : 'text-zelena-temna']}>
       {tagline}
     </span>
   )}
-</p>
+</Tag>

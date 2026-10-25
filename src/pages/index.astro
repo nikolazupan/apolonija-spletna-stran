@@ -2,8 +2,8 @@
 import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HomeHero from '../components/home/HomeHero.astro';
+import AskQuestion from '../components/home/AskQuestion.astro';
 import HomeSkupaj from '../components/home/HomeSkupaj.astro';
-import SurveyCallout from '../components/home/SurveyCallout.astro';
 import LatestPost from '../components/home/LatestPost.astro';
 import { getObjave } from '../lib/objave';
 
@@ -16,12 +16,13 @@ const blok = (id: string) => {
   if (!b) throw new Error(`vstopna.md: missing block "${id}"`);
   return b;
 };
+const vprasanja = blok('vprasanja');
 const [zadnja] = await getObjave();
 ---
 
 <BaseLayout title={naslov} description={opis}>
   {hero && <HomeHero hero={hero} />}
-  <SurveyCallout blok={blok('anketa')} />
+  <AskQuestion naslov={[vprasanja.naslov ?? '', vprasanja.besedilo]} povezava="/vprasanja" />
   <HomeSkupaj skupaj={blok('skupaj')} kandidatura={blok('kandidatura')} bio={blok('bio')} />
   <LatestPost objava={zadnja} naslov={blok('objava').naslov} povezavaArhiv={blok('objava').besedilo} />
 </BaseLayout>

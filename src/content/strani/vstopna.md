@@ -2,15 +2,18 @@
 naslov: Apolonija Simon za županjo
 opis: Apolonija Simon, kandidatka liste Vesna in civilna družba za županjo Ljubljane. Lokalne volitve, 15. november 2026.
 
-# Real copy from the print material.
+# Real copy from the print material. The name itself is set in CandidateMark.
 hero:
-  slogan: ["Kakšno", "mesto", "hočemo!"]
-  podnapis: "Županja za vse meščane."
+  podnaslov: "za županjo."
   stevilka: 6
-  stevilkaOznaka: "ZA županjo."
   volitve: "Lokalne volitve, 15. november 2026"
 
 bloki:
+  - id: vprasanja
+    # Q&A box heading, line 1 (naslov) and line 2 (besedilo). Text supplied by the team.
+    naslov: "Imaš vprašanje?"
+    besedilo: "Apolonija ima odgovore."
+
   - id: skupaj
     naslov: "Vesna in civilna družba skupaj"
     # Draft paraphrase of the key message from the project brief; not approved wording.
@@ -24,11 +27,6 @@ bloki:
 
   - id: bio
     besedilo: "Akademska slikarka in ravnateljica Srednje šole za oblikovanje in fotografijo Ljubljana."
-
-  - id: anketa
-    naslov: "Spletna anketa"
-    besedilo: "[Tu bo kratek poziv k sodelovanju v anketi: kaj meščanke in meščani želijo spremeniti v Ljubljani.]"
-    placeholder: true
 
   - id: objava
     naslov: "Zadnja objava"
