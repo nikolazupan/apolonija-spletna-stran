@@ -53,6 +53,28 @@ Footer on every page: campaign organizer notice ("Naročnik: ..."), privacy noti
 - Accessible contrast and readable body text, even when the design is bold.
 - Reference sites the team likes for function and feel: lukazaljubljano.si, zohranfornyc.com (do not copy them).
 
+### Chosen direction: B · "Atelje" (decided 2026-10-25)
+The hand-made marks of the print material become the structure of the site. Build every page in this language.
+- **Ground:** cream paper with a light grain (`paper` utility in `global.css`, inline SVG noise, no image file).
+- **Photos:** clipped into the organic blob shape from the posters, slightly rotated, like paper cut-outs (`CutoutImage`, shapes in `src/lib/blob.ts`). Photos may overlap headlines.
+- **Typography:** oversized, condensed, tight headlines with stepped line indents (`display` utility), like the posters' "Kakšno / ·mesto / hočemo!".
+- **Hand-drawn marks:** crayon stroke before "Apolonija", hand-drawn circle around the ballot number 6 ("Obkroži 6"), underlines, arrows. Each is a separate SVG in `src/assets/risbe/`, rendered via `Risba.astro`; replace files with scanned drawings later (see the README there).
+- **Accents:** green survey band, black footer, black pill buttons. No gradients, no shadows.
+
+**Colors** (defined once in the `@theme` block of `src/styles/global.css`):
+| Token | Hex | Source |
+|---|---|---|
+| `zelena` | `#009854` | print green C100 M0 Y90 K0 (exact, sRGB conversion). Use this, not a neon screen green. |
+| `zelena-temna` | `#00733f` | darker green for small text on cream/white (AA contrast) |
+| `krema` | `#f0e8d4` | print cream C4 M6 Y13 K0 (exact) |
+| `crna` | `#141414` | K100 |
+| `bela` | `#ffffff` | |
+| `rdeca` | `#dc4c28` | estimated from poster 35x504; used only for OSNUTEK markers |
+
+Print green on cream/white is ~3.7:1: use it only for large text and shapes; small text uses `zelena-temna` or `crna`.
+
+**Fonts:** the print uses Area Inktrap (commercial, not licensed for web). Stand-in: **Bricolage Grotesque** (variable, self-hosted via `@fontsource-variable/bricolage-grotesque`), for headlines (weight 800, `font-stretch: 85%`) and body text. If a web licence for Area is bought, swap `--font-display` / `--font-sans` in `global.css`.
+
 ## Placeholder content (IMPORTANT)
 Most texts are still being written. Invented content is allowed only as a clearly marked placeholder:
 - **In content files:** every entry that is not real gets `placeholder: true` in its frontmatter. For partially invented text inside real content, use the `<Placeholder>` component (or equivalent marker) around the invented part.

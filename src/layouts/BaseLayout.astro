@@ -23,6 +23,13 @@ const { title, description, noindex = false } = Astro.props;
     {noindex && <meta name="robots" content="noindex, nofollow" />}
   </head>
   <body class="paper min-h-screen bg-krema text-crna">
+    <!-- Rough crayon edge for hand-drawn marks (see src/assets/risbe/README.md) -->
+    <svg width="0" height="0" class="absolute" aria-hidden="true">
+      <filter id="risba-grobo" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" />
+        <feDisplacementMap in="SourceGraphic" scale="3" />
+      </filter>
+    </svg>
     <SiteHeader />
     <main>
       <slot />

@@ -1,7 +1,7 @@
 ---
 // Top bar with logo and a full-screen menu overlay.
 import VesnaLogo from '../brand/VesnaLogo.astro';
-import HandLine from '../brand/HandLine.astro';
+import Risba from '../brand/Risba.astro';
 import { navigation } from '../../data/site';
 
 const current = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -38,7 +38,7 @@ const isCurrent = (href: string) => (href === '/' ? current === '/' : current.st
             <span class="display relative text-[clamp(2.25rem,9vw,5.5rem)]">
               {item.label}
               {isCurrent(item.href) && (
-                <HandLine class="absolute -bottom-[0.05em] left-0 h-[0.15em] w-full [--line-w:4px]" color="var(--color-zelena)" />
+                <Risba name="podcrta" class="absolute -bottom-[0.05em] left-0 h-[0.15em] w-full [--risba-w:4px]" />
               )}
             </span>
           </a>

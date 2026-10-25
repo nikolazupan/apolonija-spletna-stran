@@ -1,0 +1,21 @@
+---
+// Hand-drawn mark, loaded from src/assets/risbe/*.svg (replaceable with scanned drawings).
+import poteza from '../../assets/risbe/poteza.svg';
+import krog from '../../assets/risbe/krog.svg';
+import podcrta from '../../assets/risbe/podcrta.svg';
+import puscica from '../../assets/risbe/puscica.svg';
+
+const risbe = { poteza, krog, podcrta, puscica };
+
+interface Props {
+  name: keyof typeof risbe;
+  class?: string;
+  color?: string;
+  // roughened edge via the #risba-grobo filter defined in BaseLayout
+  rough?: boolean;
+}
+const { name, class: className, color = 'var(--color-zelena)', rough = true } = Astro.props;
+const Svg = risbe[name];
+---
+
+<Svg class={className} style={`color:${color};${rough ? 'filter:url(#risba-grobo)' : ''}`} aria-hidden="true" />
