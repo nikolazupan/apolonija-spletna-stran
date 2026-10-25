@@ -5,7 +5,7 @@ Each hand-made mark on the site is one SVG file here. They are rendered inline b
 
 | File | Where it's used |
 |---|---|
-| `poteza.svg` | crayon stroke before "Apolonija" (campaign mark) |
+| `poteza.svg` | crayon stroke before "Apolonija" (`CandidateMark`, optional; switched off in the homepage hero) |
 | `krog.svg` | hand-drawn circle around the ballot number 6 and the "?" in the Q&A heading |
 | `podcrta.svg` | underline under the current item in the desktop menu |
 | `puscica.svg` | arrow (currently unused, kept for later pages) |

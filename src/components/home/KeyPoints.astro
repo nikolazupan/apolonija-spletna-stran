@@ -1,7 +1,9 @@
 ---
-// The 3 most important programme points, each linking to the programme page.
-// Centered title, centered text in each column, link to the full programme below.
+// The 3 most important programme points, each on its own hand-cut white paper shape.
+// On hover/focus the paper wobbles slightly (shape only, the text stays still).
+import Blob from '../brand/Blob.astro';
 import Placeholder from '../Placeholder.astro';
+import type { BlobVariant } from '../../lib/blob';
 
 interface Props {
   naslov?: string;
@@ -9,29 +11,73 @@ interface Props {
   tocke: { naslov: string; besedilo: string; povezava: string; placeholder: boolean }[];
 }
 const { naslov, povezavaBesedilo = 'Celoten program', tocke } = Astro.props;
+
+// Each card gets its own shape and resting tilt, so they look cut by hand.
+const papir: { oblika: BlobVariant; nagib: string }[] = [
+  { oblika: 'g', nagib: '-1.5deg' },
+  { oblika: 'h', nagib: '1deg' },
+  { oblika: 'i', nagib: '-0.5deg' },
+];
 ---
 
-<section class="mx-auto max-w-[90rem] px-5 py-12 sm:px-8 lg:py-16">
+<section class="site-container py-12 lg:py-16">
   <h2 class="display text-center text-[clamp(2.25rem,7vw,3.5rem)]">{naslov}</h2>
 
-  <ol class="mt-8 grid border-t-2 border-crna md:grid-cols-3">
-    {tocke.map((t, i) => (
-      <li class:list={['border-b-2 border-crna', i > 0 && 'md:border-l-2']}>
-        <a href={t.povezava} class="group flex h-full flex-col items-center gap-3 px-4 py-7 text-center md:px-8 md:py-9">
-          <span class="display text-5xl text-zelena">{String(i + 1).padStart(2, '0')}</span>
-          <h3 class="text-2xl font-extrabold tracking-tight">
-            {t.placeholder ? <Placeholder>{t.naslov}</Placeholder> : t.naslov}
-          </h3>
-          <p class="max-w-xs text-base leading-relaxed">
-            {t.placeholder ? <Placeholder>{t.besedilo}</Placeholder> : t.besedilo}
-          </p>
-          <span class="mt-auto pt-2 text-sm font-bold group-hover:text-zelena-temna">Več v programu →</span>
-        </a>
-      </li>
-    ))}
+  <ol class="mt-8 grid gap-6 md:grid-cols-3 md:gap-8 lg:mt-10">
+    {tocke.map((t, i) => {
+      const { oblika, nagib } = papir[i % papir.length];
+      return (
+        <li>
+          <a href={t.povezava} class="tocka group relative flex h-full flex-col items-center gap-3 px-[12%] py-10 text-center sm:py-12" style={`--nagib:${nagib}`}>
+            <Blob variant={oblika} fill="var(--color-bela)" class="tocka-papir absolute inset-0 h-full w-full" />
+            <span class="display relative text-5xl text-zelena">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="relative text-2xl font-extrabold tracking-tight">
+              {t.placeholder ? <Placeholder>{t.naslov}</Placeholder> : t.naslov}
+            </h3>
+            <p class="relative max-w-xs text-base leading-relaxed">
+              {t.placeholder ? <Placeholder>{t.besedilo}</Placeholder> : t.besedilo}
+            </p>
+            <span class="relative mt-auto pt-2 text-sm font-bold group-hover:text-zelena-temna">Več v programu →</span>
+          </a>
+        </li>
+      );
+    })}
   </ol>
 
-  <div class="mt-8 text-center">
-    <a href="/program" class="inline-flex rounded-full bg-crna px-6 py-3 text-base font-bold text-krema hover:bg-zelena-temna">{povezavaBesedilo} →</a>
+  <div class="mt-10 text-center">
+    <a href="/program" class="inline-block border-b-[3px] border-zelena pb-0.5 text-base font-bold hover:text-zelena-temna">{povezavaBesedilo} →</a>
   </div>
 </section>
+
+<style>
+  /* the shape is rendered by the Blob child component, so target it with :global() */
+  .tocka :global(.tocka-papir) {
+    transform: rotate(var(--nagib));
+    transform-origin: 50% 60%;
+  }
+  .tocka:hover :global(.tocka-papir),
+  .tocka:focus-visible :global(.tocka-papir) {
+    animation: papir-wobble 0.55s ease-in-out;
+  }
+  .tocka:focus-visible {
+    outline: none;
+  }
+  .tocka:focus-visible :global(.tocka-papir path) {
+    stroke: var(--color-crna);
+    stroke-width: 2.5px;
+    vector-effect: non-scaling-stroke;
+  }
+  @keyframes papir-wobble {
+    0% { transform: rotate(var(--nagib)); }
+    25% { transform: rotate(calc(var(--nagib) - 1.6deg)) scale(1.015, 0.99); }
+    50% { transform: rotate(calc(var(--nagib) + 1.2deg)) scale(0.99, 1.012); }
+    75% { transform: rotate(calc(var(--nagib) - 0.6deg)); }
+    100% { transform: rotate(var(--nagib)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tocka:hover :global(.tocka-papir),
+    .tocka:focus-visible :global(.tocka-papir) {
+      animation: none;
+    }
+  }
+</style>

@@ -17,12 +17,12 @@ const tilt = ['-rotate-1', 'rotate-1', 'rotate-[0.5deg]', '-rotate-[1.5deg]'];
 ---
 
 <section class="py-12 lg:py-16">
-  <div class="mx-auto flex max-w-[90rem] flex-wrap items-end justify-between gap-4 px-5 sm:px-8">
+  <div class="site-container flex flex-wrap items-end justify-between gap-4">
     <h2 class="display text-[clamp(2.25rem,7vw,3.5rem)]">{naslov}</h2>
     <a href="/arhiv" class="border-b-[3px] border-zelena pb-0.5 text-base font-bold hover:text-zelena-temna">{povezavaArhiv} →</a>
   </div>
 
-  <ul class="mx-auto mt-8 flex max-w-[90rem] snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-4 pt-2 sm:px-8 md:grid md:grid-cols-4 md:overflow-visible">
+  <ul class="site-container mt-8 flex snap-x snap-mandatory scroll-px-[var(--gutter)] gap-5 overflow-x-auto pb-4 pt-2 md:grid md:grid-cols-4 md:overflow-visible">
     {objave.map(({ data: o }, i) => (
       <li class="w-[68%] shrink-0 snap-start sm:w-[42%] md:w-auto">
         <a href={o.povezava} target="_blank" rel="noopener" class:list={['block border-[8px] border-bela bg-bela transition-transform hover:rotate-0', tilt[i % tilt.length]]}>

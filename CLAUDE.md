@@ -32,7 +32,7 @@ Main menu:
    - Hero heading is her name: "Apolonija Simon." + "Županja za vse meščane." ("Kakšno mesto hočemo!" is the domain name, not the page title). Composed like the posters: name on an organic white shape, cut-out photo on its own white paper shape overlapping it
    - Photo of Apolonija, linking to her subpage
    - Q&A box under the hero: "Imaš vprašanje? Apolonija ima odgovore.", a field to ask a question, and a link to `/vprasanja`
-   - Under the Q&A box: the 3 most important programme points, each linking to `/program` (placeholders until the programme is final)
+   - Under the Q&A box: the 3 most important programme points, each on its own hand-cut white paper shape (each slightly different, subtle wobble on hover, none with reduced motion), each linking to `/program`; centered title, "Celoten program" link (green underline) below (placeholders until the programme is final)
    - Text: why Apolonija is running, then why Vesna and civil society are joining forces (framed blocks of equal size, alternating title/text columns, aligned across both)
    - Latest posts: title with archive link, then a row of the 3–4 newest posts (horizontally scrollable on mobile)
 2. **Apolonija Simon** (`/apolonija-simon`): photos, text, link to her personal website
@@ -65,7 +65,9 @@ The hand-made marks of the print material become the structure of the site. Buil
 - **Scale:** bold but not oversized. Keep headlines and section spacing moderate (the team found the first homepage too big); readability on a phone comes first.
 - **Header:** partner logo centered (and fairly large), only a "Meni" button on the right, on all screen sizes (no inline links). On the narrowest phones the button shows only the menu icon (labelled "Meni" for screen readers).
 - **Navigation:** the "Meni" button opens a full-screen overlay on all screen sizes: translucent cream with blur, comfortable (not huge) link size, fade + staggered slide-in, clearly visible "Zapri" button, Esc closes, respects `prefers-reduced-motion`.
-- **Hero rule:** photos must never cover text at any width (only the white background shapes may overlap).
+- **Hero rule:** photos must never cover text at any width (only the white background shapes may overlap). Name and photo sit close together; no crayon stroke next to the name in the hero.
+- **Side margins:** one shared container (`site-container` / `px-gutter` in `global.css`, `--gutter`: 22px phone, 36px from tablet up, max width 90rem). Every section, the header, the menu and the footer use it; change the margin there only.
+- **Links vs buttons:** secondary links ("Celoten program", "Vse objave", "Več o Apoloniji") are text with a green underline, not filled buttons.
 
 **Colors** (defined once in the `@theme` block of `src/styles/global.css`):
 | Token | Hex | Source |
