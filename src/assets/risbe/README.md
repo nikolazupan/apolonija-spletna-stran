@@ -8,6 +8,8 @@ Each hand-made mark on the site is one SVG file here. They are rendered inline b
 | `poteza.svg` | crayon stroke before "Apolonija" (`CandidateMark`, optional; switched off in the homepage hero) |
 | `krog.svg` | hand-drawn circle around the ballot number 6 and the "?" in the Q&A heading |
 | `podcrta.svg` | underline under the current item in the desktop menu |
+| `meni.svg` | hamburger icon of the mobile menu button |
+| `zapri.svg` | close icon of the mobile menu overlay |
 | `puscica.svg` | arrow (currently unused, kept for later pages) |
 
 The current files are vector redraws of the print marks. A rough edge is added by the

@@ -3,15 +3,18 @@
 // Once the page is scrolled it turns into a cream paper strip with a torn bottom edge.
 // The "Meni" button opens a full-screen overlay (all screen sizes).
 import VesnaLogo from '../brand/VesnaLogo.astro';
+import Risba from '../brand/Risba.astro';
 import { navigation, social } from '../../data/site';
 
 const current = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => (href === '/' ? current === '/' : current.startsWith(href));
 
 // Shared by the header and the overlay's top bar, so the logo and buttons line up exactly.
-const bar = 'site-container relative flex items-center justify-between gap-4 py-3 lg:py-4';
-const logoSize = 'text-[0.82rem] sm:text-[1.05rem] lg:text-[1.2rem]';
-const button = 'flex h-11 shrink-0 items-center justify-center gap-2 rounded-full border-2 border-crna px-4 text-sm font-bold';
+// Phones (below md): one row, logo + hand-drawn icon button (44×44 tap area); from md: "Meni" pill.
+const bar = 'site-container relative flex items-center justify-between gap-2 py-2.5 md:gap-4 md:py-3 lg:py-4';
+// On phones the logo takes all width left of the 44px icon (logo is ≈16.6em wide), capped at 1.05rem.
+const logoSize = 'text-[min(1.05rem,calc((100vw-2*var(--gutter)-3.75rem)/17.6))] md:text-[1.05rem] lg:text-[1.2rem]';
+const button = 'flex h-11 w-11 shrink-0 items-center justify-center gap-2 rounded-full text-sm font-bold md:w-auto md:border-2 md:border-crna md:px-4';
 
 // Torn paper edge under the scrolled header: a jagged line, fixed seed so it is stable between builds.
 let seed = 7;
@@ -36,9 +39,10 @@ rob += ' L1000,0 Z';
     <a href="/" aria-label="Vstopna stran">
       <VesnaLogo class={logoSize} />
     </a>
-    <button type="button" class:list={['meni-odpri', button]} aria-expanded="false" aria-controls="meni">
-      <span>Meni</span>
-      <svg viewBox="0 0 16 12" class="h-3 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+    <button type="button" class:list={['meni-odpri', button]} aria-expanded="false" aria-controls="meni" aria-label="Meni">
+      <Risba name="meni" color="var(--color-crna)" class="h-6 w-7 [--risba-w:3.5px] md:hidden" />
+      <span class="max-md:hidden">Meni</span>
+      <svg viewBox="0 0 16 12" class="h-3 w-4 max-md:hidden" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
         <path d="M1 2h14M1 6h14M1 10h14" />
       </svg>
     </button>
@@ -48,9 +52,10 @@ rob += ' L1000,0 Z';
 <div id="meni" class="meni fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-label="Glavni meni" hidden>
   <div class={bar}>
     <VesnaLogo class={logoSize} />
-    <button type="button" class:list={['meni-zapri border-crna bg-crna text-krema', button]} aria-label="Zapri meni">
-      <span>Zapri</span>
-      <svg viewBox="0 0 12 12" class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+    <button type="button" class:list={['meni-zapri md:border-crna md:bg-crna md:text-krema', button]} aria-label="Zapri meni">
+      <Risba name="zapri" color="var(--color-crna)" class="h-6 w-6 md:hidden" />
+      <span class="max-md:hidden">Zapri</span>
+      <svg viewBox="0 0 12 12" class="h-3 w-3 max-md:hidden" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
         <path d="M1 1l10 10M11 1L1 11" />
       </svg>
     </button>
