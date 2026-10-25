@@ -23,8 +23,7 @@ podatki:
 
 povezave:
   - naslov: "Osebna spletna stran Apolonije Simon"
-    url: "#"
-    placeholder: true
+    url: "https://www.apolonijasimon.si/"
   - naslov: "vesnazelenastranka.si"
     url: "https://vesnazelenastranka.si/ljubljana"
 ---

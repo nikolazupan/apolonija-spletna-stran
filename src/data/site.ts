@@ -25,7 +25,7 @@ export const narocnik = {
 export const links = {
   // from the print material
   vesna: { label: 'vesnazelenastranka.si', href: 'https://vesnazelenastranka.si/ljubljana', placeholder: false },
-  apolonija: { label: 'Osebna stran Apolonije Simon', href: '#', placeholder: true },
+  apolonija: { label: 'Osebna spletna stran Apolonije Simon', href: 'https://www.apolonijasimon.si/', placeholder: false },
   zasebnost: { label: 'Varstvo zasebnosti', href: '/zasebnost', placeholder: false },
 };
 

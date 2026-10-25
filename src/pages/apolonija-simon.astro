@@ -1,58 +1,36 @@
 ---
-// Apolonija Simon: name, photo collage (like photos pinned in a sketchbook), her own words, longer text, links.
+// Apolonija Simon: name and facts on a white hand-cut shape with a cut-out of her face beside it
+// (above it on phones), her own words, longer text, links.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CandidateMark from '../components/brand/CandidateMark.astro';
 import CutoutImage from '../components/brand/CutoutImage.astro';
 import Blob from '../components/brand/Blob.astro';
+import ShapedText from '../components/brand/ShapedText.astro';
 import Risba from '../components/brand/Risba.astro';
-import ImagePlaceholder from '../components/ImagePlaceholder.astro';
+import portret from '../assets/foto/apolonija-portret-obraz.jpg';
 import BlockText from '../components/BlockText.astro';
 import TextLink from '../components/ui/TextLink.astro';
 import { getStran } from '../lib/strani';
-import type { BlobVariant } from '../lib/blob';
 
-const { naslov, opis, blok, citati, fotografije, povezave } = await getStran('apolonija-simon');
+const { naslov, opis, blok, citati, povezave } = await getStran('apolonija-simon');
 const uvod = blok('uvod');
 const [glavni, ...ostali] = citati;
 
-// Collage positions: each photo its own cut-out shape and tilt.
-const kolaz: { oblika: BlobVariant; nagib: string; razmerje: string }[] = [
-  { oblika: 'c', nagib: '-rotate-3', razmerje: 'aspect-[4/5]' },
-  { oblika: 'd', nagib: 'rotate-2', razmerje: 'aspect-[4/5]' },
-  { oblika: 'f', nagib: 'rotate-1', razmerje: 'aspect-square' },
-  { oblika: 'b', nagib: '-rotate-2', razmerje: 'aspect-square' },
-];
 ---
 
 <BaseLayout title={naslov} description={opis}>
-  <!-- name + facts -->
-  <section class="site-container pb-6 pt-6 lg:pt-10">
-    <div class="relative max-w-4xl">
-      <Blob variant="e" fill="var(--color-bela)" class="absolute inset-0 h-full w-full -rotate-1" />
-      <div class="relative px-6 py-10 sm:px-12 sm:py-14">
-        <CandidateMark as="h1" tagline="" class="text-[clamp(3.25rem,13vw,7rem)]" />
+  <!-- name + facts, face cut-out beside (phones: above) -->
+  <section class="site-container grid items-center gap-6 pb-10 pt-6 md:grid-cols-[minmax(0,1fr)_minmax(0,0.6fr)] md:gap-10 lg:pb-14 lg:pt-10">
+    <ShapedText variant="e" shapeClass="-rotate-1" class="max-md:order-2">
+        <CandidateMark as="h1" tagline="" stroke={false} class="text-[clamp(2.5rem,12vw,6.5rem)] md:text-[clamp(3rem,7vw,6.5rem)]" />
         <h2 class="mt-6 max-w-xl text-2xl font-extrabold leading-tight tracking-tight text-zelena-temna sm:text-3xl">{uvod.naslov}</h2>
         <BlockText blok={uvod} class="mt-3 max-w-xl text-lg leading-relaxed" />
-      </div>
-    </div>
-  </section>
+    </ShapedText>
 
-  <!-- photo collage -->
-  <section class="site-container py-8 lg:py-12" aria-label="Fotografije">
-    <ul class="grid grid-cols-2 items-center gap-x-4 gap-y-8 md:grid-cols-4 md:gap-x-8">
-      {fotografije.map((f, i) => {
-        const k = kolaz[i % kolaz.length];
-        return (
-          <li class:list={[k.nagib, i % 2 === 1 && 'md:translate-y-10']}>
-            {f.slika ? (
-              <CutoutImage src={f.slika} alt={f.alt ?? ''} variant={k.oblika} widths={[300, 600]} sizes="(min-width: 768px) 22vw, 46vw" imgClass={k.razmerje} />
-            ) : (
-              <ImagePlaceholder label={f.oznaka ?? 'FOTO'} class={`${k.razmerje} w-full rounded-[38%_42%_36%_44%/40%_36%_44%_38%]`} />
-            )}
-          </li>
-        );
-      })}
-    </ul>
+    <figure class="relative mx-auto w-[72%] max-w-sm max-md:order-1 md:w-full">
+      <Blob variant="f" fill="var(--color-zelena)" class="absolute -inset-[7%] h-[114%] w-[114%] rotate-6" />
+      <CutoutImage src={portret} alt="Portret Apolonije Simon" variant="c" widths={[300, 450]} sizes="(min-width: 768px) 24rem, 72vw" loading="eager" class="relative -rotate-2" imgClass="aspect-square" />
+    </figure>
   </section>
 
   <!-- her own words -->

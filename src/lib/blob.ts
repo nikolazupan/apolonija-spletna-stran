@@ -47,3 +47,82 @@ export const papirji: { oblika: BlobVariant; nagib: string; zrcali?: boolean }[]
   { oblika: 'i', nagib: '1.5deg', zrcali: true },
   { oblika: 'g', nagib: '0.5deg', zrcali: true },
 ];
+
+// Outline of a shape as a polygon (corners sampled along their curves), in 0–1 coordinates.
+function outline(variant: BlobVariant, round = 0.3): number[][] {
+  const pts = blobShapes[variant];
+  const n = pts.length;
+  const lerp = (p: number[], q: number[], t: number) => [p[0] + (q[0] - p[0]) * t, p[1] + (q[1] - p[1]) * t];
+  const out: number[][] = [];
+  pts.forEach((p, i) => {
+    const a = lerp(p, pts[(i - 1 + n) % n], round);
+    const b = lerp(p, pts[(i + 1) % n], round);
+    for (let k = 0; k <= 12; k++) {
+      const t = k / 12;
+      out.push([
+        (1 - t) ** 2 * a[0] + 2 * (1 - t) * t * p[0] + t ** 2 * b[0],
+        (1 - t) ** 2 * a[1] + 2 * (1 - t) * t * p[1] + t ** 2 * b[1],
+      ]);
+    }
+  });
+  return out;
+}
+
+export interface Inscribed {
+  x0: number;
+  x1: number;
+  y0: number;
+  y1: number;
+}
+const inscribedCache = new Map<BlobVariant, Inscribed>();
+
+// Largest text-friendly rectangle inside a shape (0–1 coordinates), shrunk by a safety margin
+// for the resting tilt. Because shapes are stretched with preserveAspectRatio="none", a rectangle
+// inside the 0–1 outline stays inside the shape at ANY width and height.
+export function inscribed(variant: BlobVariant, margin = 0.02): Inscribed {
+  const hit = inscribedCache.get(variant);
+  if (hit) return hit;
+  const poly = outline(variant);
+  const steps = 100;
+  // vertical extent of the shape at each x
+  const lo: number[] = [];
+  const hi: number[] = [];
+  for (let s = 0; s <= steps; s++) {
+    const x = s / steps;
+    let a = Infinity;
+    let b = -Infinity;
+    for (let i = 0; i < poly.length; i++) {
+      const p = poly[i];
+      const q = poly[(i + 1) % poly.length];
+      if ((p[0] - x) * (q[0] - x) <= 0 && p[0] !== q[0]) {
+        const y = p[1] + ((x - p[0]) / (q[0] - p[0])) * (q[1] - p[1]);
+        a = Math.min(a, y);
+        b = Math.max(b, y);
+      }
+    }
+    lo.push(a);
+    hi.push(b);
+  }
+  // favour wide rectangles (text lines) over tall ones
+  let best: Inscribed = { x0: 0.25, x1: 0.75, y0: 0.25, y1: 0.75 };
+  let score = 0;
+  for (let i = 0; i <= steps; i++) {
+    let top = -Infinity;
+    let bottom = Infinity;
+    for (let j = i + 1; j <= steps; j++) {
+      top = Math.max(top, lo[j - 1], lo[j]);
+      bottom = Math.min(bottom, hi[j - 1], hi[j]);
+      const w = (j - i) / steps;
+      const h = bottom - top;
+      if (h <= 0) break;
+      const sc = w ** 1.6 * h;
+      if (sc > score) {
+        score = sc;
+        best = { x0: i / steps, x1: j / steps, y0: top, y1: bottom };
+      }
+    }
+  }
+  const r = { x0: best.x0 + margin, x1: best.x1 - margin, y0: best.y0 + margin, y1: best.y1 - margin };
+  inscribedCache.set(variant, r);
+  return r;
+}

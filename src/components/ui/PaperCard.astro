@@ -1,7 +1,7 @@
 ---
 // Hand-cut white paper card: irregular shape behind the content, slight resting tilt,
 // small wobble of the paper on hover/focus (none with reduced motion). Renders a link when `href` is set.
-import Blob from '../brand/Blob.astro';
+import ShapedText from '../brand/ShapedText.astro';
 import type { BlobVariant } from '../../lib/blob';
 
 interface Props {
@@ -19,12 +19,11 @@ const Tag = href ? 'a' : 'div';
 ---
 
 <Tag href={href} class:list={['papir group relative block', href && 'papir-link', className]} style={`--nagib:${nagib};--zrcali:${zrcali ? -1 : 1}`}>
-  <Blob variant={oblika} fill={fill} class="papir-oblika absolute inset-0 h-full w-full" />
-  <div class="relative h-full"><slot /></div>
+  <ShapedText variant={oblika} fill={fill} shapeClass="papir-oblika"><slot /></ShapedText>
 </Tag>
 
 <style>
-  /* the shape is rendered by the Blob child component, so target it with :global() */
+  /* the shape is rendered by a child component (ShapedText → Blob), so target it with :global() */
   .papir :global(.papir-oblika) {
     transform: rotate(var(--nagib)) scaleX(var(--zrcali));
     transform-origin: 50% 60%;

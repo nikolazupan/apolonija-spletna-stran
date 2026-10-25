@@ -1,0 +1,71 @@
+---
+// Text on an irregular hand-cut shape (Blob, stretched with preserveAspectRatio="none").
+// The text sits in the shape's largest inner rectangle (lib/blob.ts → inscribed), and the shape is
+// laid out AROUND the text box instead of the other way round:
+//   - horizontally: padding in % of the width;
+//   - vertically: the shape extends above/below the text box by % of the text box height.
+// So the text stays inside the irregular outline at any length and screen size, while the shape
+// keeps exactly the same outline as before. A small script reserves the vertical space the shape
+// needs (fallback without JS: fixed padding; the text is still inside the shape).
+import Blob from './Blob.astro';
+import { inscribed, type BlobVariant } from '../../lib/blob';
+
+interface Props {
+  variant: BlobVariant;
+  fill?: string;
+  // classes for the shape (tilt, `papir-oblika`, ...)
+  shapeClass?: string;
+  // outer element: sizing and placement (max-width, grid columns, z-index, ...)
+  class?: string;
+  // inner content wrapper
+  contentClass?: string;
+}
+const { variant, fill = 'var(--color-bela)', shapeClass, class: className, contentClass } = Astro.props;
+const { x0, x1, y0, y1 } = inscribed(variant);
+const w = x1 - x0;
+const h = y1 - y0;
+const pct = (n: number) => `${+(n * 100).toFixed(3)}%`;
+// shape box relative to the text box
+const left = x0 / w;
+const right = (1 - x1) / w;
+const top = y0 / h;
+const bottom = (1 - y1) / h;
+const shapeStyle = [
+  `left:-${pct(left)}`,
+  `top:-${pct(top)}`,
+  // --oblik-dodatno: extra width to the right (e.g. hero shape reaching under the photo)
+  `width:calc(${pct(1 + left + right)} + var(--oblik-dodatno, 0%))`,
+  `height:${pct(1 + top + bottom)}`,
+].join(';');
+---
+
+<div class={className}>
+  <div
+    class="oblik-okvir"
+    style={`padding:2rem ${pct(1 - x1)} 2rem ${pct(x0)}`}
+    data-oblik-top={top}
+    data-oblik-bottom={bottom}
+  >
+    <div class="relative" data-oblik-vsebina>
+      <Blob variant={variant} fill={fill} class:list={['pointer-events-none absolute max-w-none', shapeClass]} style={shapeStyle} />
+      <!-- padding-block in % of width absorbs a tilt of up to ~2° on wide, short shapes -->
+      <div class:list={['relative', contentClass]} style="padding-block:2.2%"><slot /></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Reserve exactly the vertical room the shape takes above and below the text box.
+  const fit = (box: HTMLElement) => {
+    const frame = box.parentElement as HTMLElement;
+    const h = box.offsetHeight;
+    frame.style.paddingTop = `${h * Number(frame.dataset.oblikTop)}px`;
+    frame.style.paddingBottom = `${h * Number(frame.dataset.oblikBottom)}px`;
+  };
+  const boxes = document.querySelectorAll<HTMLElement>('[data-oblik-vsebina]');
+  const ro = new ResizeObserver((entries) => entries.forEach((e) => fit(e.target as HTMLElement)));
+  boxes.forEach((b) => {
+    fit(b);
+    ro.observe(b);
+  });
+</script>

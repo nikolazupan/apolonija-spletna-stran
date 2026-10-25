@@ -1,5 +1,5 @@
 ---
-// One social media post as a white "print" card: thumbnail, date, type, caption.
+// One social media post as a white "print" card: thumbnail with type tag, date, caption, link.
 // Click-to-load: Instagram content (and video) is only embedded after a click. No Meta scripts on page load.
 import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
@@ -18,19 +18,16 @@ const embed = embedUrl(o.povezava, o.platforma);
 const platforma = o.platforma === 'instagram' ? 'Instagramu' : 'Facebooku';
 ---
 
+<!-- One format for every post type: square thumbnail (type tag in the corner), date, 2-line caption, link.
+     Every Instagram post has an image (text posts too), so `slika` is the thumbnail for all types. -->
 <article class:list={['flex h-full flex-col border-[6px] border-bela bg-bela', className]}>
   <div class="objava-medij relative aspect-square overflow-hidden bg-neutral-200" data-embed={embed ?? ''}>
-    {o.tip === 'besedilo' && !o.slika ? (
-      <div class="paper flex h-full items-center bg-zelena p-4">
-        <p class="display line-clamp-6 text-[clamp(1.1rem,2.2vw,1.5rem)] text-krema [font-stretch:90%]">
-          <Placeholder active={o.placeholder}>{o.opis}</Placeholder>
-        </p>
-      </div>
-    ) : o.slika ? (
+    {o.slika ? (
       <Image src={o.slika} alt={o.opis} widths={[300, 600]} sizes={sizes} class="h-full w-full object-cover" />
     ) : (
-      <ImagePlaceholder label={`OBJAVA: ${tipOznaka[o.tip].toUpperCase()}`} class="h-full w-full text-xs" />
+      <ImagePlaceholder label="OBJAVA" class="h-full w-full items-end pb-3 text-xs" />
     )}
+    <span class="pointer-events-none absolute right-2 top-2 z-10 rounded-full bg-krema px-2 py-0.5 text-xs font-bold text-zelena-temna">{tipOznaka[o.tip]}</span>
 
     <!-- click-to-load: the whole thumbnail is a button -->
     <button type="button" class="objava-nalozi group absolute inset-0 flex items-center justify-center" aria-label={`Naloži objavo z ${platforma} (${tipOznaka[o.tip]}, ${formatDatum(o.datum)})`}>
@@ -43,13 +40,9 @@ const platforma = o.platforma === 'instagram' ? 'Instagramu' : 'Facebooku';
   </div>
 
   <div class="flex flex-1 flex-col px-1 pb-1 pt-3">
-    <p class="flex flex-wrap justify-between gap-x-2 text-sm font-bold">
-      <time datetime={o.datum.toISOString()}>{formatDatum(o.datum)}</time>
-      <span class="text-zelena-temna">{tipOznaka[o.tip]}</span>
-    </p>
-    {o.tip !== 'besedilo' && (
-      <p class="mt-1.5 line-clamp-3 text-sm leading-snug"><Placeholder active={o.placeholder}>{o.opis}</Placeholder></p>
-    )}
+    <time class="whitespace-nowrap text-[0.8rem] font-bold sm:text-sm" datetime={o.datum.toISOString()}>{formatDatum(o.datum)}</time>
+    <!-- always two lines high, so cards line up whatever the caption length -->
+    <p class="mt-1.5 line-clamp-2 min-h-[2lh] text-sm leading-snug"><Placeholder active={o.placeholder}>{o.opis}</Placeholder></p>
     <a href={o.povezava} target="_blank" rel="noopener" class="mt-auto pt-2 text-xs font-bold underline underline-offset-2 hover:text-zelena-temna">Odpri na {platforma} ↗</a>
   </div>
 </article>

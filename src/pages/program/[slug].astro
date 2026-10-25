@@ -3,7 +3,7 @@
 // longer text (markdown body), references, and navigation to the neighbouring areas.
 import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Blob from '../../components/brand/Blob.astro';
+import ShapedText from '../../components/brand/ShapedText.astro';
 import Risba from '../../components/brand/Risba.astro';
 import Placeholder from '../../components/Placeholder.astro';
 import TextLink from '../../components/ui/TextLink.astro';
@@ -27,16 +27,13 @@ const { povezave } = await getStran('program');
 <BaseLayout title={`${naslov} | Program`} description={`${naslov}: ${tocke.join(' ')} Program Apolonije Simon in liste Vesna in civilna družba.`}>
   <section class="site-container pb-8 pt-6 lg:pt-10">
     <a href="/program" class="text-sm font-bold hover:text-zelena-temna">← Vsa področja programa</a>
-    <div class="relative mt-4 max-w-4xl">
-      <Blob variant={vrstniRed % 2 ? 'e' : 'b'} fill="var(--color-bela)" class="absolute inset-0 h-full w-full -rotate-1" />
-      <div class="relative px-6 py-10 sm:px-12 sm:py-14">
+    <ShapedText variant={vrstniRed % 2 ? 'e' : 'b'} shapeClass="-rotate-1" class="mt-4 max-w-4xl">
         <span class="relative inline-flex h-16 w-16 items-center justify-center font-display text-4xl font-extrabold" aria-hidden="true">
           <Risba name="krog" class="absolute -inset-2 h-[calc(100%+1rem)] w-[calc(100%+1rem)] [--risba-w:4px]" />
           {vrstniRed}
         </span>
         <h1 class="display mt-5 text-[clamp(2.5rem,8vw,5rem)]">{naslov}</h1>
-      </div>
-    </div>
+    </ShapedText>
   </section>
 
   <!-- the two flyer points -->

@@ -23,6 +23,7 @@ The current goal is a **semi-polished prototype** that the campaign team can rea
 - Campaign themes: housing, transport, health, clean environment, greenery, culture, public space, transparency, creativity, cooperation with residents.
 - Contested projects she has named: the C0 sewage canal and the planned waste incinerator.
 - Lead of the city council list: Denis Striković (current city councillor).
+- Apolonija's personal website: https://www.apolonijasimon.si/ (real; used on /apolonija-simon, /kontakt and in the footer via `src/data/site.ts`).
 Use these facts where relevant. Do not invent further facts about her or the list.
 
 ## Site structure
@@ -35,7 +36,7 @@ Main menu:
    - Under the Q&A box: 3 key programme areas, each on its own hand-cut white paper shape (each slightly different, subtle wobble on hover, none with reduced motion), each linking to its `/program/[slug]` page; centered title, "Celoten program" link (green underline) below. The selection is set in `poudarki` in `src/content/strani/vstopna.md` (file names from `src/content/program/`). Current provisional selection: Upravljanje mesta in participacija, Stanovanjska politika, Okolje, pitna voda in čist zrak. The section stays marked OSNUTEK until the team decides the final 3.
    - Text: why Apolonija is running, then why Vesna and civil society are joining forces (framed blocks of equal size, alternating title/text columns, aligned across both)
    - Latest posts: title with archive link, then a row of the 3–4 newest posts (horizontally scrollable on mobile)
-2. **Apolonija Simon** (`/apolonija-simon`): photos, text, link to her personal website. Uses real quotes from Siol.net, 1. 10. 2026 (source in `src/content/strani/apolonija-simon.md`); any further quotes must also be real and sourced.
+2. **Apolonija Simon** (`/apolonija-simon`): name and facts on a white hand-cut shape (text must always stay inside it), a cut-out of her face beside it (above it on phones, from `design-reference/4_Apolonija Portret.jpg`, copied to `src/assets/foto/`), quotes, text, link to her personal website. Uses real quotes from Siol.net, 1. 10. 2026 (source in `src/content/strani/apolonija-simon.md`); any further quotes must also be real and sourced.
 3. **Lista Vesna in civilna družba** (`/lista`): short text, city council candidates with photos and descriptions, lists of candidates for četrtne skupnosti. City council: 45 real names in ballot order (official flyer) in `src/content/kandidati/mestni-svet.yaml`, Denis Striković is nosilec liste. Četrtne skupnosti: `cetrtne-skupnosti.yaml`, collapsible per ČS; which ČS the list runs in and the names are not known yet (placeholders).
 4. **Program** (`/program`): **6 areas** (not 8), from the official campaign flyer (`design-reference/letak A52.jpg`), each with two short points; each area links to a longer text page (`/program/[slug]`) with references (links or extra text pages). Content: one file per area in `src/content/program/` (file name = slug, `vrstniRed` = flyer order, `tocke` = the two flyer points, body = longer text). The area names and points are real; the longer texts are not written yet, so every area is `placeholder: true`.
    1. Upravljanje mesta in participacija: Mesto posluša, ljudje odločajo. / Čisti računi.
@@ -66,6 +67,7 @@ Also: `/zasebnost` (privacy notice, legal text still to be supplied) and a custo
 ### Chosen direction: B · "Atelje" (decided 2026-10-25)
 The hand-made marks of the print material become the structure of the site. Build every page in this language.
 - **Ground:** cream paper with a light grain (`paper` utility in `global.css`, inline SVG noise, no image file).
+- **Shapes with text:** always use `ShapedText` (`src/components/brand/ShapedText.astro`), directly or via `PaperCard` / `PageIntro`. It keeps the original irregular `Blob` outlines (stretched with `preserveAspectRatio="none"`) and builds the shape around the text: the text sits in the shape's largest inner rectangle (`inscribed()` in `src/lib/blob.ts`), so it stays inside the outline at any length and screen size. Shapes must stay irregular and hand-cut, never rectangles. A bare `Blob` is only for decorative backings behind fixed-size photos.
 - **Photos:** clipped into the organic blob shape from the posters, slightly rotated, like paper cut-outs (`CutoutImage`, shapes in `src/lib/blob.ts`). Photos may overlap headlines and sit on white "paper" shapes, like the posters. On the cream ground, the poster colors are inverted: white organic shapes instead of cream ones.
 - **Typography:** oversized, condensed, tight headlines with stepped line indents (`display` utility), like the posters' "Kakšno / ·mesto / hočemo!".
 - **Hand-drawn marks:** crayon stroke before "Apolonija", hand-drawn circle around the ballot number 6 ("Obkroži 6"), underlines, arrows. Each is a separate SVG in `src/assets/risbe/`, rendered via `Risba.astro`; replace files with scanned drawings later (see the README there).
@@ -102,7 +104,7 @@ Most texts are still being written. Invented content is allowed only as a clearl
 - Real content (from the background section above or supplied by the team) is not marked.
 
 ## Features: prototype first
-- **Latest post / archive:** for now a manually maintained content collection `src/content/objave/` (one file per post: datum, tip, platforma, povezava, opis, slika). **Open decision:** automatic import from Instagram (Graph API) is not decided yet. The fields are chosen to map 1:1 to an Instagram media object (see the comment in `src/content.config.ts`), so an import could later write the same files or replace the loader.
+- **Latest post / archive:** for now a manually maintained content collection `src/content/objave/` (one file per post: datum, tip, platforma, povezava, opis, slika). **Open decision:** automatic import from Instagram (Graph API) is not decided yet. The fields are chosen to map 1:1 to an Instagram media object (see the comment in `src/content.config.ts`), so an import could later write the same files or replace the loader. All post types (grafika, besedilo, fotografija, video) use one identical card format (`PostCard.astro`): square thumbnail with a type tag, date on one line, 2-line caption, link. Video only adds a play button. No per-type layouts, so cards in a row always line up.
 - **Instagram embeds:** click-to-load (thumbnail first, embed only on click). No Meta scripts on page load. Implemented in `PostCard.astro` (Instagram `/p/…`, `/reel/…` permalinks; posts with a `#` link show a prototype note instead).
 - **Question form (Q&A):** build the UI only; no backend yet. Mark it as non-functional in the prototype. Answered questions will be a content collection shown on `/vprasanja`.
 - **No survey:** the online survey was dropped from the site.
@@ -114,3 +116,11 @@ Most texts are still being written. Invented content is allowed only as a clearl
 - Before larger changes, briefly say what you plan to do.
 - Never edit or delete files in `design-reference/`.
 - Keep components small and reusable (layout, header/menu, footer, section blocks, placeholder marker).
+
+## Before final launch
+Checklist before the site goes public:
+- [ ] Set `NOINDEX = false` in `src/config.ts` (preview mode adds `<meta name="robots" content="noindex, nofollow">` to every page and makes `/robots.txt` disallow everything). The 404 page stays noindex either way.
+- [ ] Set `SHOW_PLACEHOLDERS = false` in `src/config.ts` and run `npm run check-placeholders -- --strict`: it must report no placeholders left.
+- [ ] Confirm the organizer notice in the footer ("Naročnik: ..."), the payment details on /pomagaj and the contact details on /kontakt.
+- [ ] Replace the placeholder Instagram/Facebook links in `src/data/site.ts`.
+

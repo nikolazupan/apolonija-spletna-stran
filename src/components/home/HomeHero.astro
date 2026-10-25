@@ -6,6 +6,7 @@ import foto from '../../assets/foto/dezniki-izrez.jpg';
 // tighter crop for phones: she fills the frame
 import fotoBlizje from '../../assets/foto/dezniki-blizje.jpg';
 import Blob from '../brand/Blob.astro';
+import ShapedText from '../brand/ShapedText.astro';
 import CutoutImage from '../brand/CutoutImage.astro';
 import CandidateMark from '../brand/CandidateMark.astro';
 import Risba from '../brand/Risba.astro';
@@ -25,9 +26,8 @@ const { hero } = Astro.props;
   <!-- lg:pl shifts the whole composition right, so the empty space left and right of it is balanced -->
   <div class="hero-mreza grid lg:grid-cols-12 lg:items-center lg:pl-[5%]">
     <!-- name: text in columns 1–6, white shape reaches further right, under the photo's paper -->
-    <div class="relative z-10 lg:col-span-6 lg:col-start-1 lg:row-start-1">
-      <Blob variant="e" fill="var(--color-bela)" class="absolute inset-y-0 left-0 h-full w-full lg:w-[128%]" />
-      <div class="relative px-6 pb-16 pt-11 sm:px-12 sm:pb-20 lg:py-20 lg:pl-14 lg:pr-4">
+    <!-- on desktop the shape reaches further right, under the photo (--oblik-dodatno) -->
+    <ShapedText variant="e" class="relative z-10 lg:col-span-6 lg:col-start-1 lg:row-start-1 lg:[--oblik-dodatno:37%]">
         <CandidateMark
           as="h1"
           stroke={false}
@@ -46,8 +46,7 @@ const { hero } = Astro.props;
             <span class="font-medium normal-case tracking-normal">{hero.volitve}</span>
           </p>
         </div>
-      </div>
-    </div>
+    </ShapedText>
 
     <!-- photo on its own paper shape: large and centered under the name on phones, columns 7–12 on desktop -->
     <a

@@ -5,11 +5,12 @@ import { blobPath, type BlobVariant } from '../../lib/blob';
 interface Props {
   variant?: BlobVariant;
   class?: string;
+  style?: string;
   fill?: string;
 }
-const { variant = 'a', class: className, fill = 'var(--color-krema)' } = Astro.props;
+const { variant = 'a', class: className, style, fill = 'var(--color-krema)' } = Astro.props;
 ---
 
-<svg class={className} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+<svg class={className} style={style} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
   <path d={blobPath(variant, 100)} fill={fill}></path>
 </svg>

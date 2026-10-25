@@ -32,17 +32,7 @@ citati:
     vir: "Siol.net, 1. 10. 2026"
     url: "https://siol.net/novice/slovenija/kandidatka-vesne-za-zupanjo-ljubljane-apolonija-simon-za-drugacno-vodenje-mesta-702952"
 
-# Photos cropped from the campaign posters in design-reference/, plus placeholder boxes.
-fotografije:
-  - slika: ../../assets/foto/portret-temno.jpg
-    alt: "Portret Apolonije Simon"
-  - slika: ../../assets/foto/dezniki-izrez.jpg
-    alt: "Apolonija Simon pod dežnikom ob vodnjaku v središču Ljubljane"
-  - oznaka: "FOTO: Apolonija v ateljeju"
-  - oznaka: "FOTO: Apolonija v šoli"
-
 povezave:
   - naslov: "Osebna spletna stran Apolonije Simon"
-    url: "#"
-    placeholder: true
+    url: "https://www.apolonijasimon.si/"
 ---
