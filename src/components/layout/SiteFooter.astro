@@ -2,7 +2,7 @@
 // Footer on every page: organizer notice, privacy link, social and external links, menu.
 import VesnaLogo from '../brand/VesnaLogo.astro';
 import Placeholder from '../Placeholder.astro';
-import { navigation, narocnik, links, social } from '../../data/site';
+import { navigation, narocnik, links, social, izdelava } from '../../data/site';
 ---
 
 <footer class="bg-crna text-krema">
@@ -42,5 +42,8 @@ import { navigation, narocnik, links, social } from '../../data/site';
         ))}
       </ul>
     </div>
+  </div>
+  <div class="site-container border-t border-krema/15 py-4">
+    <p class="text-xs text-krema/60">{izdelava}</p>
   </div>
 </footer>

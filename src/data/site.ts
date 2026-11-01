@@ -38,3 +38,6 @@ export const social = [
   { label: 'Instagram', href: instagramProfil.url, placeholder: false },
   { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61595183339767', placeholder: false },
 ];
+
+// Credit line at the very bottom of the footer.
+export const izdelava = 'Izdelava spletne strani: Nikola Zupan';
