@@ -27,3 +27,6 @@ pnpm-debug.log*
 
 # editor
 *.swp
+
+# personal data (candidate lists etc.): never commit
+podatki/

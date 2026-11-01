@@ -10,7 +10,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check-placeholders": "node scripts/check-placeholders.mjs"
+    "check-placeholders": "node scripts/check-placeholders.mjs",
+    "fotografije": "node scripts/pripravi-fotografije.mjs",
+    "objava": "node scripts/dodaj-objavo.mjs",
+    "plakati": "node scripts/pripravi-plakate.mjs"
   },
   "dependencies": {
     "@fontsource-variable/bricolage-grotesque": "^5.3.0",

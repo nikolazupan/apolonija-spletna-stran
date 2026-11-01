@@ -1,179 +1,109 @@
-# Candidate lists for četrtne skupnosti (17 ČS of MOL).
-# Not confirmed: in which ČS the list runs and who the candidates are (placeholder names only).
-
-- id: bezigrad
-  ime: "Bežigrad"
-  placeholder: true
-  kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-    - "Kandidat/ka 4"
-    - "Kandidat/ka 5"
-    - "Kandidat/ka 6"
-    - "Kandidat/ka 7"
-
-- id: center
-  ime: "Center"
-  placeholder: true
-  kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-    - "Kandidat/ka 4"
-    - "Kandidat/ka 5"
-
-- id: crnuce
-  ime: "Črnuče"
-  placeholder: true
-  kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-    - "Kandidat/ka 4"
-    - "Kandidat/ka 5"
-    - "Kandidat/ka 6"
-
-- id: dravlje
-  ime: "Dravlje"
-  placeholder: true
-  kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-    - "Kandidat/ka 4"
-
-- id: golovec
-  ime: "Golovec"
-  placeholder: true
-  kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-    - "Kandidat/ka 4"
-    - "Kandidat/ka 5"
-
-- id: jarse
-  ime: "Jarše"
-  placeholder: true
-  kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-    - "Kandidat/ka 4"
-    - "Kandidat/ka 5"
-    - "Kandidat/ka 6"
-
-- id: moste
-  ime: "Moste"
-  placeholder: true
-  kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-    - "Kandidat/ka 4"
-    - "Kandidat/ka 5"
-    - "Kandidat/ka 6"
-    - "Kandidat/ka 7"
-
-- id: polje
-  ime: "Polje"
-  placeholder: true
-  kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-    - "Kandidat/ka 4"
-    - "Kandidat/ka 5"
-
-- id: posavje
-  ime: "Posavje"
-  placeholder: true
-  kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-    - "Kandidat/ka 4"
-
-- id: roznik
-  ime: "Rožnik"
-  placeholder: true
-  kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-    - "Kandidat/ka 4"
-    - "Kandidat/ka 5"
-    - "Kandidat/ka 6"
-
-- id: rudnik
-  ime: "Rudnik"
-  placeholder: true
-  kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-    - "Kandidat/ka 4"
-    - "Kandidat/ka 5"
-
-- id: sostro
-  ime: "Sostro"
-  placeholder: true
-  kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-
-- id: sentvid
-  ime: "Šentvid"
-  placeholder: true
-  kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-    - "Kandidat/ka 4"
-    - "Kandidat/ka 5"
-
-- id: siska
-  ime: "Šiška"
-  placeholder: true
-  kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-    - "Kandidat/ka 4"
-    - "Kandidat/ka 5"
-    - "Kandidat/ka 6"
-    - "Kandidat/ka 7"
-
-- id: smarna-gora
-  ime: "Šmarna gora"
-  placeholder: true
-  kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-    - "Kandidat/ka 4"
-
-- id: trnovo
-  ime: "Trnovo"
-  placeholder: true
-  kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-    - "Kandidat/ka 4"
-    - "Kandidat/ka 5"
-    - "Kandidat/ka 6"
+# Candidates for četrtne skupnosti, in the order of the source file. Source: podatki/kandidati.xlsx,
+# sheet "Kandidati za ČS" (columns used: Četrtna skupnost, Ime in priimek). No other personal data here.
 
 - id: vic
+  vrstniRed: 1
   ime: "Vič"
-  placeholder: true
   kandidati:
-    - "Kandidat/ka 1"
-    - "Kandidat/ka 2"
-    - "Kandidat/ka 3"
-    - "Kandidat/ka 4"
-    - "Kandidat/ka 5"
-    - "Kandidat/ka 6"
-    - "Kandidat/ka 7"
+    - "Alja Miklavčič"
+    - "Matej Feguš"
+    - "Afrodita Hebar Kljun"
+
+- id: trnovo
+  vrstniRed: 2
+  ime: "Trnovo"
+  kandidati:
+    - "Jaka Zevnik"
+    - "Lejla Puškar"
+    - "Gregor Gregorčič"
+    - "Sara Martinovič Zevnik"
+    - "Tomaž Čeligoj"
+
+- id: siska
+  vrstniRed: 3
+  ime: "Šiška"
+  kandidati:
+    - "Sanel Avdić"
+    - "Dina Vobič"
+    - "Oto Jug"
+    - "Nataša Grčar Napast"
+    - "Saša Đorđević"
+
+- id: sentvid
+  vrstniRed: 4
+  ime: "Šentvid"
+  kandidati:
+    - "Daniel Hodžić"
+    - "Mirjana Ogrinc"
+    - "Luka Ogrinc"
+    - "Anđelina Mijatović"
+
+- id: rudnik
+  vrstniRed: 5
+  ime: "Rudnik"
+  kandidati:
+    - "mag. Neva Žibrik"
+    - "Niko Kastelič"
+    - "mag. Apolonija Simon"
+
+- id: polje
+  vrstniRed: 6
+  ime: "Polje"
+  kandidati:
+    - "Ciril Horjak"
+
+- id: moste
+  vrstniRed: 7
+  ime: "Moste"
+  kandidati:
+    - "Arian Ramadani"
+    - "Senada Mešić"
+    - "Boris Rodić"
+    - "Tina Sušnik"
+    - "Denis Striković"
+    - "mag. Svetlana Jakimovska Rodić"
+
+- id: jarse
+  vrstniRed: 8
+  ime: "Jarše"
+  kandidati:
+    - "Velimir Živković"
+    - "Aleksandra Dimitrijević"
+
+- id: bezigrad
+  vrstniRed: 9
+  ime: "Bežigrad"
+  kandidati:
+    - "mag. Arne Vehovar"
+    - "dr. Jasminka Dedić"
+    - "Ibrahim Nouhoum"
+    - "Kaja Lipnik Vehovar"
+    - "Mario Azinović"
+    - "Bojana Ropoša"
+    - "Diana Ternav"
+
+- id: dravlje
+  vrstniRed: 10
+  ime: "Dravlje"
+  kandidati:
+    - "mag. Marija Juran Kanellopulos"
+
+- id: crnuce
+  vrstniRed: 11
+  ime: "Črnuče"
+  kandidati:
+    - "Jaka Poje"
+
+- id: center
+  vrstniRed: 12
+  ime: "Center"
+  kandidati:
+    - "Črt Batagelj"
+    - "Maja Michieli"
+    - "mag. Tadej Glažar"
+    - "Mensija Kurtović"
+    - "dr. Jaka Sočan"
+    - "Katarina Merslavič"
+    - "dr. Marko Juvan"
+    - "Nisa Dedić Sočan"
+    - "Petra Silva"

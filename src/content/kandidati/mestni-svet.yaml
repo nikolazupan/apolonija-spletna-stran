@@ -1,275 +1,275 @@
-# City council list (mestni svet), in ballot order. Names and order: official campaign flyer.
-# The names are real. `placeholder: true` = description not supplied yet; a missing `slika` shows a grey photo box.
-# To add a photo: put it in src/assets/kandidati/ and set `slika: ../../assets/kandidati/<file>.jpg`.
+# City council list (mestni svet), in ballot order. Source: podatki/kandidati.xlsx, sheet "Kandidati za MS"
+# (columns used: Št., Ime in priimek, Član, Strokovni ali znanstveni naslov). No other personal data here.
+# Photos are matched automatically by id: src/assets/fotografije/kandidati/<id>.jpg (made by `npm run fotografije`).
+# A candidate without a photo shows an initials shape. `slika` can override the automatic match.
 
 - id: denis-strikovic
   vrstniRed: 1
   ime: "Denis Striković"
+  clan: "Vesna"
+  naziv: "univerzitetni diplomirani politolog"
   nosilec: true
-  opis: "Mestni svetnik, nosilec liste za mestni svet."
-  placeholder: false
 
 - id: apolonija-simon
   vrstniRed: 2
   ime: "mag. Apolonija Simon"
-  slika: ../../assets/foto/apolonija-park.jpg
-  opis: "Akademska slikarka, ravnateljica Srednje šole za oblikovanje in fotografijo Ljubljana, kandidatka za županjo."
-  placeholder: false
+  clan: "Civilna iniciativa"
+  naziv: "magistrica umetnosti"
 
 - id: jaka-zevnik
   vrstniRed: 3
   ime: "Jaka Zevnik"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "univerzitetni diplomirani inženir gradbeništva"
 
 - id: jasminka-dedic
   vrstniRed: 4
   ime: "dr. Jasminka Dedić"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "doktorica političnih ved"
 
 - id: sasa-djordjevic
   vrstniRed: 5
   ime: "Saša Đorđević"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "elektrotehnik elektronik"
 
 - id: alja-miklavcic
   vrstniRed: 6
   ime: "Alja Miklavčič"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "diplomatka grafične in medijske tehnike"
 
 - id: tadej-glazar
   vrstniRed: 7
   ime: "mag. Tadej Glažar"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "magister znanosti in univerzitetni diplomirani inženir arhitekture"
 
 - id: kaja-lipnik-vehovar
   vrstniRed: 8
   ime: "Kaja Lipnik Vehovar"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "univerzitetena diplomirana inženirka arhitekture"
 
 - id: velimir-zivkovic
   vrstniRed: 9
   ime: "Velimir Živković"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "elektrotehnik telekomunikacij"
 
 - id: mensija-kurtovic
   vrstniRed: 10
   ime: "Mensija Kurtović"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "univerzitetna diplomirana profesorica sociologije in bibliotekarka"
 
 - id: matej-fegus
   vrstniRed: 11
   ime: "Matej Feguš"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "gimnazijski maturant"
 
 - id: katarina-merslavic
   vrstniRed: 12
   ime: "Katarina Merslavič"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "diplomirana industrijska oblikovalka (UN)"
 
 - id: arne-vehovar
   vrstniRed: 13
   ime: "Arne Vehovar"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "univerzitetni diplomirani inžinir arhitekture, MA/RCA"
 
 - id: neva-zibrik
   vrstniRed: 14
   ime: "mag. Neva Žibrik"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "magistrica ekonomskih ved"
 
 - id: daniel-hodzic
   vrstniRed: 15
   ime: "Daniel Hodžić"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "magister inženir logistike"
 
 - id: bojana-reposa
   vrstniRed: 16
   ime: "Bojana Repoša"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "univerzitetna diplomirana inženirka arhitekture"
 
 - id: crt-batagelj
   vrstniRed: 17
   ime: "Črt Batagelj"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "gimnazijski maturant"
 
 - id: lejla-puskar
   vrstniRed: 18
   ime: "Lejla Puškar"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "diplomirana notranja oblikovalka"
 
 - id: arian-ramadani
   vrstniRed: 19
   ime: "Arian Ramadani"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "diplomirani ekonomist"
 
 - id: natasa-grcar-napast
   vrstniRed: 20
   ime: "Nataša Grčar Napast"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "univerzitetna diplomirana inžinirka oblikovanja oblačil in tekstilij"
 
 - id: sanel-avdic
   vrstniRed: 21
   ime: "Sanel Avdić"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "magister varstvoslovja"
 
 - id: afrodita-hebar-kljun
   vrstniRed: 22
   ime: "Afrodita Hebar Kljun"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "grafična oblikovalka"
 
 - id: ibrahim-nouhoum
   vrstniRed: 23
   ime: "Ibrahim Nouhoum"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "univerzitetni diplomirani inženir gozdarstva"
 
 - id: marija-juran-kanellopulos
   vrstniRed: 24
   ime: "Marija Juran Kanellopulos"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "specialistka družinske terapevtske prakse"
 
 - id: oto-jug
   vrstniRed: 25
   ime: "Oto Jug"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "magister biotehnologije"
 
 - id: danica-uran-ursej
   vrstniRed: 26
   ime: "Danica Uran Uršej"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "diplomirana defektologinja"
 
 - id: gregor-gregorcic
   vrstniRed: 27
   ime: "Gregor Gregorčič"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "specialist arhitekt–urbanist in univerziteteni diplomirani inženir arhitekture"
 
 - id: tina-susnik
   vrstniRed: 28
   ime: "Tina Sušnik"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "univerzitetna diplomirana etnologinja in kulturno antropologija"
 
 - id: jaka-socan
   vrstniRed: 29
   ime: "dr. Jaka Sočan"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "doktor biotehnologije"
 
 - id: senada-mesic
   vrstniRed: 30
   ime: "Senada Mešić"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "univerzitetna diplomirana ekonomistka"
 
 - id: tomaz-celigoj
   vrstniRed: 31
   ime: "Tomaž Čeligoj"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "univerzitetni diplomirani inžinir arhitekture"
 
 - id: andjelina-mijatovic
   vrstniRed: 32
   ime: "Anđelina Mijatović"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "inženirka logistike"
 
 - id: bostjan-avgustin
   vrstniRed: 33
   ime: "Boštjan Avguštin"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "profesor športne vzgoje"
 
 - id: svetlana-jakimovska-rodic
   vrstniRed: 34
   ime: "Svetlana Jakimovska Rodić"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "magistrica umetnosti in magistrica profesorica poučevanja likovne pedagogike"
 
 - id: sara-martinovic-zevnik
   vrstniRed: 35
   ime: "Sara Martinovič Zevnik"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "magistrica novinarstva"
 
 - id: petra-silva
   vrstniRed: 36
   ime: "Petra Silva"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "univerzitetna diplomirana umetnostna zgodovinarka in profesorica sociologije"
 
 - id: niko-kastelic
   vrstniRed: 37
   ime: "Niko Kastelič"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "univerzitetni diplomirani inženir tehnične fizike"
 
 - id: nisa-dedic-socan
   vrstniRed: 38
   ime: "Nisa Dedić Sočan"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "magistrica okoljske zgodovine in diplomirana rusistka in filozofinja (UN)"
 
 - id: mario-azinovic
   vrstniRed: 39
   ime: "Mario Azinović"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "prometni tehnik"
 
 - id: diana-ternav
   vrstniRed: 40
   ime: "Diana Ternav"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Vesna"
+  naziv: "univerzitetna diplomirana etnologinja in profesorica italijanščine"
 
 - id: boris-rodic
   vrstniRed: 41
   ime: "Boris Rodić"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "univerzitetni diplomirani inženir gradbeništva"
 
 - id: marica-kapular
   vrstniRed: 42
   ime: "Marica Kapular"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "trgovska poslovodkinja"
 
 - id: marko-juvan
   vrstniRed: 43
   ime: "dr. Marko Juvan"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "doktor literarnih ved"
 
 - id: maja-michieli
   vrstniRed: 44
   ime: "Maja Michieli"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "univerzitetna diplomirana komunikologinja"
 
 - id: ciril-horjak
   vrstniRed: 45
   ime: "Ciril Horjak"
-  opis: "[Tu bo kratek opis kandidata/ke.]"
-  placeholder: true
+  clan: "Civilna iniciativa"
+  naziv: "univerzitetni diplomirani akademski slikar"

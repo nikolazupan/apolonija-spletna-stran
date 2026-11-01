@@ -1,14 +1,18 @@
 ---
-// Play icon + "Reel" tag over a post image (only for reels/videos).
+// Play icon + "Reel" / "Video" tag over a post's cover image (reels and videos only).
+import { jeVideo } from '../../lib/objave';
+
 interface Props {
   tip: string;
+  // corner of the label: left (hero) or right (cards, where the other types have their tag)
+  polozaj?: 'levo' | 'desno';
 }
-const { tip } = Astro.props;
+const { tip, polozaj = 'levo' } = Astro.props;
 ---
 
-{tip === 'video' && (
+{jeVideo(tip) && (
   <>
-    <span class="pointer-events-none absolute left-[8%] top-[8%] z-10 rounded-full bg-crna/85 px-2 py-0.5 text-[0.65rem] font-bold text-krema">Reel</span>
+    <span class:list={['pointer-events-none absolute top-[8%] z-10 rounded-full bg-crna/85 px-2 py-0.5 text-[0.65rem] font-bold text-krema', polozaj === 'desno' ? 'right-[8%]' : 'left-[8%]']}>{tip === 'reel' ? 'Reel' : 'Video'}</span>
     <span class="pointer-events-none absolute inset-0 z-10 flex items-center justify-center" aria-hidden="true">
       <span class="flex h-12 w-12 items-center justify-center rounded-full bg-crna/85 text-krema">
         <svg viewBox="0 0 20 20" class="ml-0.5 h-5 w-5" fill="currentColor"><path d="M5 3.5v13l11-6.5z" /></svg>

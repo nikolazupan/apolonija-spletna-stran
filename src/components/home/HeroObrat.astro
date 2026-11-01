@@ -13,7 +13,7 @@ import Blob from '../brand/Blob.astro';
 import CutoutImage from '../brand/CutoutImage.astro';
 import InstagramProfil from '../ui/InstagramProfil.astro';
 import ReelOznaka from '../ui/ReelOznaka.astro';
-import { formatDatum } from '../../lib/objave';
+import { formatDatum, povezavaObjave, slikaObjave } from '../../lib/objave';
 
 interface Props {
   // the newest post; without it the shape shows only her photo
@@ -22,6 +22,7 @@ interface Props {
 const { objava } = Astro.props;
 const o = objava?.data;
 const oznaka = o ? `Zadnja objava na Instagramu · ${formatDatum(o.datum)}` : '';
+const slika = o ? slikaObjave(o) : undefined;
 const alt = 'Apolonija Simon pod dežnikom, nanjo pada curek vodnjaka v središču Ljubljane';
 ---
 
@@ -43,9 +44,9 @@ const alt = 'Apolonija Simon pod dežnikom, nanjo pada curek vodnjaka v središ�
     {o && (
       <div class="obrat-stran obrat-zadaj absolute inset-0" data-zadaj inert>
         <Blob variant="f" fill="var(--color-zelena)" class="absolute -inset-[7%] h-[114%] w-[114%] rotate-6" />
-        <a href={o.povezava} target="_blank" rel="noopener" class="group relative block -rotate-2" aria-label={`${oznaka}. Poglej na Instagramu.`}>
-          {o.slika ? (
-            <CutoutImage src={o.slika} alt="" variant="d" widths={[400, 640]} sizes="(min-width: 1024px) 28rem, 86vw" imgClass="aspect-[4/5] object-cover" />
+        <a href={povezavaObjave(o)} target="_blank" rel="noopener" class="group relative block -rotate-2" aria-label={`${oznaka}. Poglej na Instagramu.`}>
+          {slika ? (
+            <CutoutImage src={slika} alt="" variant="d" widths={[400, 640]} sizes="(min-width: 1024px) 28rem, 86vw" imgClass="aspect-[4/5] object-cover" />
           ) : (
             <div class="flex aspect-[4/5] items-center justify-center rounded-[40%_36%_42%_38%/34%_40%_36%_42%] bg-neutral-300 text-sm font-bold text-neutral-700">OBJAVA</div>
           )}

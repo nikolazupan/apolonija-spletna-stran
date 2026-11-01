@@ -1,0 +1,87 @@
+---
+// "Plakati": the campaign posters as pinned prints. A click opens the poster larger in a lightbox
+// (<dialog>) with a "Prenesi" button for the high-quality JPG in public/plakati/.
+// Previews: src/assets/plakati/<id>.jpg (Astro image optimisation). Data: src/content/plakati/plakati.yaml.
+import { getCollection } from 'astro:content';
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import BlockText from '../BlockText.astro';
+
+interface Props {
+  blok: { naslov?: string; besedilo: string; placeholder: boolean };
+}
+const { blok } = Astro.props;
+
+const slike = import.meta.glob<ImageMetadata>('../../assets/plakati/*.jpg', { eager: true, import: 'default' });
+const plakati = (await getCollection('plakati'))
+  .sort((a, b) => a.data.vrstniRed - b.data.vrstniRed)
+  .map((p) => ({ ...p, slika: slike[`../../assets/plakati/${p.id}.jpg`] }))
+  .filter((p) => p.slika);
+const tilt = ['-rotate-1', 'rotate-1', 'rotate-[0.5deg]', '-rotate-[1.5deg]', 'rotate-[1.5deg]', '-rotate-[0.5deg]'];
+---
+
+<section class="site-container pb-16 lg:pb-24" aria-labelledby="plakati">
+  <div class="border-t-2 border-crna pt-8 lg:pt-10">
+    <h2 id="plakati" class="naslov-sekcije">{blok.naslov}</h2>
+    <BlockText blok={blok} class="mt-3 max-w-prose text-lg leading-relaxed" />
+  </div>
+
+  <ul class="mt-8 grid gap-x-5 gap-y-7 sm:grid-cols-2 lg:grid-cols-3">
+    {plakati.map((p, i) => (
+      <li>
+        <button
+          type="button"
+          class:list={['group block w-full border-[6px] border-bela bg-bela text-left transition-transform hover:rotate-0 focus-visible:rotate-0 focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-crna', tilt[i % tilt.length]]}
+          data-plakat={p.id}
+          aria-haspopup="dialog"
+          aria-label={`Povečaj plakat: ${p.data.naslov}`}
+        >
+          <Image src={p.slika} alt={p.data.naslov} widths={[400, 700]} sizes="(min-width: 1024px) 26rem, (min-width: 640px) 45vw, 90vw" class="aspect-[3000/1393] w-full object-cover" />
+        </button>
+      </li>
+    ))}
+  </ul>
+
+  <!-- lightbox -->
+  <dialog id="plakat-okno" class="plakat-okno m-auto max-h-[94vh] w-[min(94vw,80rem)] bg-transparent p-0 backdrop:bg-crna/85" aria-labelledby="plakat-naslov">
+    <div class="flex flex-col gap-3">
+      <div class="flex items-center justify-between gap-3">
+        <p id="plakat-naslov" class="text-base font-bold text-krema sm:text-lg"></p>
+        <button type="button" class="flex h-11 shrink-0 items-center gap-2 rounded-full bg-krema px-4 text-sm font-bold text-crna" data-zapri autofocus>
+          Zapri <span aria-hidden="true">✕</span>
+        </button>
+      </div>
+      {plakati.map((p) => (
+        <figure class="hidden" data-plakat-velik={p.id}>
+          <Image src={p.slika} alt={p.data.naslov} widths={[800, 1200, 1600]} sizes="94vw" loading="lazy" class="max-h-[78vh] w-full bg-bela object-contain" />
+          <figcaption class="mt-3 flex justify-end">
+            <a href={`/plakati/${p.id}.jpg`} download={`plakat-${p.id}.jpg`} class="inline-flex h-12 items-center gap-2 rounded-full bg-zelena px-6 text-base font-bold text-bela hover:bg-zelena-temna">
+              Prenesi <span aria-hidden="true">↓</span>
+            </a>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </dialog>
+</section>
+
+<script>
+  const okno = document.getElementById('plakat-okno') as HTMLDialogElement | null;
+  const naslov = document.getElementById('plakat-naslov');
+  let sprozil: HTMLElement | null = null;
+  document.querySelectorAll<HTMLButtonElement>('[data-plakat]').forEach((btn) =>
+    btn.addEventListener('click', () => {
+      if (!okno) return;
+      sprozil = btn;
+      okno.querySelectorAll<HTMLElement>('[data-plakat-velik]').forEach((f) => f.classList.toggle('hidden', f.dataset.plakatVelik !== btn.dataset.plakat));
+      if (naslov) naslov.textContent = btn.querySelector('img')?.alt ?? '';
+      okno.showModal();
+    }),
+  );
+  okno?.querySelector('[data-zapri]')?.addEventListener('click', () => okno.close());
+  // click on the backdrop closes; Esc is built into <dialog>
+  okno?.addEventListener('click', (e) => {
+    if (e.target === okno) okno.close();
+  });
+  okno?.addEventListener('close', () => sprozil?.focus());
+</script>

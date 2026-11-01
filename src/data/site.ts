@@ -12,6 +12,7 @@ export const navigation = [
   { label: 'Arhiv objav', short: 'Arhiv', href: '/arhiv' },
   { label: 'Pomagaj, če lahko', short: 'Pomagaj', href: '/pomagaj' },
   { label: 'Kontakt', short: 'Kontakt', href: '/kontakt' },
+  { label: 'Odprta vprašanja mesta', short: 'Odprta vprašanja', href: '/odprta-vprasanja' },
 ];
 
 // Wording from the posters ("Politični oglas / Naročnik: ..."); the organizer of the website is not confirmed yet.
@@ -29,10 +30,11 @@ export const links = {
   zasebnost: { label: 'Varstvo zasebnosti', href: '/zasebnost', placeholder: false },
 };
 
-// Campaign Instagram profile, shown on the latest post in the hero (handle not known yet).
-export const instagramProfil = { handle: '@ime_profila', placeholder: true };
+// Campaign Instagram profile: shown on the latest post in the hero, and the source of the posts
+// (hero, /arhiv). Post links without a permalink yet point to the profile.
+export const instagramProfil = { handle: '@skupajzamesto', url: 'https://www.instagram.com/skupajzamesto', placeholder: false };
 
 export const social = [
-  { label: 'Instagram', href: '#', placeholder: true },
-  { label: 'Facebook', href: '#', placeholder: true },
+  { label: 'Instagram', href: instagramProfil.url, placeholder: false },
+  { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61595183339767', placeholder: false },
 ];

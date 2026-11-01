@@ -20,33 +20,29 @@ const { hero, objava } = Astro.props;
 ---
 
 <!-- @container: the name scales with the content width (cqi), not the window, so it stays inside its column -->
-<section class="site-container @container overflow-x-clip pb-12 pt-6 lg:pb-16 lg:pt-10">
-  <!-- lg:pl shifts the whole composition right, so the empty space left and right of it is balanced -->
-  <div class="hero-mreza grid lg:grid-cols-12 lg:items-center lg:pl-[5%]">
+<section class="site-container @container overflow-x-clip pb-12 pt-6 md:pb-14 md:pt-8 lg:pb-16 lg:pt-10">
+  <!-- two columns from md (tablets too); md:pl shifts the whole composition right, so the empty space left and right of it is balanced -->
+  <div class="hero-mreza grid md:grid-cols-12 md:items-center md:pl-[5%]">
     <!-- name: text in columns 1–6, white shape reaches further right, under the photo's paper -->
     <!-- on desktop the shape reaches further right, under the photo (--oblik-dodatno) -->
-    <ShapedText variant="e" class="relative z-10 lg:col-span-6 lg:col-start-1 lg:row-start-1 lg:[--oblik-dodatno:37%]">
+    <ShapedText variant="e" class="relative z-10 md:col-span-6 md:col-start-1 md:row-start-1 md:[--oblik-dodatno:37%]">
         <CandidateMark
           as="h1"
           stroke={false}
           tagline={hero.podnaslov}
-          class="text-[clamp(3.6rem,16.5vw,7.5rem)] lg:text-[clamp(4rem,10cqi,9rem)]"
+          class="text-[clamp(3.6rem,16.5vw,7.5rem)] md:text-[clamp(2.75rem,10cqi,9rem)]"
         />
         <!-- mayoral ballot mark, absolutely positioned so the white shape keeps its size:
-             tablet: under the tagline, on the white shape's lower-left edge next to the green shape;
-             desktop: lower right, below and beside the tagline, just left of the green shape -->
+             tablet and desktop: lower right, below and beside the tagline, just left of the green shape; hidden on phones -->
         {hero.obkrozi && (
-          <GlasovnicaSest besedilo={hero.obkrozi} class="absolute max-md:hidden md:left-0 md:top-full md:mt-2 lg:mt-0 lg:-bottom-11 lg:-right-4 lg:left-auto lg:top-auto" />
+          <GlasovnicaSest besedilo={hero.obkrozi} class="absolute -bottom-14 -right-4 max-md:hidden lg:-bottom-11" />
         )}
 
     </ShapedText>
 
-    <!-- photo / latest post on the green paper shape (flips, see HeroObrat): large and centered under the name on phones, columns 7–12 on desktop -->
-    <div class="hero-foto relative z-20 mx-auto -mt-6 block w-[86%] max-w-md md:-mt-10 md:mr-[9%] md:ml-auto md:w-[50%] md:max-w-sm lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:mt-0 lg:mr-0 lg:ml-0 lg:w-[78%] lg:max-w-[30rem] lg:justify-self-start">
+    <!-- photo / latest post on the green paper shape (flips, see HeroObrat): large and centered under the name on phones, columns 7–12 from md (tablets and desktop) -->
+    <div class="hero-foto relative z-20 mx-auto -mt-6 block w-[86%] max-w-md md:col-span-6 md:col-start-7 md:row-start-1 md:mx-0 md:mt-0 md:w-[78%] md:max-w-[30rem] md:justify-self-start">
       <HeroObrat objava={objava} />
-      <!-- phones: the ballot mark on the green shape's empty top-right corner (the photo's cut-out curves away
-           there), text in the strip between tagline and photo; it does not flip with the shape -->
-      {hero.obkrozi && <GlasovnicaSest besedilo={hero.obkrozi} kompaktno class="absolute -right-[3%] -top-5 z-30 md:hidden" />}
     </div>
   </div>
 </section>

@@ -5,7 +5,8 @@ import type { ImageMetadata } from 'astro';
 import { blobPath, type BlobVariant } from '../../lib/blob';
 
 interface Props {
-  src: ImageMetadata;
+  // local image, or a remote URL (posts from the Behold feed)
+  src: ImageMetadata | string;
   alt: string;
   variant?: BlobVariant;
   widths?: number[];
@@ -36,7 +37,8 @@ const id = `izrez-${Math.random().toString(36).slice(2, 8)}`;
   <Image
     src={src}
     alt={alt}
-    widths={widths.filter((w) => w <= src.width)}
+    widths={typeof src === 'string' ? widths : widths.filter((w) => w <= src.width)}
+    inferSize={typeof src === 'string'}
     sizes={sizes}
     loading={loading}
     class:list={['block w-full object-cover', imgClass]}

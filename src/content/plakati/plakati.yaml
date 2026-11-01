@@ -1,0 +1,41 @@
+# Campaign posters shown on /arhiv ("Plakati"). id = image name in src/assets/plakati/ and public/plakati/
+# (made from podatki/plakati/*.pdf with `npm run plakati`). naslov = the poster's slogan, as printed.
+- id: naj-ljubljana-spet-stece
+  vrstniRed: 1
+  naslov: "Naj Ljubljana spet steče, brez kolon in brez izpuhov!"
+- id: koncajmo-trgovalni-urbanizem
+  vrstniRed: 2
+  naslov: "Končajmo trgovalni urbanizem v korist elit!"
+- id: zascitimo-plecnikov-stadion
+  vrstniRed: 3
+  naslov: "Zaščitimo Plečnikov štadion!"
+- id: cas-je-da-odlocamo-skupaj
+  vrstniRed: 4
+  naslov: "Čas je, da odločamo skupaj!"
+- id: glas-civilne-druzbe-v-mestnem-svetu
+  vrstniRed: 5
+  naslov: "Glas civilne družbe v mestnem svetu."
+- id: stanovanje-je-pravica
+  vrstniRed: 6
+  naslov: "Stanovanje je pravica, ne naložba."
+- id: vec-dreves-vec-zivljenja
+  vrstniRed: 7
+  naslov: "Več dreves, več življenja."
+- id: cista-voda-varna-prihodnost
+  vrstniRed: 8
+  naslov: "Čista voda, varna prihodnost."
+- id: manj-odpadkov-vec-prihodnosti
+  vrstniRed: 9
+  naslov: "Manj odpadkov, več prihodnosti."
+- id: zascitimo-mesto-pred-slabimi-projekti
+  vrstniRed: 10
+  naslov: "Zaščitimo mesto pred slabimi projekti!"
+- id: zascitimo-mesto-pred-prostorskim-nasiljem
+  vrstniRed: 11
+  naslov: "Zaščitimo mesto pred prostorskim nasiljem in korupcijo!"
+- id: zascitimo-reko
+  vrstniRed: 12
+  naslov: "Zaščitimo reko!"
+- id: zascitimo-trznico
+  vrstniRed: 13
+  naslov: "Zaščitimo tržnico!"

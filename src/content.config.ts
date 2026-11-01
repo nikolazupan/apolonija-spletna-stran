@@ -1,6 +1,7 @@
 import { defineCollection, reference } from 'astro:content';
 import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { objaveLoader } from './lib/objave-loader';
 
 // Text blocks of a page. A block with `placeholder: true` is not approved text yet.
 const blok = z.object({
@@ -84,7 +85,7 @@ const program = defineCollection({
   }),
 });
 
-// City council list, in ballot order (names from the official flyer).
+// City council list, in ballot order. Only public data: name, part of the list, professional title, photo.
 const kandidati = defineCollection({
   loader: file('src/content/kandidati/mestni-svet.yaml'),
   schema: ({ image }) =>
@@ -92,10 +93,11 @@ const kandidati = defineCollection({
       ime: z.string(),
       vrstniRed: z.number(),
       nosilec: z.boolean().default(false),
-      opis: z.string(),
+      // part of the list the candidate belongs to
+      clan: z.enum(['Vesna', 'Civilna iniciativa']),
+      // professional or academic title, exactly as supplied
+      naziv: z.string(),
       slika: image().optional(),
-      // true while the description/photo are not supplied (the name itself is real)
-      placeholder: z.boolean().default(false),
     }),
 });
 
@@ -104,6 +106,8 @@ const cetrtneSkupnosti = defineCollection({
   loader: file('src/content/kandidati/cetrtne-skupnosti.yaml'),
   schema: z.object({
     ime: z.string(),
+    // order of the source file
+    vrstniRed: z.number(),
     kandidati: z.array(z.string()),
     placeholder: z.boolean().default(false),
   }),
@@ -142,17 +146,44 @@ const vprasanja = defineCollection({
 // id → file name, datum → timestamp, tip → media_type (IMAGE → foto/grafika, VIDEO → video, CAROUSEL_ALBUM → foto),
 // opis → caption, povezava → permalink, slika → media_url / thumbnail_url.
 const objave = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/objave' }),
+  // hand-made entries in src/content/objave/, or a Behold feed when BEHOLD_FEED_URL is set (src/lib/objave-loader.ts)
+  loader: objaveLoader(),
   schema: ({ image }) =>
     z.object({
       datum: z.coerce.date(),
-      tip: z.enum(['grafika', 'besedilo', 'foto', 'video']),
+      tip: z.enum(['grafika', 'fotografija', 'video', 'reel', 'carousel']),
       platforma: z.enum(['instagram', 'facebook']).default('instagram'),
+      // permalink of the post
       povezava: z.string(),
+      // first line of the caption
       opis: z.string(),
+      // hand-made entries: local image (src/assets/objave/); feed entries: remote image URL
       slika: image().optional(),
+      slikaUrl: z.string().optional(),
       placeholder: z.boolean().default(false),
     }),
 });
 
-export const collections = { strani, program, kandidati, cetrtneSkupnosti, sporniProjekti, vprasanja, objave };
+// "Odprta vprašanja mesta" (/odprta-vprasanja): the team's document, body kept exactly as written.
+const odprtaVprasanja = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/odprta-vprasanja' }),
+  schema: z.object({
+    naslov: z.string(),
+    opis: z.string(),
+    uvod: z.string(),
+    uvodPlaceholder: z.boolean().default(false),
+    placeholder: z.boolean().default(false),
+  }),
+});
+
+// Campaign posters (/arhiv → "Plakati"); images made by `npm run plakati`.
+const plakati = defineCollection({
+  loader: file('src/content/plakati/plakati.yaml'),
+  schema: z.object({
+    vrstniRed: z.number(),
+    // the poster's slogan, as printed (alt text and lightbox title)
+    naslov: z.string(),
+  }),
+});
+
+export const collections = { plakati, strani, program, kandidati, cetrtneSkupnosti, sporniProjekti, vprasanja, objave, odprtaVprasanja };

@@ -1,9 +1,10 @@
 ---
-// Post archive: grid of all posts, newest first (top left), date under each post.
+// Post archive: grid of all posts, newest first (top left), date under each post; below it the campaign posters.
 // 2 per row on phones, up to 5 on wide screens. Embeds load on click only (PostCard).
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageIntro from '../components/ui/PageIntro.astro';
 import PostCard from '../components/ui/PostCard.astro';
+import Plakati from '../components/ui/Plakati.astro';
 import { getStran } from '../lib/strani';
 import { getObjave, tipOznaka } from '../lib/objave';
 
@@ -28,4 +29,6 @@ const tipi = Object.values(tipOznaka).join(', ').toLowerCase();
       ))}
     </ol>
   </section>
+
+  <Plakati blok={blok('plakati')} />
 </BaseLayout>
