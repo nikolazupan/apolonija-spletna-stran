@@ -5,11 +5,13 @@
 import ShapedText from '../brand/ShapedText.astro';
 import type { CollectionEntry } from 'astro:content';
 import HeroObrat from './HeroObrat.astro';
+import GlasovnicaSest from '../brand/GlasovnicaSest.astro';
 import CandidateMark from '../brand/CandidateMark.astro';
 
 interface Props {
   hero: {
     podnaslov: string;
+    obkrozi?: string;
   };
   // newest post, shown on the back of the green shape
   objava?: CollectionEntry<'objave'>;
@@ -30,12 +32,21 @@ const { hero, objava } = Astro.props;
           tagline={hero.podnaslov}
           class="text-[clamp(3.6rem,16.5vw,7.5rem)] lg:text-[clamp(4rem,10cqi,9rem)]"
         />
+        <!-- mayoral ballot mark, absolutely positioned so the white shape keeps its size:
+             tablet: under the tagline, on the white shape's lower-left edge next to the green shape;
+             desktop: lower right, below and beside the tagline, just left of the green shape -->
+        {hero.obkrozi && (
+          <GlasovnicaSest besedilo={hero.obkrozi} class="absolute max-md:hidden md:left-0 md:top-full md:mt-2 lg:mt-0 lg:-bottom-11 lg:-right-4 lg:left-auto lg:top-auto" />
+        )}
 
     </ShapedText>
 
     <!-- photo / latest post on the green paper shape (flips, see HeroObrat): large and centered under the name on phones, columns 7–12 on desktop -->
     <div class="hero-foto relative z-20 mx-auto -mt-6 block w-[86%] max-w-md md:-mt-10 md:mr-[9%] md:ml-auto md:w-[50%] md:max-w-sm lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:mt-0 lg:mr-0 lg:ml-0 lg:w-[78%] lg:max-w-[30rem] lg:justify-self-start">
       <HeroObrat objava={objava} />
+      <!-- phones: the ballot mark on the green shape's empty top-right corner (the photo's cut-out curves away
+           there), text in the strip between tagline and photo; it does not flip with the shape -->
+      {hero.obkrozi && <GlasovnicaSest besedilo={hero.obkrozi} kompaktno class="absolute -right-[3%] -top-5 z-30 md:hidden" />}
     </div>
   </div>
 </section>

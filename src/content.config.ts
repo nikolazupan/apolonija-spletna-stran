@@ -39,6 +39,8 @@ const strani = defineCollection({
       hero: z
         .object({
           podnaslov: z.string(),
+          // ballot line next to the circled number from the posters, e.g. "Za županjo obkroži:"
+          obkrozi: z.string().optional(),
         })
         .optional(),
       // Programme areas highlighted on this page (homepage: the 3 key points), by file name in src/content/program/.

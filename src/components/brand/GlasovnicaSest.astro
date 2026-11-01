@@ -1,0 +1,21 @@
+---
+// "Za županjo obkroži" + a 6 circled by hand with a green pencil/crayon (src/assets/risbe/krog-svincnik.svg,
+// replaceable with a scanned drawing). Positioned by the caller; it never changes the size of what it sits on.
+import Risba from './Risba.astro';
+
+interface Props {
+  besedilo: string;
+  // compact: one-line text aligned with the top of a smaller ring (phones, tight spaces)
+  kompaktno?: boolean;
+  class?: string;
+}
+const { besedilo, kompaktno = false, class: className } = Astro.props;
+---
+
+<p class:list={['flex gap-2', kompaktno ? 'items-start' : 'items-center', className]}>
+  <span class:list={['text-right font-bold leading-tight', kompaktno ? 'mt-0.5 whitespace-nowrap text-[0.72rem]' : 'max-w-[5.5rem] text-[0.8rem] sm:text-sm']}>{besedilo}</span>
+  <span class:list={['relative inline-flex shrink-0 items-center justify-center font-display font-extrabold leading-none', kompaktno ? 'h-12 w-12 text-[2rem]' : 'h-14 w-14 text-[2.4rem] sm:h-16 sm:w-16 sm:text-[2.75rem]']}>
+    <Risba name="krogSvincnik" rough={false} class="pointer-events-none absolute -inset-2.5 h-[calc(100%+1.25rem)] w-[calc(100%+1.25rem)]" />
+    6
+  </span>
+</p>

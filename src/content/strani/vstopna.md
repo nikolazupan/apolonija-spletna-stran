@@ -5,6 +5,8 @@ opis: "Apolonija Simon, kandidatka liste Vesna in civilna družba za županjo Lj
 # Real copy from the print material. The name itself is set in CandidateMark.
 hero:
   podnaslov: "Županja za vse meščane."
+  # Mayoral ballot: same pattern as "Za mestni svet obkroži: 9" on the council poster.
+  obkrozi: "Za županjo obkroži:"
 
 # The 3 key programme areas shown under the Q&A box, in this order.
 # Each entry is a file name from src/content/program/ (without .md). Change the selection here.
