@@ -14,24 +14,32 @@ import { navigation, social } from '../../data/site';
 const current = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => (href === '/' ? current === '/' : current.startsWith(href));
 
-// Torn paper edge under the scrolled header: a jagged line, fixed seed so it is stable between builds.
+// Header paper: ONE element (strip + torn bottom edge), cut out with clip-path, so background and grain
+// run continuously into the torn edge (no seam). The edge is 14px tall; points are fixed (seeded) so
+// the shape is stable between builds.
+const ROB = 14;
 let seed = 7;
 const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
-let rob = 'M0,0 L0,6';
+const tocke: [number, number][] = [[0, 6]];
 for (let x = 0; x < 1000; ) {
   x = Math.min(1000, x + 10 + rnd() * 22);
-  rob += ` L${x.toFixed(1)},${(3 + rnd() * 9).toFixed(1)}`;
+  tocke.push([x, 3 + rnd() * 9]);
 }
-rob += ' L1000,0 Z';
+// clockwise: top-left, top-right, then the torn edge from right to left
+const izrez = [
+  '0 0',
+  '100% 0',
+  ...tocke.reverse().map(([x, y]) => `${+(x / 10).toFixed(2)}% calc(100% - ${+(ROB - y).toFixed(2)}px)`),
+].join(', ');
 ---
 
 <header class="glava sticky top-0 z-40" data-glava>
   <!-- paper strip + torn edge, visible once scrolled or while the menu is open -->
   <div class="glava-papir pointer-events-none absolute inset-0" aria-hidden="true">
-    <div class="absolute inset-0"><div class="paper h-full bg-krema"></div></div>
-    <svg class="absolute left-0 top-full h-3.5 w-full" viewBox="0 0 1000 14" preserveAspectRatio="none">
-      <path d={rob} fill="var(--color-krema)"></path>
-    </svg>
+    <!-- reaches 14px below the header; the torn edge is cut by clip-path from the same paper -->
+    <div class="absolute inset-x-0 top-0" style={`bottom:-${ROB}px;clip-path:polygon(${izrez})`}>
+      <div class="paper h-full bg-krema"></div>
+    </div>
   </div>
 
   <div class="glava-vrstica site-container relative flex items-center justify-between gap-3">

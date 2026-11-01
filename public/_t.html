@@ -1,0 +1,12 @@
+<html><body><pre id="out">running</pre><script>
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+(async()=>{const out=[];for(const [w,dpr] of [[1440,1],[390,3]]){const f=document.createElement('iframe');f.style=`width:${w}px;height:800px;border:0`;document.body.appendChild(f);
+await new Promise(r=>{f.onload=r;f.src='/program?d='+w;});await wait(600);const d=f.contentDocument,win=f.contentWindow;
+const g=d.querySelector('[data-glava]');const cs=getComputedStyle(g);
+for(const st of ['top','scrolled']){if(st==='scrolled'){win.scrollTo(0,500);await wait(500);}
+const strip=g.querySelector('.glava-papir .paper'),edge=g.querySelector('.glava-papir svg');const sr=strip.getBoundingClientRect(),er=edge.getBoundingClientRect();
+const before=getComputedStyle(strip,'::before');
+out.push(`${w} ${st}: header border ${cs.borderBottomWidth} shadow ${cs.boxShadow} outline ${cs.outlineStyle} | strip bottom ${sr.bottom} edge top ${er.top} gap ${(er.top-sr.bottom).toFixed(3)} | strip bg ${getComputedStyle(strip).backgroundColor} grain ${before.content!=='none'?'yes, opacity '+before.opacity+' blend '+before.mixBlendMode:'no'} | edge fill ${edge.querySelector('path').getAttribute('fill')} (no grain)`);}
+f.remove();}
+document.getElementById('out').textContent=out.join('\n');})();
+</script></body></html>
