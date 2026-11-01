@@ -46,6 +46,9 @@
 }
 
 html {
+  /* always reserve the scrollbar's space: locking scroll for the menu overlay (overflow: hidden)
+     then doesn't widen the page, so nothing shifts when the menu opens or closes */
+  scrollbar-gutter: stable;
   background: var(--color-krema);
   color: var(--color-crna);
   font-family: var(--font-sans);

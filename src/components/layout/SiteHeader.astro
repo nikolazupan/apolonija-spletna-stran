@@ -1,20 +1,18 @@
 ---
 // Sticky header: partner logo left, "Meni" button right (same content edges as the page).
-// Once the page is scrolled it turns into a cream paper strip with a torn bottom edge.
-// The "Meni" button opens a full-screen overlay (all screen sizes).
+// The button is a small white paper cut-out with "Meni" and three hand-drawn lines, slightly rotated
+// (straightens on hover); while the menu is open it reads "Zapri ✕".
+// Once the page is scrolled the header shrinks (smaller logo, less padding) and turns into a cream paper
+// strip with a torn bottom edge; at the top of the page it grows back.
+// The button opens a full-screen menu overlay (all screen sizes). The header stays above the overlay
+// while it is open, so the same button closes it.
 import VesnaLogo from '../brand/VesnaLogo.astro';
+import Blob from '../brand/Blob.astro';
 import Risba from '../brand/Risba.astro';
 import { navigation, social } from '../../data/site';
 
 const current = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => (href === '/' ? current === '/' : current.startsWith(href));
-
-// Shared by the header and the overlay's top bar, so the logo and buttons line up exactly.
-// Phones (below md): one row, logo + hand-drawn icon button (44×44 tap area); from md: "Meni" pill.
-const bar = 'site-container relative flex items-center justify-between gap-2 py-2.5 md:gap-4 md:py-3 lg:py-4';
-// On phones the logo takes all width left of the 44px icon (logo is ≈16.6em wide), capped at 1.05rem.
-const logoSize = 'text-[min(1.05rem,calc((100vw-2*var(--gutter)-3.75rem)/17.6))] md:text-[1.05rem] lg:text-[1.2rem]';
-const button = 'flex h-11 w-11 shrink-0 items-center justify-center gap-2 rounded-full text-sm font-bold md:w-auto md:border-2 md:border-crna md:px-4';
 
 // Torn paper edge under the scrolled header: a jagged line, fixed seed so it is stable between builds.
 let seed = 7;
@@ -28,40 +26,33 @@ rob += ' L1000,0 Z';
 ---
 
 <header class="glava sticky top-0 z-40" data-glava>
-  <!-- paper strip + torn edge, visible only once scrolled -->
+  <!-- paper strip + torn edge, visible once scrolled or while the menu is open -->
   <div class="glava-papir pointer-events-none absolute inset-0" aria-hidden="true">
     <div class="absolute inset-0"><div class="paper h-full bg-krema"></div></div>
     <svg class="absolute left-0 top-full h-3.5 w-full" viewBox="0 0 1000 14" preserveAspectRatio="none">
       <path d={rob} fill="var(--color-krema)"></path>
     </svg>
   </div>
-  <div class={bar}>
-    <a href="/" aria-label="Vstopna stran">
-      <VesnaLogo class={logoSize} />
+
+  <div class="glava-vrstica site-container relative flex items-center justify-between gap-3">
+    <a href="/" aria-label="Vstopna stran" class="glava-logo shrink-0">
+      <VesnaLogo />
     </a>
-    <button type="button" class:list={['meni-odpri', button]} aria-expanded="false" aria-controls="meni" aria-label="Meni">
-      <Risba name="meni" color="var(--color-crna)" class="h-6 w-7 [--risba-w:3.5px] md:hidden" />
-      <span class="max-md:hidden">Meni</span>
-      <svg viewBox="0 0 16 12" class="h-3 w-4 max-md:hidden" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-        <path d="M1 2h14M1 6h14M1 10h14" />
-      </svg>
+
+    <button type="button" class="meni-gumb relative flex h-11 shrink-0 items-center justify-center px-5 text-sm font-bold" aria-expanded="false" aria-controls="meni" aria-label="Meni">
+      <Blob variant="i" fill="var(--color-bela)" class="meni-izrez absolute -inset-x-1 -inset-y-1 h-[calc(100%+0.5rem)] w-[calc(100%+0.5rem)]" />
+      <span class="relative flex items-center gap-2">
+        <span class="meni-odprt">Meni</span>
+        <span class="meni-zaprt">Zapri</span>
+        <Risba name="meni" color="var(--color-crna)" class="meni-odprt h-4 w-5 [--risba-w:2.5px]" />
+        <Risba name="zapri" color="var(--color-crna)" class="meni-zaprt h-4 w-4 [--risba-w:2.5px]" />
+      </span>
     </button>
   </div>
 </header>
 
-<div id="meni" class="meni fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-label="Glavni meni" hidden>
-  <div class={bar}>
-    <VesnaLogo class={logoSize} />
-    <button type="button" class:list={['meni-zapri md:border-crna md:bg-crna md:text-krema', button]} aria-label="Zapri meni">
-      <Risba name="zapri" color="var(--color-crna)" class="h-6 w-6 md:hidden" />
-      <span class="max-md:hidden">Zapri</span>
-      <svg viewBox="0 0 12 12" class="h-3 w-3 max-md:hidden" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-        <path d="M1 1l10 10M11 1L1 11" />
-      </svg>
-    </button>
-  </div>
-
-  <nav class="mx-auto max-w-3xl px-gutter pb-12 pt-6 sm:pt-10" aria-label="Glavni meni">
+<nav id="meni" class="meni fixed inset-0 z-50 overflow-y-auto" aria-label="Glavni meni" hidden>
+  <div class="meni-vsebina mx-auto max-w-3xl px-gutter pb-12">
     <ul class="md:columns-2 md:gap-x-12">
       {navigation.map((item, i) => (
         <li class="meni-postavka break-inside-avoid border-b border-crna/15" style={`--i:${i}`}>
@@ -79,27 +70,80 @@ rob += ' L1000,0 Z';
     <ul class="meni-postavka mt-14 flex justify-center gap-6 text-base font-bold" style={`--i:${navigation.length}`}>
       {social.map((s) => <li><a href={s.href} class="underline underline-offset-4">{s.label}</a></li>)}
     </ul>
-  </nav>
-</div>
+  </div>
+</nav>
 
 <style>
-  /* Header paper: hidden at the top of the page, fades in with a soft shadow under the torn edge once scrolled. */
+  /* sizes: full at the top of the page, smaller once scrolled */
+  .glava-vrstica {
+    padding-block: 0.75rem;
+    transition: padding 0.25s ease;
+  }
+  .glava-logo {
+    /* phones: the logo takes the row width the button leaves free (logo ≈ 17.6em wide) */
+    font-size: min(1.05rem, calc((100vw - 2 * var(--gutter) - 7.5rem) / 17.6));
+    transition: font-size 0.25s ease;
+  }
+  @media (min-width: 768px) {
+    .glava-vrstica { padding-block: 1rem; }
+    .glava-logo { font-size: 1.05rem; }
+  }
+  @media (min-width: 1024px) {
+    .glava-vrstica { padding-block: 1.25rem; }
+    .glava-logo { font-size: 1.2rem; }
+  }
+  .glava[data-scrolled] .glava-vrstica { padding-block: 0.4rem; }
+  .glava[data-scrolled] .glava-logo { font-size: min(0.8rem, calc((100vw - 2 * var(--gutter) - 7.5rem) / 17.6)); }
+  @media (min-width: 768px) {
+    .glava[data-scrolled] .glava-logo { font-size: 0.85rem; }
+  }
+
+  /* header paper: hidden at the top of the page, fades in with a soft shadow once scrolled */
   .glava-papir {
     opacity: 0;
     transition: opacity 0.25s ease;
     filter: drop-shadow(0 3px 5px rgb(20 20 20 / 0.12));
   }
-  .glava[data-scrolled] .glava-papir {
+  .glava[data-scrolled] .glava-papir,
+  .glava[data-open] .glava-papir {
     opacity: 1;
   }
+  /* above the overlay while the menu is open: the same button closes it */
+  .glava[data-open] {
+    z-index: 60;
+  }
 
-  /* Overlay: translucent cream with blur, page faintly visible behind. */
+  /* menu button: white paper cut-out, straightens on hover */
+  .meni-gumb :global(.meni-izrez) {
+    transform: rotate(-4deg);
+    transition: transform 0.25s ease;
+  }
+  .meni-gumb:hover :global(.meni-izrez),
+  .meni-gumb:focus-visible :global(.meni-izrez) {
+    transform: rotate(-1deg);
+  }
+  .meni-gumb:focus-visible {
+    outline: 3px solid var(--color-crna);
+    outline-offset: 4px;
+  }
+  .meni-gumb :global(.meni-zaprt),
+  .glava[data-open] .meni-gumb :global(.meni-odprt) {
+    display: none;
+  }
+  .glava[data-open] .meni-gumb :global(.meni-zaprt) {
+    display: block;
+  }
+
+  /* overlay: translucent cream with blur, page faintly visible behind; content starts below the header */
   .meni {
     background: rgb(240 232 212 / 0.9);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     opacity: 0;
     transition: opacity 0.3s ease;
+  }
+  .meni-vsebina {
+    padding-top: calc(var(--glava-h, 5rem) + 1.5rem);
   }
   .meni.is-open {
     opacity: 1;
@@ -117,56 +161,72 @@ rob += ' L1000,0 Z';
     transition-delay: calc(80ms + var(--i) * 35ms);
   }
   @media (prefers-reduced-motion: reduce) {
+    .glava-vrstica,
+    .glava-logo,
     .glava-papir,
+    .meni-gumb :global(.meni-izrez),
     .meni,
     .meni-postavka {
       transition: none;
       transform: none;
     }
+    .meni-gumb :global(.meni-izrez) {
+      transform: rotate(-4deg);
+    }
   }
 </style>
 
 <script>
-  // Header turns into a paper strip once the page is scrolled.
   const glava = document.querySelector<HTMLElement>('[data-glava]');
+  const gumb = document.querySelector<HTMLButtonElement>('.meni-gumb');
+  const menu = document.getElementById('meni');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // shrink + paper strip once the page is scrolled
   const onScroll = () => glava?.toggleAttribute('data-scrolled', window.scrollY > 8);
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  const menu = document.getElementById('meni');
-  const openBtn = document.querySelector<HTMLButtonElement>('.meni-odpri');
-  const closeBtn = document.querySelector<HTMLButtonElement>('.meni-zapri');
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const isOpen = () => !!menu && !menu.hidden && menu.classList.contains('is-open');
 
   const open = () => {
-    if (!menu) return;
+    if (!menu || !glava) return;
+    // menu content starts below the header (whatever its current, possibly shrunk, height)
+    menu.style.setProperty('--glava-h', `${glava.offsetHeight}px`);
     menu.hidden = false;
+    // lock page scrolling; html has `scrollbar-gutter: stable` (global.css), so hiding the
+    // scrollbar does not change the layout width and nothing shifts
     document.documentElement.style.overflow = 'hidden';
-    openBtn?.setAttribute('aria-expanded', 'true');
-    // force a reflow so the transition starts from the hidden state
-    void menu.offsetWidth;
+    glava.toggleAttribute('data-open', true);
+    gumb?.setAttribute('aria-expanded', 'true');
+    gumb?.setAttribute('aria-label', 'Zapri meni');
+    void menu.offsetWidth; // start the transition from the hidden state
     menu.classList.add('is-open');
-    closeBtn?.focus();
   };
   const close = () => {
     if (!menu || menu.hidden) return;
     menu.classList.remove('is-open');
     document.documentElement.style.overflow = '';
-    openBtn?.setAttribute('aria-expanded', 'false');
-    const hide = () => (menu.hidden = true);
+    glava?.toggleAttribute('data-open', false);
+    gumb?.setAttribute('aria-expanded', 'false');
+    gumb?.setAttribute('aria-label', 'Meni');
+    const hide = () => {
+      if (!menu.classList.contains('is-open')) menu.hidden = true;
+    };
     if (reduced.matches) hide();
     else setTimeout(hide, 300);
-    openBtn?.focus();
   };
 
-  openBtn?.addEventListener('click', open);
-  closeBtn?.addEventListener('click', close);
+  gumb?.addEventListener('click', () => (isOpen() ? close() : open()));
   document.addEventListener('keydown', (e) => {
     if (!menu || menu.hidden) return;
-    if (e.key === 'Escape') close();
-    // keep keyboard focus inside the open menu
-    if (e.key === 'Tab') {
-      const focusable = menu.querySelectorAll<HTMLElement>('a, button');
+    if (e.key === 'Escape') {
+      close();
+      gumb?.focus();
+    }
+    // keep keyboard focus within the button + menu links while open
+    if (e.key === 'Tab' && gumb) {
+      const focusable = [gumb, ...menu.querySelectorAll<HTMLElement>('a')];
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
       if (e.shiftKey && document.activeElement === first) {
