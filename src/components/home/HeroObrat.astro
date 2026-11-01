@@ -1,0 +1,175 @@
+---
+// The hero's green shape as a two-sided card: her photo (always shown first) and the latest Instagram post.
+// Timing: photo → after 2.5 s the post → after 6 s the photo → then every 6 s.
+// Pauses while hovered (mouse) or focused, stops while the hero is out of view or the tab is hidden.
+// A click/tap flips manually. Reduced motion: no automatic flipping, no 3D animation; a small
+// "Zadnja objava na Instagramu" button under the shape switches to the post.
+// The back face is absolutely positioned over the front, so flipping never changes the layout.
+import type { CollectionEntry } from 'astro:content';
+import foto from '../../assets/foto/dezniki-izrez.jpg';
+// tighter crop for phones: she fills the frame
+import fotoBlizje from '../../assets/foto/dezniki-blizje.jpg';
+import Blob from '../brand/Blob.astro';
+import CutoutImage from '../brand/CutoutImage.astro';
+import InstagramProfil from '../ui/InstagramProfil.astro';
+import ReelOznaka from '../ui/ReelOznaka.astro';
+import { formatDatum } from '../../lib/objave';
+
+interface Props {
+  // the newest post; without it the shape shows only her photo
+  objava?: CollectionEntry<'objave'>;
+}
+const { objava } = Astro.props;
+const o = objava?.data;
+const oznaka = o ? `Zadnja objava na Instagramu · ${formatDatum(o.datum)}` : '';
+const alt = 'Apolonija Simon pod dežnikom, nanjo pada curek vodnjaka v središču Ljubljane';
+---
+
+<div class="obrat" data-obrat={o ? '' : undefined}>
+  <div class="obrat-notranji relative">
+    <!-- front: her photo; a click flips to the post -->
+    <button
+      type="button"
+      class="obrat-stran obrat-spredaj relative block w-full cursor-pointer"
+      data-obrni
+      aria-label={o ? 'Obrni: pokaži zadnjo objavo na Instagramu' : undefined}
+      disabled={!o}
+    >
+      <Blob variant="f" fill="var(--color-zelena)" class="absolute -inset-[7%] h-[114%] w-[114%] -rotate-6" />
+      <CutoutImage src={fotoBlizje} alt={alt} variant="d" widths={[448]} sizes="86vw" loading="eager" class="relative rotate-3 md:hidden" imgClass="aspect-[4/5] object-center" />
+      <CutoutImage src={foto} alt={alt} variant="d" widths={[400, 640]} sizes="(min-width: 1024px) 28rem, 50vw" loading="eager" class="relative rotate-3 max-md:hidden" imgClass="aspect-[4/5] object-center" />
+    </button>
+
+    {o && (
+      <div class="obrat-stran obrat-zadaj absolute inset-0" data-zadaj inert>
+        <Blob variant="f" fill="var(--color-zelena)" class="absolute -inset-[7%] h-[114%] w-[114%] rotate-6" />
+        <a href={o.povezava} target="_blank" rel="noopener" class="group relative block -rotate-2" aria-label={`${oznaka}. Poglej na Instagramu.`}>
+          {o.slika ? (
+            <CutoutImage src={o.slika} alt="" variant="d" widths={[400, 640]} sizes="(min-width: 1024px) 28rem, 86vw" imgClass="aspect-[4/5] object-cover" />
+          ) : (
+            <div class="flex aspect-[4/5] items-center justify-center rounded-[40%_36%_42%_38%/34%_40%_36%_42%] bg-neutral-300 text-sm font-bold text-neutral-700">OBJAVA</div>
+          )}
+          <ReelOznaka tip={o.tip} />
+          <span class="absolute left-1/2 top-[7%] -translate-x-1/2 whitespace-nowrap rounded-full bg-bela px-3 py-1.5 text-crna"><InstagramProfil /></span>
+          <span class="absolute bottom-[7%] left-1/2 max-w-[88%] -translate-x-1/2 rounded-full bg-crna px-3 py-1.5 text-center text-[0.7rem] font-bold leading-tight text-krema group-hover:underline sm:text-xs">
+            {oznaka} ↗
+          </span>
+        </a>
+        <button type="button" data-obrni class="absolute -bottom-[5%] right-[2%] z-10 flex h-11 items-center gap-1.5 rounded-full border-2 border-crna bg-krema px-3 text-xs font-bold" aria-label="Obrni nazaj na fotografijo">
+          <span aria-hidden="true">↺</span> Fotografija
+        </button>
+      </div>
+    )}
+  </div>
+
+  <!-- reduced motion only: switches to the post (shown under the shape from the start, so nothing moves) -->
+  {o && (
+    <button type="button" data-obrni class="obrat-staticno relative z-10 mx-auto mt-10 items-center gap-2 border-b-[3px] border-zelena pb-0.5 text-sm font-bold">
+      Zadnja objava na Instagramu <span aria-hidden="true">↺</span>
+    </button>
+  )}
+</div>
+
+<style>
+  .obrat {
+    perspective: 1600px;
+  }
+  .obrat-notranji {
+    transform-style: preserve-3d;
+    transition: transform 0.9s cubic-bezier(0.45, 0.1, 0.2, 1);
+  }
+  .obrat.je-obrnjen .obrat-notranji {
+    transform: rotateY(180deg);
+  }
+  .obrat-stran {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .obrat-zadaj {
+    transform: rotateY(180deg);
+  }
+  .obrat-staticno {
+    display: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .obrat-notranji {
+      transition: none;
+    }
+    .obrat-staticno {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  const PRVIC = 2500; // photo → post, once after load
+  const NATO = 6000; // then every 6 s
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-obrat]').forEach((el) => {
+    const front = el.querySelector<HTMLElement>('.obrat-spredaj')!;
+    const back = el.querySelector<HTMLElement>('[data-zadaj]')!;
+    let obrnjen = false;
+    let prvic = true; // first automatic flip not done yet
+    let hover = false;
+    let focus = false;
+    let vidno = true;
+    let timer: number | undefined;
+
+    const set = (v: boolean) => {
+      obrnjen = v;
+      el.classList.toggle('je-obrnjen', v);
+      back.inert = !v;
+      front.inert = v;
+    };
+    const ustavi = () => window.clearTimeout(timer);
+    // (re)start the countdown, unless something pauses it
+    const schedule = () => {
+      ustavi();
+      if (reduce || hover || focus || !vidno || document.hidden) return;
+      timer = window.setTimeout(
+        () => {
+          prvic = false;
+          set(!obrnjen);
+          schedule();
+        },
+        prvic ? PRVIC : NATO,
+      );
+    };
+
+    el.querySelectorAll('[data-obrni]').forEach((b) =>
+      b.addEventListener('click', () => {
+        prvic = false;
+        set(!obrnjen);
+        schedule();
+      }),
+    );
+    el.addEventListener('pointerenter', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      hover = true;
+      ustavi();
+    });
+    el.addEventListener('pointerleave', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      hover = false;
+      schedule();
+    });
+    el.addEventListener('focusin', () => {
+      focus = true;
+      ustavi();
+    });
+    el.addEventListener('focusout', () => {
+      focus = false;
+      schedule();
+    });
+    // stop while scrolled out of view or while the tab is hidden
+    new IntersectionObserver(([entry]) => {
+      vidno = entry.isIntersecting;
+      schedule();
+    }).observe(el);
+    document.addEventListener('visibilitychange', schedule);
+
+    set(false); // her photo first
+    schedule();
+  });
+</script>

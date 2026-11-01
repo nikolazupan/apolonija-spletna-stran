@@ -1,5 +1,5 @@
 ---
-// Latest social media posts: title row with archive link, then a row of the newest posts.
+// "Iz arhiva": title row with archive link, then a row of recent posts (the newest one is in the hero).
 // Horizontally scrollable on mobile. Thumbnails only, embeds load on click (PostCard).
 import type { CollectionEntry } from 'astro:content';
 import PostCard from '../ui/PostCard.astro';
@@ -9,7 +9,7 @@ interface Props {
   naslov?: string;
   povezavaArhiv?: string;
 }
-const { objave, naslov = 'Zadnje objave', povezavaArhiv = 'Vse objave' } = Astro.props;
+const { objave, naslov = 'Iz arhiva', povezavaArhiv = 'Vse objave' } = Astro.props;
 const tilt = ['-rotate-1', 'rotate-1', 'rotate-[0.5deg]', '-rotate-[1.5deg]'];
 ---
 

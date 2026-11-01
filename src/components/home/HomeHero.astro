@@ -1,21 +1,20 @@
 ---
 // Homepage hero, composed like the posters: her name on an organic white shape,
-// the cut-out photo on its own green (print green) "paper" shape. Only the white shapes overlap;
+// the cut-out photo on its own green (print green) "paper" shape, which flips to the latest post. Only the white shapes overlap;
 // the photo has its own column (desktop) or row (mobile) and never covers text.
-import foto from '../../assets/foto/dezniki-izrez.jpg';
-// tighter crop for phones: she fills the frame
-import fotoBlizje from '../../assets/foto/dezniki-blizje.jpg';
-import Blob from '../brand/Blob.astro';
 import ShapedText from '../brand/ShapedText.astro';
-import CutoutImage from '../brand/CutoutImage.astro';
+import type { CollectionEntry } from 'astro:content';
+import HeroObrat from './HeroObrat.astro';
 import CandidateMark from '../brand/CandidateMark.astro';
 
 interface Props {
   hero: {
     podnaslov: string;
   };
+  // newest post, shown on the back of the green shape
+  objava?: CollectionEntry<'objave'>;
 }
-const { hero } = Astro.props;
+const { hero, objava } = Astro.props;
 ---
 
 <!-- @container: the name scales with the content width (cqi), not the window, so it stays inside its column -->
@@ -34,33 +33,9 @@ const { hero } = Astro.props;
 
     </ShapedText>
 
-    <!-- photo on its own paper shape: large and centered under the name on phones, columns 7–12 on desktop -->
-    <a
-      href="/apolonija-simon"
-      class="hero-foto group relative z-20 mx-auto -mt-6 block w-[86%] max-w-md md:-mt-10 md:mr-[9%] md:ml-auto md:w-[50%] md:max-w-sm lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:mt-0 lg:mr-0 lg:ml-0 lg:w-[78%] lg:max-w-[30rem] lg:justify-self-start"
-      aria-label="Več o Apoloniji Simon"
-    >
-      <Blob variant="f" fill="var(--color-zelena)" class="absolute -inset-[7%] h-[114%] w-[114%] -rotate-6 transition-transform duration-500 group-hover:-rotate-3" />
-      <CutoutImage
-        src={fotoBlizje}
-        alt="Apolonija Simon pod dežnikom, nanjo pada curek vodnjaka v središču Ljubljane"
-        variant="d"
-        widths={[448]}
-        sizes="86vw"
-        loading="eager"
-        class="relative rotate-3 md:hidden"
-        imgClass="aspect-[4/5] object-center"
-      />
-      <CutoutImage
-        src={foto}
-        alt="Apolonija Simon pod dežnikom, nanjo pada curek vodnjaka v središču Ljubljane"
-        variant="d"
-        widths={[400, 640]}
-        sizes="(min-width: 1024px) 28rem, 50vw"
-        loading="eager"
-        class="relative rotate-3 transition-transform duration-500 group-hover:rotate-1 max-md:hidden"
-        imgClass="aspect-[4/5] object-center"
-      />
-    </a>
+    <!-- photo / latest post on the green paper shape (flips, see HeroObrat): large and centered under the name on phones, columns 7–12 on desktop -->
+    <div class="hero-foto relative z-20 mx-auto -mt-6 block w-[86%] max-w-md md:-mt-10 md:mr-[9%] md:ml-auto md:w-[50%] md:max-w-sm lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:mt-0 lg:mr-0 lg:ml-0 lg:w-[78%] lg:max-w-[30rem] lg:justify-self-start">
+      <HeroObrat objava={objava} />
+    </div>
   </div>
 </section>

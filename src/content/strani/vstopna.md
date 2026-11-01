@@ -41,6 +41,6 @@ bloki:
     placeholder: true
 
   - id: objava
-    naslov: "Zadnje objave"
+    naslov: "Iz arhiva"
     besedilo: "Vse objave"
 ---

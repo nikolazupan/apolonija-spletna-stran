@@ -29,6 +29,9 @@ export const links = {
   zasebnost: { label: 'Varstvo zasebnosti', href: '/zasebnost', placeholder: false },
 };
 
+// Campaign Instagram profile, shown on the latest post in the hero (handle not known yet).
+export const instagramProfil = { handle: '@ime_profila', placeholder: true };
+
 export const social = [
   { label: 'Instagram', href: '#', placeholder: true },
   { label: 'Facebook', href: '#', placeholder: true },
