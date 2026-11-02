@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Creates web versions of the campaign photos.
 //
-//   originals (camera files, not in git): podatki/fotografije-originali/{kandidati,skupinske}/
-//   web versions (in git, used by the site): src/assets/fotografije/{kandidati,skupinske,nepotrjeno}/
+//   originals (camera files, not in git): podatki/fotografije-originali/ and its {kandidati,skupinske}/
+//   web versions (in git, used by the site): src/assets/fotografije/ and {kandidati,skupinske,nepotrjeno}/
 //
 // Web versions: longest edge max 2400 px, JPEG quality 82, rotated according to EXIF,
 // all metadata removed (no GPS / camera data), converted to sRGB.
@@ -18,11 +18,21 @@ const root = new URL('..', import.meta.url).pathname;
 const SRC = join(root, 'podatki/fotografije-originali');
 const OUT = join(root, 'src/assets/fotografije');
 
-// original file (subfolder/name) → web version (subfolder/name).
+// original file (subfolder/name, or just name for files directly in fotografije-originali/) → web version.
+// A value can be a list of outputs; an output can be { out, izrez: { x, y, w, h } } to crop first
+// (fractions of the original, after EXIF rotation).
 // kandidati/: confirmed portraits, named ime-priimek.jpg (as in src/content/kandidati/mestni-svet.yaml)
 // skupinske/: group photos (two or more people)
 // nepotrjeno/: not confirmed who is who yet; not used on the site
 const MAPPING = {
+  // homepage hero (HeroObrat): full web version + 4:5 crops (desktop/tablet, and closer for phones),
+  // she sits slightly low so the water stream above her shows
+  'apolonija-uvod.jpg': [
+    'apolonija-uvod.jpg',
+    { out: 'apolonija-uvod-izrez.jpg', izrez: { x: 0.1833, y: 0.2556, w: 0.55, h: 0.4583 } },
+    { out: 'apolonija-uvod-blizje.jpg', izrez: { x: 0.225, y: 0.2889, w: 0.4333, h: 0.3611 } },
+  ],
+
   'kandidati/Afrodita.jpg': 'kandidati/afrodita-hebar-kljun.jpg',
   'kandidati/Apolonija.jpg': 'kandidati/apolonija-simon.jpg',
   'kandidati/Arian.jpg': 'kandidati/arian-ramadani.jpg',
@@ -68,6 +78,9 @@ const mapping = new Map(Object.entries(MAPPING).map(([k, v]) => [nfc(k), v]));
 const ignore = new Set(IGNORE.map(nfc));
 
 const originals = [];
+for (const name of await readdir(SRC).catch(() => [])) {
+  if (/\.(jpe?g|png|tiff?|heic|webp)$/i.test(name)) originals.push({ rel: nfc(name), path: join(SRC, name) });
+}
 for (const dir of ['kandidati', 'skupinske']) {
   for (const name of await readdir(join(SRC, dir)).catch(() => [])) {
     if (/\.(jpe?g|png|tiff?|heic|webp)$/i.test(name)) originals.push({ rel: nfc(`${dir}/${name}`), path: join(SRC, dir, name) });
@@ -89,13 +102,26 @@ for (const { rel, path } of originals.sort((a, b) => a.rel.localeCompare(b.rel))
     unmapped.push(rel);
     continue;
   }
-  const info = await sharp(path)
-    .rotate() // apply EXIF orientation
-    .resize({ width: MAX, height: MAX, fit: 'inside', withoutEnlargement: true })
-    .toColourspace('srgb')
-    .jpeg({ quality: QUALITY, mozjpeg: true }) // no withMetadata(): EXIF/GPS/ICC are dropped
-    .toFile(join(OUT, target));
-  done.push(`${rel}  →  ${target}  (${info.width}×${info.height}, ${Math.round(info.size / 1024)} KB)`);
+  for (const t of [target].flat()) {
+    const { out, izrez } = typeof t === 'string' ? { out: t } : t;
+    // apply EXIF orientation first, so crops are in the photo's upright coordinates
+    let img = sharp(await sharp(path).rotate().toBuffer());
+    if (izrez) {
+      const { width, height } = await img.metadata();
+      img = img.extract({
+        left: Math.round(izrez.x * width),
+        top: Math.round(izrez.y * height),
+        width: Math.round(izrez.w * width),
+        height: Math.round(izrez.h * height),
+      });
+    }
+    const info = await img
+      .resize({ width: MAX, height: MAX, fit: 'inside', withoutEnlargement: true })
+      .toColourspace('srgb')
+      .jpeg({ quality: QUALITY, mozjpeg: true }) // no withMetadata(): EXIF/GPS/ICC are dropped
+      .toFile(join(OUT, out));
+    done.push(`${rel}  →  ${out}  (${info.width}×${info.height}, ${Math.round(info.size / 1024)} KB)`);
+  }
 }
 
 console.log(done.join('\n'));

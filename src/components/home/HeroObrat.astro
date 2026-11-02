@@ -6,9 +6,10 @@
 // "Zadnja objava na Instagramu" button under the shape switches to the post.
 // The back face is absolutely positioned over the front, so flipping never changes the layout.
 import type { CollectionEntry } from 'astro:content';
-import foto from '../../assets/foto/dezniki-izrez.jpg';
+// hero photo: crops of podatki/fotografije-originali/apolonija-uvod.jpg (made by `npm run fotografije`)
+import foto from '../../assets/fotografije/apolonija-uvod-izrez.jpg';
 // tighter crop for phones: she fills the frame
-import fotoBlizje from '../../assets/foto/dezniki-blizje.jpg';
+import fotoBlizje from '../../assets/fotografije/apolonija-uvod-blizje.jpg';
 import Blob from '../brand/Blob.astro';
 import CutoutImage from '../brand/CutoutImage.astro';
 import InstagramProfil from '../ui/InstagramProfil.astro';
@@ -37,8 +38,8 @@ const alt = 'Apolonija Simon pod dežnikom, nanjo pada curek vodnjaka v središ�
       disabled={!o}
     >
       <Blob variant="f" fill="var(--color-zelena)" class="absolute -inset-[7%] h-[114%] w-[114%] -rotate-6" />
-      <CutoutImage src={fotoBlizje} alt={alt} variant="d" widths={[448]} sizes="86vw" loading="eager" class="relative rotate-3 md:hidden" imgClass="aspect-[4/5] object-center" />
-      <CutoutImage src={foto} alt={alt} variant="d" widths={[400, 640]} sizes="(min-width: 1024px) 28rem, 50vw" loading="eager" class="relative rotate-3 max-md:hidden" imgClass="aspect-[4/5] object-center" />
+      <CutoutImage src={fotoBlizje} alt={alt} variant="d" widths={[400, 800, 1200]} sizes="86vw" loading="eager" class="relative rotate-3 md:hidden" imgClass="aspect-[4/5] object-center" />
+      <CutoutImage src={foto} alt={alt} variant="d" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 30rem, 40vw" loading="eager" class="relative rotate-3 max-md:hidden" imgClass="aspect-[4/5] object-center" />
     </button>
 
     {o && (
