@@ -7,4 +7,5 @@ oznakaSlike: "FOTO: sporni projekt 4"
 opis: "[Tu bo kratek opis projekta: kaj je, kje je in zakaj je sporen.]"
 stalisce: "[Tu bo stališče liste Vesna in civilna družba do tega projekta.]"
 placeholder: true
+stalisceOsnutek: true
 ---

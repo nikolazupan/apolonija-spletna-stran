@@ -1,5 +1,6 @@
 ---
-// The key programme areas (selected in vstopna.md), each on its own hand-cut paper card.
+// The key programme areas (selected in vstopna.md), each on its own hand-cut paper card, with the
+// homepage's shortened texts. From md the three shapes are made exactly the same height (script below).
 import type { CollectionEntry } from 'astro:content';
 import PaperCard from '../ui/PaperCard.astro';
 import ProgramCardBody from '../ui/ProgramCardBody.astro';
@@ -12,19 +13,21 @@ interface Props {
   // the selection itself is provisional: marks the whole section as OSNUTEK
   placeholder?: boolean;
   podrocja: CollectionEntry<'program'>[];
+  // shortened texts by area id
+  besedila?: Record<string, string>;
 }
-const { naslov, povezavaBesedilo = 'Celoten program', placeholder = false, podrocja } = Astro.props;
+const { naslov, povezavaBesedilo = 'Celoten program', placeholder = false, podrocja, besedila = {} } = Astro.props;
 ---
 
 <section class="site-container py-12 lg:py-16">
   <Placeholder active={placeholder} as="div" class="block py-4">
     <h2 class="display text-center text-[clamp(2.25rem,7vw,3.5rem)]">{naslov}</h2>
 
-    <ol class="mt-8 grid gap-6 md:grid-cols-3 md:gap-8 lg:mt-10">
+    <ol class="kljucne mt-8 grid gap-6 md:grid-cols-3 md:gap-8 lg:mt-10" data-kljucne>
       {podrocja.map((p, i) => (
         <li>
           <PaperCard href={`/program/${p.id}`} {...papirji[i % papirji.length]} class="h-full">
-            <ProgramCardBody podrocje={p} stevilka={i + 1} />
+            <ProgramCardBody podrocje={p} stevilka={i + 1} besedilo={besedila[p.id]} />
           </PaperCard>
         </li>
       ))}
@@ -35,3 +38,46 @@ const { naslov, povezavaBesedilo = 'Celoten program', placeholder = false, podro
     </div>
   </Placeholder>
 </section>
+
+<style>
+  /* let the card body fill an enlarged text box, so "Več o področju" sits at the bottom */
+  .kljucne :global([data-oblik-vsebina]) {
+    display: flex;
+    flex-direction: column;
+  }
+  .kljucne :global([data-oblik-vsebina] > div) {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+  .kljucne :global([data-oblik-vsebina] > div > *) {
+    flex: 1;
+  }
+</style>
+
+<script>
+  // Same height for the three shapes when side by side. Each outline adds its own share above and below
+  // the text box (ShapedText: total = box × (1 + top + bottom)), so each box gets the height that makes
+  // its total equal to the tallest card's; ShapedText's ResizeObserver then refits the shape.
+  const vrste = document.querySelectorAll<HTMLElement>('[data-kljucne]');
+  const md = window.matchMedia('(min-width: 768px)');
+  const izenaci = () => {
+    vrste.forEach((vrsta) => {
+      const kartice = [...vrsta.querySelectorAll<HTMLElement>('[data-oblik-vsebina]')].map((box) => {
+        const okvir = box.parentElement as HTMLElement;
+        return { box, f: 1 + Number(okvir.dataset.oblikTop) + Number(okvir.dataset.oblikBottom) };
+      });
+      kartice.forEach(({ box }) => (box.style.minHeight = ''));
+      if (!md.matches) return;
+      const visina = Math.max(...kartice.map(({ box, f }) => box.offsetHeight * f));
+      kartice.forEach(({ box, f }) => (box.style.minHeight = `${visina / f}px`));
+    });
+  };
+  let t: number | undefined;
+  window.addEventListener('resize', () => {
+    window.clearTimeout(t);
+    t = window.setTimeout(izenaci, 100);
+  });
+  document.fonts?.ready.then(izenaci);
+  izenaci();
+</script>

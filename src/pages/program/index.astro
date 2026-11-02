@@ -1,5 +1,6 @@
 ---
-// Programme overview: the 6 areas from the flyer as hand-cut paper cards, each linking to its page.
+// Programme overview: the intro, then the 9 areas as hand-cut paper cards, each linking to its page.
+// The whole content is marked OSNUTEK while the page's `placeholder` flag is set (program still under review).
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageIntro from '../../components/ui/PageIntro.astro';
 import PaperCard from '../../components/ui/PaperCard.astro';
@@ -8,16 +9,19 @@ import BlockText from '../../components/BlockText.astro';
 import TextLink from '../../components/ui/TextLink.astro';
 import Risba from '../../components/brand/Risba.astro';
 import { getStran } from '../../lib/strani';
+import Placeholder from '../../components/Placeholder.astro';
 import { getProgram } from '../../lib/program';
 import { papirji } from '../../lib/blob';
 
-const { naslov, opis, blok, povezave } = await getStran('program');
+const { naslov, opis, blok, povezave, placeholder } = await getStran('program');
 const uvod = blok('uvod');
+const uvod2 = blok('uvod2');
 const celoten = blok('celoten');
 const podrocja = await getProgram();
 ---
 
 <BaseLayout title={naslov} description={opis}>
+  <Placeholder active={placeholder} as="div" class="block">
   <PageIntro naslov={uvod.naslov ?? naslov} uvod={uvod} oblika="g">
     <p slot="deco" class="relative px-4 text-center font-display font-extrabold leading-none" aria-hidden="true">
       <span class="block text-[7rem] text-zelena sm:text-[9rem]">{podrocja.length}</span>
@@ -25,6 +29,10 @@ const podrocja = await getProgram();
       <Risba name="podcrta" class="mx-auto mt-2 h-2.5 w-28 [--risba-w:4px]" />
     </p>
   </PageIntro>
+
+  <section class="site-container pb-8">
+    <BlockText blok={uvod2} class="max-w-prose text-lg leading-relaxed" />
+  </section>
 
   <section class="site-container pb-12 pt-4 lg:pb-16" aria-label="Področja programa">
     <ol class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
@@ -37,6 +45,7 @@ const podrocja = await getProgram();
       ))}
     </ol>
   </section>
+  </Placeholder>
 
   <section class="site-container pb-16 lg:pb-20">
     <div class="border-2 border-crna p-6 sm:p-8 md:flex md:items-center md:justify-between md:gap-10">

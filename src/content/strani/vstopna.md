@@ -10,11 +10,16 @@ hero:
 
 # The 3 key programme areas shown under the Q&A box, in this order.
 # Each entry is a file name from src/content/program/ (without .md). Change the selection here.
-# Provisional selection: the section is marked OSNUTEK (block "poudarki" below) until it is decided.
+# Temporary selection: the section is marked OSNUTEK (block "poudarki" below) until the team decides.
 poudarki:
-  - upravljanje-mesta-in-participacija
-  - stanovanjska-politika
-  - okolje-pitna-voda-in-cist-zrak
+  - odprto-in-odgovorno-upravljanje
+  - povezana-in-varna-mobilnost
+  - pitna-voda-zdravje-in-varnost
+# Shortened texts for the homepage only (supplied by the team, exactly as written); /program keeps the full texts.
+poudarkiBesedila:
+  odprto-in-odgovorno-upravljanje: "Prebivalce bomo vključili že pri opredelitvi problemov in primerjavi rešitev. Okrepili bomo četrtne skupnosti in uvedli participativni proračun z zavezujočim izvajanjem izglasovanih projektov."
+  povezana-in-varna-mobilnost: "Dnevni avtomobilski promet bomo prestrezali na robu mesta in vzpostavili multimodalna vozlišča. Prenovili bomo LPP s pogostejšimi vožnjami, rumenimi pasovi in prednostjo v križiščih."
+  pitna-voda-zdravje-in-varnost: "Pri varovanju vodnih virov bomo dosledno uporabljali previdnostno načelo. Zagotovili bomo neodvisno revizijo varnosti kanala C0 in preverili alternativne rešitve."
 
 bloki:
   - id: vprasanja

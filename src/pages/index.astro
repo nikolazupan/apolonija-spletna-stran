@@ -10,7 +10,7 @@ import { getObjave } from '../lib/objave';
 
 const stran = await getEntry('strani', 'vstopna');
 if (!stran) throw new Error('Missing src/content/strani/vstopna.md');
-const { naslov, opis, hero, poudarki, bloki } = stran.data;
+const { naslov, opis, hero, poudarki, poudarkiBesedila, bloki } = stran.data;
 
 const blok = (id: string) => {
   const b = bloki.find((b) => b.id === id);
@@ -29,7 +29,7 @@ const objave = starejse.slice(0, 4);
 <BaseLayout title={naslov} description={opis} fullTitle>
   {hero && <HomeHero hero={hero} objava={najnovejsa} />}
   <AskQuestion naslov={[vprasanja.naslov ?? '', vprasanja.besedilo]} povezava="/vprasanja" />
-  <KeyPoints naslov={poudarkiBlok.naslov} povezavaBesedilo={poudarkiBlok.besedilo} placeholder={poudarkiBlok.placeholder} podrocja={podrocja} />
+  <KeyPoints naslov={poudarkiBlok.naslov} povezavaBesedilo={poudarkiBlok.besedilo} placeholder={poudarkiBlok.placeholder} podrocja={podrocja} besedila={poudarkiBesedila} />
   <HomeSkupaj kandidatura={blok('kandidatura')} bio={blok('bio')} skupaj={blok('skupaj')} />
   {objave.length > 0 && <LatestPosts objave={objave} naslov={blok('objava').naslov} povezavaArhiv={blok('objava').besedilo} />}
 </BaseLayout>

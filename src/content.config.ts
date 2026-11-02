@@ -46,6 +46,8 @@ const strani = defineCollection({
         .optional(),
       // Programme areas highlighted on this page (homepage: the 3 key points), by file name in src/content/program/.
       poudarki: z.array(reference('program')).default([]),
+      // shortened texts for the highlighted areas on this page, by area file name (the full text stays on /program)
+      poudarkiBesedila: z.record(z.string(), z.string()).default({}),
       bloki: z.array(blok).default([]),
       podatki: z.array(podatek).default([]),
       povezave: z.array(povezava).default([]),
@@ -72,14 +74,14 @@ const strani = defineCollection({
     }),
 });
 
-// Programme areas (from the campaign flyer). One file per area; the file name is the URL slug (/program/[slug]).
-// `tocke` are the two short points from the flyer, the body is the longer text for the area page.
+// Programme areas (podatki/vsebina/program-povzetek.md). One file per area; the file name is the URL slug (/program/[slug]).
+// `povzetek` is the short description from the summary, the body is the longer text for the area page.
 const program = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/program' }),
   schema: z.object({
     naslov: z.string(),
     vrstniRed: z.number(),
-    tocke: z.array(z.string()).min(1),
+    povzetek: z.string(),
     viri: z.array(povezava).default([]),
     placeholder: z.boolean().default(false),
   }),
@@ -124,9 +126,13 @@ const sporniProjekti = defineCollection({
       vrstniRed: z.number(),
       opis: z.string(),
       stalisce: z.string(),
+      // programme area the position is quoted from (file name in src/content/program/)
+      stalisceVir: reference('program').optional(),
+      // position is not written yet
+      stalisceOsnutek: z.boolean().default(false),
       slika: image().optional(),
       oznakaSlike: z.string().optional(),
-      // description and position are not approved yet
+      // description and photo are not supplied yet
       placeholder: z.boolean().default(false),
     }),
 });
