@@ -61,7 +61,9 @@ Main menu:
 
 Footer on every page: campaign organizer notice ("Naročnik: ..."), privacy notice link (`/zasebnost`), social links.
 
-Also: `/zasebnost` (privacy notice, legal text still to be supplied) and a custom 404 page. Every page's title and meta description come from its file in `src/content/strani/` (`naslov`, `opis`); the layout appends "| Apolonija Simon za županjo".
+Also: `/zasebnost` (privacy notice, legal text still to be supplied) and a custom 404 page.
+
+**Internal team page** (`/placeholders`, path in `INTERNA_POT` in `src/config.ts`): not linked anywhere, noindex/nofollow, plain layout (no public header/footer). Section 1 "Manjkajoče vsebine" is generated from the same scan as `npm run check-placeholders` (shared module `scripts/lib/placeholderji.mjs`; wording/grouping in `src/lib/manjkajoce.ts`, unknown placeholders fall into "Ostalo") plus candidates without a photo. Section 2 "Odprte zadeve" is maintained by hand in `src/content/odprte-zadeve/odprte-zadeve.yaml` (naslov, opis, kdo, status odprto / v teku / urejeno). Built only while `INTERNA_STRAN` is true (it follows `NOINDEX`), so it is left out of the launch build. Never link it or list it in robots.txt. Every page's title and meta description come from its file in `src/content/strani/` (`naslov`, `opis`); the layout appends "| Apolonija Simon za županjo".
 
 ## Design direction
 - The candidate is a painter and heads a design school. The site must feel **art-driven and authored**, not like a template (no Squarespace / generic startup look).
@@ -140,6 +142,7 @@ When the user gives a post (link, caption, first image or a screenshot of a reel
 
 ## Before final launch
 Checklist before the site goes public:
+- [ ] Check that the internal team page (`/placeholders`) is gone from the production build: `INTERNA_STRAN` follows `NOINDEX`, so setting `NOINDEX = false` removes it; confirm `dist/` has no `placeholders` folder.
 - [ ] Set `NOINDEX = false` in `src/config.ts` (preview mode adds `<meta name="robots" content="noindex, nofollow">` to every page and makes `/robots.txt` disallow everything). The 404 page stays noindex either way.
 - [ ] Set `SHOW_PLACEHOLDERS = false` in `src/config.ts` and run `npm run check-placeholders -- --strict`: it must report no placeholders left.
 - [ ] Confirm the organizer notice in the footer ("Naročnik: ..."), the payment details on /pomagaj and the contact details on /kontakt.

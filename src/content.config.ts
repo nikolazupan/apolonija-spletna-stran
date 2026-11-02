@@ -192,4 +192,15 @@ const plakati = defineCollection({
   }),
 });
 
-export const collections = { plakati, strani, program, kandidati, cetrtneSkupnosti, sporniProjekti, vprasanja, objave, odprtaVprasanja };
+// Open items for the team (internal team page), maintained by hand.
+const odprteZadeve = defineCollection({
+  loader: file('src/content/odprte-zadeve/odprte-zadeve.yaml'),
+  schema: z.object({
+    naslov: z.string(),
+    opis: z.string(),
+    kdo: z.string().optional(),
+    status: z.enum(['odprto', 'v teku', 'urejeno']).default('odprto'),
+  }),
+});
+
+export const collections = { odprteZadeve, plakati, strani, program, kandidati, cetrtneSkupnosti, sporniProjekti, vprasanja, objave, odprtaVprasanja };
