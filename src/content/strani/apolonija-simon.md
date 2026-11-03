@@ -2,19 +2,18 @@
 naslov: "Apolonija Simon"
 opis: "Apolonija Simon, akademska slikarka in ravnateljica Srednje šole za oblikovanje in fotografijo Ljubljana, kandidatka Vesne in civilne družbe za županjo Ljubljane."
 
+# The CV itself (intro, sections, "Zakaj kandidiram") is in src/content/zivljenjepis/.
 bloki:
-  # Real facts (CLAUDE.md / brief).
-  - id: uvod
-    naslov: "Akademska slikarka. Ravnateljica. Ljubljančanka."
-    besedilo: "Apolonija Simon je akademska slikarka in ravnateljica Srednje šole za oblikovanje in fotografijo Ljubljana. Dejavna je v civilnih pobudah."
-  - id: zgodba
-    naslov: "Kdo je Apolonija"
-    besedilo: "[Tu bo daljše besedilo o Apoloniji Simon: njena pot, delo v šoli in umetnosti, delo v civilnih pobudah.]"
-    placeholder: true
-  - id: zakaj
-    naslov: "Zakaj kandidira"
-    besedilo: "[Tu bo besedilo o tem, zakaj Apolonija Simon kandidira za županjo Ljubljane.]"
-    placeholder: true
+  # Header lines from the CV (podatki/vsebina/zivljenjepis-apolonija.md), exactly as written.
+  # besedilo: the subtitle line; " | " separates the items.
+  # Left out for now, on request: "Rojena: 4. februarja 1967 v Brežicah" (ask the team before adding it).
+  - id: glava
+    naslov: "Kandidatka za županjo Mestne občine Ljubljana"
+    besedilo: "Magistrica umetnosti | Ravnateljica Srednje šole za oblikovanje in fotografijo Ljubljana | Akademska slikarka in pedagoginja"
+  # Heading above the collapsible CV sections (the CV's own title).
+  - id: zivljenjepis
+    naslov: "Življenjepis"
+    besedilo: ""
 
 # Direct quotes from: Siol.net, "Kandidatka Vesne za županjo Ljubljane Apolonija Simon za drugačno vodenje mesta", 1. 10. 2026.
 # Copied verbatim; the team should double-check them against the article before launch.

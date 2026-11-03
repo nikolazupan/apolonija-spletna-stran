@@ -11,6 +11,7 @@ Each hand-made mark on the site is one SVG file here. They are rendered inline b
 | `krog-svincnik.svg` | pencil/crayon circle around the ballot number 6 in the homepage hero (filled shape with its own grain filter; use `rough={false}`) |
 | `meni.svg` | hamburger icon of the mobile menu button |
 | `zapri.svg` | close icon of the mobile menu overlay |
+| `narekovaj.svg` | hand-drawn »« quote mark before the big quote in "Zakaj kandidiram" (/apolonija-simon, used as a CSS mask) |
 | `puscica.svg` | arrow (currently unused, kept for later pages) |
 
 The current files are vector redraws of the print marks. A rough edge is added by the

@@ -182,6 +182,19 @@ const odprtaVprasanja = defineCollection({
   }),
 });
 
+// Apolonija's CV (/apolonija-simon), one file per section, text exactly as in podatki/vsebina/zivljenjepis-apolonija.md.
+// vrsta: uvod = intro text under the header, razdelek = collapsible section, zakaj = "Zakaj kandidiram" (prominent).
+// casovnica: "### <year> – <title>" headings are shown as a timeline (src/lib/casovnica.ts).
+const zivljenjepis = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/zivljenjepis' }),
+  schema: z.object({
+    naslov: z.string(),
+    vrstniRed: z.number(),
+    vrsta: z.enum(['uvod', 'razdelek', 'zakaj']),
+    casovnica: z.boolean().default(false),
+  }),
+});
+
 // Campaign posters (/arhiv → "Plakati"); images made by `npm run plakati`.
 const plakati = defineCollection({
   loader: file('src/content/plakati/plakati.yaml'),
@@ -203,4 +216,4 @@ const odprteZadeve = defineCollection({
   }),
 });
 
-export const collections = { odprteZadeve, plakati, strani, program, kandidati, cetrtneSkupnosti, sporniProjekti, vprasanja, objave, odprtaVprasanja };
+export const collections = { odprteZadeve, plakati, strani, program, kandidati, cetrtneSkupnosti, sporniProjekti, vprasanja, objave, odprtaVprasanja, zivljenjepis };

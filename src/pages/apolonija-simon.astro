@@ -1,6 +1,8 @@
 ---
-// Apolonija Simon: name and facts on a white hand-cut shape with a cut-out of her face beside it
-// (above it on phones), her own words, longer text, links.
+// Apolonija Simon: name, candidacy and subtitle on a white hand-cut shape with a cut-out of her face beside it
+// (above it on phones), then her CV (src/content/zivljenjepis/): intro text, collapsible sections,
+// "Zakaj kandidiram" with the big quote, her quotes from the press, links.
+import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CandidateMark from '../components/brand/CandidateMark.astro';
 import CutoutImage from '../components/brand/CutoutImage.astro';
@@ -8,23 +10,43 @@ import Blob from '../components/brand/Blob.astro';
 import ShapedText from '../components/brand/ShapedText.astro';
 import Risba from '../components/brand/Risba.astro';
 import portret from '../assets/foto/apolonija-portret-obraz.jpg';
-import BlockText from '../components/BlockText.astro';
+import narekovaj from '../assets/risbe/narekovaj.svg?url';
+import podcrta from '../assets/risbe/podcrta.svg?url';
 import TextLink from '../components/ui/TextLink.astro';
 import { getStran } from '../lib/strani';
+import { casovnica } from '../lib/casovnica';
 
 const { naslov, opis, blok, citati, povezave } = await getStran('apolonija-simon');
-const uvod = blok('uvod');
+const glava = blok('glava');
+const podnaslov = glava.besedilo.split('|').map((s) => s.trim());
 const [glavni, ...ostali] = citati;
 
+const deli = (await getCollection('zivljenjepis')).sort((a, b) => a.data.vrstniRed - b.data.vrstniRed);
+const vDeli = await Promise.all(
+  deli.map(async (d) => ({
+    ...d.data,
+    id: d.id,
+    Content: (await render(d)).Content,
+    // timeline sections are rendered from their HTML (lib/casovnica.ts)
+    casovnicaHtml: d.data.casovnica ? casovnica(d.rendered?.html ?? '') : undefined,
+  })),
+);
+const uvod = vDeli.find((d) => d.vrsta === 'uvod');
+const razdelki = vDeli.filter((d) => d.vrsta === 'razdelek');
+const zakaj = vDeli.find((d) => d.vrsta === 'zakaj');
 ---
 
 <BaseLayout title={naslov} description={opis}>
-  <!-- name + facts, face cut-out beside (phones: above) -->
-  <section class="site-container grid items-center gap-6 pb-10 pt-6 md:grid-cols-[minmax(0,1fr)_minmax(0,0.6fr)] md:gap-10 lg:pb-14 lg:pt-10">
+  <!-- name, candidacy, subtitle; face cut-out beside (phones: above) -->
+  <section class="site-container grid items-center gap-6 pb-8 pt-6 md:grid-cols-[minmax(0,1fr)_minmax(0,0.6fr)] md:gap-10 lg:pb-12 lg:pt-10">
     <ShapedText variant="e" shapeClass="-rotate-1" class="max-md:order-2">
-        <CandidateMark as="h1" tagline="" stroke={false} class="text-[clamp(2.5rem,12vw,6.5rem)] md:text-[clamp(3rem,7vw,6.5rem)]" />
-        <h2 class="mt-6 max-w-xl text-2xl font-extrabold leading-tight tracking-tight text-zelena-temna sm:text-3xl">{uvod.naslov}</h2>
-        <BlockText blok={uvod} class="mt-3 max-w-xl text-lg leading-relaxed" />
+      <CandidateMark as="h1" tagline="" stroke={false} class="text-[clamp(2.5rem,12vw,6.5rem)] md:text-[clamp(3rem,7vw,6.5rem)]" />
+      <p class="mt-5 max-w-xl text-2xl font-extrabold leading-tight tracking-tight text-zelena-temna sm:text-3xl">{glava.naslov}</p>
+      <ul class="mt-4 max-w-xl space-y-1.5 text-base font-bold leading-snug sm:text-lg">
+        {podnaslov.map((s) => (
+          <li class="flex gap-2.5"><span class="mt-[0.55em] h-1.5 w-3 shrink-0 rounded-full bg-zelena" aria-hidden="true"></span>{s}</li>
+        ))}
+      </ul>
     </ShapedText>
 
     <figure class="relative mx-auto w-[72%] max-w-sm max-md:order-1 md:w-full">
@@ -33,7 +55,56 @@ const [glavni, ...ostali] = citati;
     </figure>
   </section>
 
-  <!-- her own words -->
+  <!-- CV section 1: intro text -->
+  {uvod && (
+    <section class="site-container pb-14 lg:pb-20" aria-labelledby="predstavitev">
+      <div class="md:ml-[8%] lg:ml-[16%]">
+        <h2 id="predstavitev" class="text-sm font-extrabold uppercase tracking-[0.08em] text-zelena-temna">{uvod.naslov}</h2>
+        <div class="cv cv-uvod mt-3">
+          <uvod.Content />
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CV sections 2–8, collapsed -->
+  {razdelki.length > 0 && (
+    <section class="site-container pb-14 lg:pb-20" aria-labelledby="zivljenjepis">
+      <h2 id="zivljenjepis" class="naslov-sekcije">{blok('zivljenjepis').naslov}</h2>
+      <div class="mt-6 max-w-4xl divide-y-2 divide-crna/15 border-y-2 border-crna">
+        {razdelki.map((r) => (
+          <details class="razdelek group" id={r.id.replace(/^\d+-/, '')}>
+            <summary class="flex cursor-pointer list-none items-center gap-4 py-4 sm:py-5">
+              <span class="flex-1 font-display text-[clamp(1.35rem,4.5vw,2rem)] font-extrabold leading-[1.05] tracking-[-0.03em] [font-stretch:85%] group-hover:text-zelena-temna">{r.naslov}</span>
+              <span class="relative grid h-10 w-10 shrink-0 place-items-center" aria-hidden="true">
+                <Risba name="krog" class="absolute inset-0 h-full w-full opacity-0 transition-opacity group-hover:opacity-100 group-open:opacity-100 [--risba-w:3px]" />
+                <svg viewBox="0 0 16 16" class="h-4 w-4 transition-transform group-open:rotate-45" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M8 2v12M2 8h12" /></svg>
+              </span>
+            </summary>
+            <div class:list={['cv pb-8', r.casovnica && 'cv-casovnica']}>
+              {r.casovnicaHtml ? <Fragment set:html={r.casovnicaHtml} /> : <r.Content />}
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- CV section 9: why she is running, with the big hand-drawn quote -->
+  {zakaj && (
+    <section class="paper border-y-2 border-crna bg-bela py-14 lg:py-20" aria-labelledby="zakaj-kandidiram">
+      <div class="site-container">
+        <h2 id="zakaj-kandidiram" class="display text-[clamp(2.75rem,9vw,5.5rem)]">
+          Zakaj<br /><span class="pl-[0.6em]">kandidiram</span>
+        </h2>
+        <div class="cv cv-zakaj mt-8" style={`--narekovaj:url("${narekovaj}");--podcrta:url("${podcrta}")`}>
+          <zakaj.Content />
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- her own words in the press -->
   {glavni && (
     <section class="paper bg-zelena py-14 lg:py-20">
       <div class="site-container">
@@ -63,22 +134,237 @@ const [glavni, ...ostali] = citati;
     </section>
   )}
 
-  <!-- longer text -->
-  <section class="site-container grid gap-10 py-14 md:grid-cols-2 lg:gap-16 lg:py-20">
-    {['zgodba', 'zakaj'].map((id) => {
-      const b = blok(id);
-      return (
-        <article>
-          <h2 class="naslov-sekcije">{b.naslov}</h2>
-          <BlockText blok={b} class="mt-4 max-w-prose text-lg leading-relaxed" />
-        </article>
-      );
-    })}
-  </section>
-
-  <section class="site-container flex flex-wrap gap-x-8 gap-y-3 pb-16 text-lg">
+  <section class="site-container flex flex-wrap gap-x-8 gap-y-3 py-12 text-lg lg:py-16">
     {povezave.map((p) => <TextLink href={p.url} placeholder={p.placeholder}>{p.naslov}</TextLink>)}
     <TextLink href="/program">Program</TextLink>
     <TextLink href="/vprasanja">Vprašaj Apolonijo</TextLink>
   </section>
 </BaseLayout>
+
+<style>
+  .razdelek summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* CV text (markdown). Rendered markdown, so the rules are global, scoped by .cv */
+  :global(.cv) {
+    max-width: 42rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  :global(.cv > * + *),
+  :global(.casovnica-vsebina > * + *) {
+    margin-top: 0.9rem;
+  }
+  :global(.cv ul) {
+    padding-left: 1.25rem;
+    list-style: none;
+  }
+  :global(.cv ul > li) {
+    position: relative;
+    margin-top: 0.35rem;
+  }
+  :global(.cv ul > li)::before {
+    content: "";
+    position: absolute;
+    left: -1.1rem;
+    top: 0.7em;
+    width: 0.6rem;
+    height: 0.3rem;
+    border-radius: 9999px;
+    background: var(--color-zelena);
+  }
+  :global(.cv h3) {
+    margin-top: 2rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 85%;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    font-size: clamp(1.3rem, 3.5vw, 1.6rem);
+  }
+  :global(.cv h4) {
+    margin-top: 1.4rem;
+    font-weight: 800;
+    font-size: 1.0625rem;
+    line-height: 1.3;
+  }
+  :global(.cv h3 + *),
+  :global(.cv h4 + *) {
+    margin-top: 0.4rem;
+  }
+  /* "Kompetence": bold label of each paragraph */
+  :global(.cv p > strong:first-child) {
+    font-weight: 800;
+  }
+
+  /* intro (section 1): first paragraph as a lead */
+  :global(.cv-uvod) {
+    max-width: 46rem;
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+  :global(.cv-uvod > p:first-child) {
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 3.6vw, 2rem);
+    font-weight: 700;
+    font-stretch: 85%;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  /* timeline (Izobrazba, Poklicna pot): year column + text, thin line on the left */
+  :global(.casovnica) {
+    border-left: 2px solid var(--color-crna);
+    margin-left: 0.35rem;
+  }
+  :global(.casovnica > li) {
+    position: relative;
+    padding: 0 0 1.75rem 1.5rem;
+  }
+  :global(.casovnica > li:last-child) {
+    padding-bottom: 0.25rem;
+  }
+  :global(.casovnica > li)::before {
+    /* dot on the line */
+    content: "";
+    position: absolute;
+    left: -0.5rem;
+    top: 0.3rem;
+    width: 0.875rem;
+    height: 0.875rem;
+    border-radius: 9999px;
+    background: var(--color-zelena);
+    box-shadow: 0 0 0 3px var(--color-krema);
+  }
+  :global(.casovnica-leto) {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 85%;
+    letter-spacing: -0.02em;
+    font-size: 1.35rem;
+    line-height: 1;
+    color: var(--color-zelena-temna);
+  }
+  :global(.casovnica-vsebina) {
+    margin-top: 0.35rem;
+  }
+  :global(.casovnica-vsebina h3) {
+    margin-top: 0;
+  }
+  @media (min-width: 640px) {
+    :global(.cv-casovnica) {
+      max-width: 50rem;
+    }
+    :global(.casovnica > li) {
+      display: grid;
+      grid-template-columns: 7.5rem minmax(0, 1fr);
+      gap: 1.25rem;
+    }
+    :global(.casovnica-vsebina) {
+      margin-top: 0;
+    }
+  }
+
+  /* awards: two-column table, year + award */
+  :global(.cv table) {
+    width: 100%;
+    margin-top: 0.75rem;
+    border-collapse: collapse;
+    border-top: 2px solid var(--color-crna);
+    border-bottom: 2px solid var(--color-crna);
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  :global(.cv th) {
+    padding: 0.6rem 0.75rem 0.5rem 0;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-zelena-temna);
+  }
+  :global(.cv td) {
+    padding: 0.6rem 0.75rem 0.6rem 0;
+    vertical-align: top;
+    border-top: 1px solid rgb(20 20 20 / 0.15);
+  }
+  :global(.cv td:first-child) {
+    width: 4.5rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 85%;
+    font-size: 1.15rem;
+    line-height: 1.2;
+  }
+
+  /* "Zakaj kandidiram": text in two columns on wide screens, the quote across the full width */
+  :global(.cv-zakaj) {
+    max-width: none;
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+  :global(.cv-zakaj > p) {
+    max-width: 42rem;
+  }
+  @media (min-width: 1024px) {
+    :global(.cv-zakaj > p) {
+      margin-left: 16%;
+    }
+  }
+  :global(.cv-zakaj > blockquote) {
+    position: relative;
+    max-width: 62rem;
+    margin-block: 3rem 2.5rem;
+    padding-top: 4rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 85%;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    font-size: clamp(2rem, 5.6vw, 4rem);
+  }
+  :global(.cv-zakaj > blockquote strong) {
+    font-weight: inherit;
+  }
+  :global(.cv-zakaj > blockquote)::before {
+    /* hand-drawn » before the quote (phones: above it) */
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3.75rem;
+    height: 3rem;
+    background: var(--color-zelena);
+    mask: var(--narekovaj) center / contain no-repeat;
+    filter: url(#risba-grobo);
+  }
+  :global(.cv-zakaj > blockquote)::after {
+    /* hand-drawn underline under the quote */
+    content: "";
+    display: block;
+    width: min(18rem, 60%);
+    height: 0.9rem;
+    margin-top: 1.25rem;
+    background: var(--color-zelena);
+    mask: var(--podcrta) center / 100% 100% no-repeat;
+  }
+  @media (min-width: 1024px) {
+    :global(.cv-zakaj > blockquote) {
+      padding-top: 0;
+      padding-left: 16%;
+    }
+    :global(.cv-zakaj > blockquote)::before {
+      left: calc(16% - 6rem);
+      top: 0.1em;
+      width: 4.5rem;
+      height: 3.6rem;
+    }
+  }
+  /* signature */
+  :global(.cv-zakaj > p:last-child) {
+    margin-top: 2rem;
+    font-size: 1rem;
+  }
+</style>

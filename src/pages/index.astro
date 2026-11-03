@@ -30,6 +30,6 @@ const objave = starejse.slice(0, 4);
   {hero && <HomeHero hero={hero} objava={najnovejsa} />}
   <AskQuestion naslov={[vprasanja.naslov ?? '', vprasanja.besedilo]} povezava="/vprasanja" />
   <KeyPoints naslov={poudarkiBlok.naslov} povezavaBesedilo={poudarkiBlok.besedilo} placeholder={poudarkiBlok.placeholder} podrocja={podrocja} besedila={poudarkiBesedila} />
-  <HomeSkupaj kandidatura={blok('kandidatura')} bio={blok('bio')} skupaj={blok('skupaj')} />
+  <HomeSkupaj kandidatura={blok('kandidatura')} poudarek={blok('kandidatura-poudarek')} skupaj={blok('skupaj')} />
   {objave.length > 0 && <LatestPosts objave={objave} naslov={blok('objava').naslov} povezavaArhiv={blok('objava').besedilo} />}
 </BaseLayout>

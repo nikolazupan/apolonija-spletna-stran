@@ -33,13 +33,14 @@ bloki:
     # The final choice of the 3 areas is not decided yet.
     placeholder: true
 
+  # Quoted exactly from the CV, section 9 (src/content/zivljenjepis/09-zakaj-kandidiram.md):
+  # besedilo = the paragraph, kandidatura-poudarek = the bold sentence.
   - id: kandidatura
     naslov: "Zakaj Apolonija kandidira"
-    besedilo: "[Tu bo besedilo o tem, zakaj Apolonija Simon kandidira za županjo Ljubljane.]"
-    placeholder: true
+    besedilo: "Kot nestrankarska kandidatka, ki izhaja iz civilne družbe in kandidira s podporo stranke Vesna, želim prispevati k drugačnemu načinu upravljanja Ljubljane."
 
-  - id: bio
-    besedilo: "Akademska slikarka in ravnateljica Srednje šole za oblikovanje in fotografijo Ljubljana."
+  - id: kandidatura-poudarek
+    besedilo: "Uspešnosti mesta ne smemo meriti samo po številu investicij in zgrajenih objektov, temveč predvsem po tem, kako zaradi sprejetih odločitev živijo njegovi prebivalci."
 
   - id: skupaj
     naslov: "Vesna in civilna družba skupaj"
