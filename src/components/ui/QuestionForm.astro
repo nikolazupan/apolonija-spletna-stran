@@ -1,10 +1,15 @@
 ---
 // Question form for Apolonija (UI only, no backend yet): marked OSNUTEK and says so on submit.
 // Arrow submit button sits inside the field's bottom-right corner. Use once per page.
+// Texts: src/content/strani/vprasanja.md → bloki.obrazec (naslov = hint in the empty field,
+// besedilo = line under the field, podpis = message after sending).
 import Placeholder from '../Placeholder.astro';
+import { getStran } from '../../lib/strani';
+
+const obrazec = (await getStran('vprasanja')).blok('obrazec');
 ---
 
-<Placeholder as="div" class="block">
+<Placeholder active={obrazec.osnutek} as="div" class="block">
   <form data-vprasanje class="relative" novalidate>
     <label for="vprasanje" class="sr-only">Tvoje vprašanje</label>
     <textarea
@@ -13,7 +18,7 @@ import Placeholder from '../Placeholder.astro';
       rows="3"
       required
       class="block w-full resize-y rounded-2xl border-2 border-crna bg-krema py-3 pl-4 pr-16 text-lg placeholder:text-crna/55 focus:outline-none focus:ring-4 focus:ring-crna/30"
-      placeholder="Kaj te zanima o našem programu?"
+      placeholder={obrazec.naslov}
     ></textarea>
     <button
       type="submit"
@@ -26,7 +31,7 @@ import Placeholder from '../Placeholder.astro';
       </svg>
     </button>
   </form>
-  <p class="mt-2 text-sm font-medium" role="status" data-vprasanje-status>Prototip: obrazec še ne pošilja vprašanj.</p>
+  <p class="mt-2 text-sm font-medium" role="status" data-vprasanje-status data-poslano={obrazec.podpis}>{obrazec.besedilo}</p>
 </Placeholder>
 
 <script>
@@ -35,7 +40,7 @@ import Placeholder from '../Placeholder.astro';
     const status = form.parentElement?.querySelector('[data-vprasanje-status]');
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      if (status) status.textContent = 'Prototip: vprašanje ni bilo poslano. Pošiljanje bo delovalo v končni verziji.';
+      if (status instanceof HTMLElement && status.dataset.poslano) status.textContent = status.dataset.poslano;
     });
   });
 </script>

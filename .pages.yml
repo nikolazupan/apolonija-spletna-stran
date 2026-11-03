@@ -1,0 +1,840 @@
+# Pages CMS configuration (https://pagescms.org): what the team can edit at app.pagescms.org.
+# Only the content files and image folders listed here are editable; code and config are not.
+# How it works and how to add a field: CLAUDE.md → "Pages CMS".
+#
+# Conventions:
+#   - Images are written as "@assets/<folder>/<file>" (alias for src/assets/, tsconfig.json), so Astro optimises them.
+#   - `osnutek` (boolean) = the OSNUTEK mark on the site; editors switch it off once a text is approved.
+#   - The text below the frontmatter of a .md file is the field named `body`.
+#   - Field names must match src/content.config.ts. Comments in content files are lost when the CMS saves a file.
+
+settings:
+  # editors don't see the configuration page
+  hide: true
+  # keep keys that are not listed here when saving (safer while the config grows)
+  content:
+    merge: true
+  commit:
+    # commits show who edited
+    identity: user
+
+media:
+  - name: fotografije
+    label: Fotografije (splošne, kandidati, skupinske, sporni projekti)
+    input: src/assets/fotografije
+    output: "@assets/fotografije"
+    extensions: [jpg, jpeg, png, webp]
+    rename: safe
+  - name: portreti
+    label: Portreti Apolonije
+    input: src/assets/foto
+    output: "@assets/foto"
+    extensions: [jpg, jpeg, png, webp]
+    rename: safe
+  - name: objave
+    label: Slike objav z Instagrama
+    input: src/assets/objave
+    output: "@assets/objave"
+    extensions: [jpg, jpeg, png, webp]
+    rename: safe
+  - name: novice
+    label: Slike novic
+    input: src/assets/novice
+    output: "@assets/novice"
+    extensions: [jpg, jpeg, png, webp]
+    rename: safe
+
+content:
+  # ───────────────────────────── Vstopna stran
+  - name: vstopna
+    label: Vstopna stran
+    type: file
+    path: src/content/strani/vstopna.md
+    fields:
+      - { name: naslov, label: Naslov strani (zavihek brskalnika), type: string, required: true, description: "Prikaže se v zavihku brskalnika in v iskalnikih." }
+      - { name: opis, label: Opis za iskalnike in deljenje, type: text, description: "1–2 stavka. Prikaže se v Googlu in ob deljenju povezave." }
+      - name: hero
+        label: Uvodni del (ime, fotografija)
+        type: object
+        fields:
+          - { name: podnaslov, label: Vrstica pod imenom, type: string, required: true, description: "Npr. »Županja za vse meščane.«" }
+          - { name: obkrozi, label: Besedilo ob obkroženi šestici, type: string, description: "Mora jasno povedati, da gre za županjo, npr. »Za županjo obkroži:«. Na telefonu se ne prikaže." }
+          - { name: slika, label: Fotografija (tablica in računalnik), type: image, required: true, options: { media: fotografije }, description: "Pokončna, razmerje 4 : 5, najmanj 1200 × 1500 px, JPG do ~5 MB. Apolonija naj bo v sredini." }
+          - { name: slikaTelefon, label: Fotografija (telefon), type: image, required: true, options: { media: fotografije }, description: "Isti motiv, tesneje obrezan (4 : 5), da obraz zapolni okvir. Najmanj 1200 × 1500 px." }
+          - { name: alt, label: Opis fotografije (za slabovidne), type: string, required: true, description: "Kaj je na fotografiji, v enem stavku." }
+      - name: poudarki
+        label: Ključne točke programa (3 področja)
+        type: object
+        list: { min: 1, max: 3, collapsible: { collapsed: true, summary: "{podrocje}" } }
+        description: "Področja, prikazana pod okvirčkom z vprašanjem, v tem vrstnem redu. Celotna besedila ostanejo na strani Program."
+        fields:
+          - name: podrocje
+            label: Področje programa
+            type: select
+            required: true
+            options:
+              values:
+                - { name: odprto-in-odgovorno-upravljanje, label: "1 · Odprto in odgovorno upravljanje" }
+                - { name: prostor-v-javnem-interesu, label: "2 · Prostor v javnem interesu" }
+                - { name: dostopen-dom-in-zive-soseske, label: "3 · Dostopen dom in žive soseske" }
+                - { name: povezana-in-varna-mobilnost, label: "4 · Povezana in varna mobilnost" }
+                - { name: podnebna-odpornost-in-obnova-narave, label: "5 · Podnebna odpornost in obnova narave" }
+                - { name: pitna-voda-zdravje-in-varnost, label: "6 · Pitna voda, zdravje in varnost" }
+                - { name: energija-odpadki-in-lokalno-gospodarstvo, label: "7 · Energija, odpadki in lokalno gospodarstvo" }
+                - { name: uporabna-digitalizacija, label: "8 · Uporabna digitalizacija" }
+                - { name: solidarnost-kultura-in-dostopnost, label: "9 · Solidarnost, kultura in dostopnost" }
+          - { name: besedilo, label: Skrajšano besedilo za vstopno stran, type: text, description: "2 stavka. Če je prazno, se prikaže celoten opis področja." }
+      - name: bloki
+        label: Besedila na strani
+        type: object
+        fields:
+          - name: vprasanja
+            label: "Zeleni okvir »Imaš vprašanje?«"
+            type: object
+            fields:
+              - { name: naslov, label: Naslov, 1. vrstica, type: string, description: "Npr. »Imaš vprašanje?« (vprašaj na koncu se izriše posebej)." }
+              - { name: besedilo, label: Naslov, 2. vrstica, type: string }
+              - { name: povezava, label: Besedilo povezave na vprašanja in odgovore, type: string }
+          - name: poudarki
+            label: Razdelek »Ključne točke programa«
+            type: object
+            fields:
+              - { name: naslov, label: Naslov razdelka, type: string }
+              - { name: povezava, label: Besedilo povezave na celoten program, type: string }
+              - { name: osnutek, label: "Osnutek (izbor 3 področij še ni dokončen)", type: boolean, description: "Izklopi, ko je izbor treh področij potrjen." }
+          - name: kandidatura
+            label: "Razdelek »Zakaj Apolonija kandidira«"
+            type: object
+            fields:
+              - { name: naslov, label: Naslov razdelka, type: string }
+              - { name: besedilo, label: "Besedilo za razdelek »Zakaj Apolonija kandidira« (1–2 odstavka)", type: text, description: "Apolonijine besede v prvi osebi (zdaj citat iz življenjepisa)." }
+              - { name: povezava, label: Besedilo povezave na stran Apolonija Simon, type: string }
+              - { name: osnutek, label: Osnutek, type: boolean, description: "Vklopljeno: besedilo je na strani označeno z OSNUTEK." }
+          - name: kandidaturaPoudarek
+            label: "»Zakaj Apolonija kandidira«: poudarjen stavek"
+            type: object
+            fields:
+              - { name: besedilo, label: Poudarjen stavek (citat), type: text, description: "En stavek, prikazan večje z zeleno črto." }
+              - { name: podpis, label: Podpis pod citatom, type: string }
+              - { name: osnutek, label: Osnutek, type: boolean }
+          - name: skupaj
+            label: "Razdelek »Vesna in civilna družba skupaj«"
+            type: object
+            fields:
+              - { name: naslov, label: Naslov razdelka, type: string }
+              - { name: besedilo, label: "Besedilo: zakaj Vesna in civilna družba nastopata skupaj (1 odstavek)", type: text }
+              - { name: osnutek, label: Osnutek, type: boolean, description: "Vklopljeno: besedilo je na strani označeno z OSNUTEK. Izklopi, ko je besedilo potrjeno." }
+          - name: objava
+            label: "Razdelek »Iz arhiva« (zadnje objave)"
+            type: object
+            fields:
+              - { name: naslov, label: Naslov razdelka, type: string }
+              - { name: povezava, label: Besedilo povezave na arhiv, type: string }
+          - name: zadnjaObjava
+            label: Zadnja objava (na zadnji strani zelene oblike)
+            type: object
+            fields:
+              - { name: besedilo, label: Oznaka zadnje objave, type: string, description: "Datum objave se doda samodejno." }
+
+  # ───────────────────────────── Apolonija Simon
+  - name: apolonija-simon
+    label: Apolonija Simon
+    type: group
+    items:
+      - name: apolonija
+        label: Stran »Apolonija Simon«
+        type: file
+        path: src/content/strani/apolonija-simon.md
+        fields:
+          - { name: naslov, label: Naslov strani (zavihek brskalnika), type: string, required: true }
+          - { name: opis, label: Opis za iskalnike in deljenje, type: text }
+          - name: fotografije
+            label: Portret ob imenu
+            type: object
+            list: { min: 1, max: 1 }
+            description: "Izrez obraza, ki stoji ob imenu (na telefonu nad njim). Kvadraten, najmanj 900 × 900 px."
+            fields:
+              - { name: slika, label: Fotografija, type: image, options: { media: portreti } }
+              - { name: alt, label: Opis fotografije (za slabovidne), type: string }
+          - name: bloki
+            label: Besedila na strani
+            type: object
+            fields:
+              - name: glava
+                label: Glava (ob imenu)
+                type: object
+                fields:
+                  - { name: naslov, label: Kandidatura, type: string, description: "Npr. »Kandidatka za županjo Mestne občine Ljubljana«." }
+                  - { name: besedilo, label: Nazivi, type: string, description: "Ločeni z » | «, vsak se prikaže v svoji vrstici." }
+              - name: zivljenjepis
+                label: Naslov nad razdelki življenjepisa
+                type: object
+                fields:
+                  - { name: naslov, label: Naslov, type: string }
+              - name: citati
+                label: Citati iz medijev
+                type: object
+                fields:
+                  - { name: podpis, label: Podpis pod glavnim citatom, type: string }
+          - name: citati
+            label: Citati iz medijev (zeleni pas)
+            type: object
+            list: { collapsible: { collapsed: true, summary: "{vir}" } }
+            description: "Samo resnični citati z navedenim virom. Prvi je prikazan velik, ostali pod njim."
+            fields:
+              - { name: besedilo, label: Citat, type: text, required: true, description: "Dobesedno, brez narekovajev." }
+              - { name: vir, label: Vir, type: string, required: true, description: "Npr. »Siol.net, 1. 10. 2026«." }
+              - { name: url, label: Povezava do vira, type: string }
+          - name: povezave
+            label: Povezave na dnu strani
+            type: object
+            list: true
+            fields:
+              - { name: naslov, label: Besedilo povezave, type: string, required: true }
+              - { name: url, label: Naslov (URL), type: string, required: true, description: "Zunanja povezava (https://…) ali stran na tej strani (npr. /program)." }
+              - { name: osnutek, label: Osnutek, type: boolean }
+      - name: zivljenjepis
+        label: Življenjepis (razdelki)
+        type: collection
+        path: src/content/zivljenjepis
+        description: "Besedilo življenjepisa, dobesedno kot ga je potrdila ekipa. Razdelek 1 je uvod, 2–8 so zložljivi, 9 je »Zakaj kandidiram«."
+        operations: { create: false, rename: false, delete: false }
+        view:
+          fields: [naslov, vrstniRed]
+          primary: naslov
+          default: { sort: vrstniRed, order: asc }
+        fields:
+          - { name: naslov, label: Naslov razdelka, type: string, required: true }
+          - { name: vrstniRed, label: Vrstni red, type: number, readonly: true }
+          - { name: vrsta, label: Vrsta, type: string, hidden: true }
+          - { name: casovnica, label: Časovnica, type: boolean, hidden: true }
+          - name: body
+            label: Besedilo razdelka
+            type: code
+            options: { format: markdown }
+            description: "Markdown: ### za podnaslov, - za alineje, **krepko**. V Izobrazbi in Poklicni poti se vrstice »### leto – naziv« prikažejo kot časovnica. V »Zakaj kandidiram« vrstica, ki se začne z >, postane velik citat."
+
+  # ───────────────────────────── Lista
+  - name: lista-skupina
+    label: Lista
+    type: group
+    items:
+      - name: lista
+        label: Stran »Lista Vesna in civilna družba«
+        type: file
+        path: src/content/strani/lista.md
+        fields:
+          - { name: naslov, label: Naslov strani, type: string, required: true }
+          - { name: opis, label: Opis za iskalnike in deljenje, type: text }
+          - name: fotografije
+            label: Skupinski fotografiji
+            type: object
+            list: { min: 2, max: 2 }
+            description: "1. velika, 2. manjša, ki jo prekriva. Ležeči, razmerje 3 : 2, najmanj 2000 px po širini."
+            fields:
+              - { name: slika, label: Fotografija, type: image, options: { media: fotografije, path: src/assets/fotografije/skupinske } }
+              - { name: alt, label: Opis fotografije (za slabovidne), type: string, description: "Kdo je na fotografiji." }
+          - name: bloki
+            label: Besedila na strani
+            type: object
+            fields:
+              - name: uvod
+                label: Uvod
+                type: object
+                fields:
+                  - { name: naslov, label: Naslov ob imenu strani, type: string }
+                  - { name: besedilo, label: "Uvodno besedilo o listi (1 odstavek)", type: text }
+                  - { name: osnutek, label: Osnutek, type: boolean, description: "Izklopi, ko je besedilo potrjeno." }
+              - name: mestniSvet
+                label: Mestni svet
+                type: object
+                fields:
+                  - { name: naslov, label: Naslov seznama kandidatov, type: string }
+                  - { name: besedilo, label: Besedilo ob obkroženi devetki, type: string }
+              - name: nosilec
+                label: Oznaka nosilca liste
+                type: object
+                fields:
+                  - { name: besedilo, label: Oznaka, type: string }
+              - name: cetrtne
+                label: Četrtne skupnosti
+                type: object
+                fields:
+                  - { name: naslov, label: Naslov, type: string }
+                  - { name: besedilo, label: "Uvodno besedilo o kandidaturah v četrtnih skupnostih (1–2 stavka)", type: text }
+                  - { name: osnutek, label: Osnutek, type: boolean }
+      - name: kandidati
+        label: Kandidati za mestni svet
+        type: file
+        path: src/content/kandidati/mestni-svet.yaml
+        format: yaml
+        list: true
+        description: "Samo javni podatki: ime, del liste, strokovni naslov, fotografija. V vrstnem redu na glasovnici."
+        fields:
+          - { name: id, label: Oznaka (brez šumnikov), type: string, required: true, description: "Npr. ime-priimek. Ne spreminjaj pri obstoječih kandidatih." }
+          - { name: vrstniRed, label: Številka na glasovnici, type: number, required: true }
+          - { name: ime, label: Ime in priimek, type: string, required: true }
+          - name: clan
+            label: Del liste
+            type: select
+            required: true
+            options: { values: [Vesna, Civilna iniciativa] }
+          - { name: naziv, label: Strokovni ali znanstveni naslov, type: string, description: "Točno tako, kot je zapisan v seznamu kandidatov." }
+          - { name: nosilec, label: Nosilec liste, type: boolean }
+          - { name: slika, label: Fotografija, type: image, options: { media: fotografije, path: src/assets/fotografije/kandidati }, description: "Portret, kvadraten ali pokončen, obraz v zgornji tretjini, najmanj 800 px. Brez fotografije se prikažejo začetnice." }
+      - name: cetrtne
+        label: Kandidati za četrtne skupnosti
+        type: file
+        path: src/content/kandidati/cetrtne-skupnosti.yaml
+        format: yaml
+        list: true
+        fields:
+          - { name: id, label: Oznaka (brez šumnikov), type: string, required: true }
+          - { name: vrstniRed, label: Vrstni red, type: number, required: true }
+          - { name: ime, label: Četrtna skupnost, type: string, required: true, description: "Brez »ČS«, npr. »Vič«." }
+          - { name: kandidati, label: Kandidati, type: string, list: true, description: "Ime in priimek, v vrstnem redu." }
+
+  # ───────────────────────────── Program
+  - name: program-skupina
+    label: Program
+    type: group
+    items:
+      - name: program-stran
+        label: Stran »Program«
+        type: file
+        path: src/content/strani/program.md
+        fields:
+          - { name: naslov, label: Naslov strani, type: string, required: true }
+          - { name: opis, label: Opis za iskalnike in deljenje, type: text }
+          - { name: osnutek, label: "Osnutek (cel program še ni potrjen)", type: boolean, description: "Izklopi, ko ekipa potrdi končno verzijo programa." }
+          - name: bloki
+            label: Besedila na strani
+            type: object
+            fields:
+              - name: uvod
+                label: Uvod
+                type: object
+                fields:
+                  - { name: naslov, label: Naslov, type: string }
+                  - { name: besedilo, label: 1. uvodni odstavek, type: text }
+              - name: uvod2
+                label: 2. uvodni odstavek
+                type: object
+                fields:
+                  - { name: besedilo, label: Besedilo, type: text }
+              - name: stevilo
+                label: Beseda pod številom področij
+                type: object
+                fields:
+                  - { name: besedilo, label: Beseda, type: string }
+              - name: kartica
+                label: Kartice področij
+                type: object
+                fields:
+                  - { name: povezava, label: Besedilo povezave na kartici, type: string }
+              - name: celoten
+                label: Okvir »Celoten program«
+                type: object
+                fields:
+                  - { name: naslov, label: Naslov, type: string }
+                  - { name: besedilo, label: Besedilo, type: text }
+              - name: podrocje
+                label: Strani posameznih področij
+                type: object
+                fields:
+                  - { name: povezava, label: Povezava nazaj na seznam, type: string }
+                  - { name: naslov, label: Naslov ob virih, type: string }
+                  - { name: podpis, label: Predpona povezave na celoten program, type: string }
+          - name: povezave
+            label: Povezava na celoten program
+            type: object
+            list: true
+            fields:
+              - { name: naslov, label: Besedilo povezave, type: string, required: true }
+              - { name: url, label: Naslov (URL), type: string, required: true }
+              - { name: osnutek, label: Osnutek, type: boolean }
+      - name: program
+        label: Področja programa
+        type: collection
+        path: src/content/program
+        operations: { create: false, rename: false, delete: false }
+        view:
+          fields: [naslov, vrstniRed, osnutek]
+          primary: naslov
+          default: { sort: vrstniRed, order: asc }
+        fields:
+          - { name: naslov, label: Naslov področja, type: string, required: true }
+          - { name: vrstniRed, label: Zaporedna številka, type: number, required: true }
+          - { name: povzetek, label: Kratek opis (iz povzetka programa), type: text, required: true, description: "Dobesedno iz povzetka programa." }
+          - name: body
+            label: Daljše besedilo področja
+            type: rich-text
+            options: { format: markdown, media: false }
+            description: "Iz daljše verzije programa, nekaj odstavkov."
+          - { name: osnutek, label: Osnutek (daljše besedilo), type: boolean, description: "Izklopi, ko je daljše besedilo vneseno in potrjeno." }
+          - name: viri
+            label: Viri in povezave
+            type: object
+            list: { collapsible: { collapsed: true, summary: "{naslov}" } }
+            fields:
+              - { name: naslov, label: Naslov vira, type: string, required: true }
+              - { name: url, label: Povezava (URL), type: string, required: true }
+              - { name: osnutek, label: Osnutek, type: boolean }
+
+  # ───────────────────────────── Sporni projekti
+  - name: sporni-skupina
+    label: Sporni projekti
+    type: group
+    items:
+      - name: sporni-stran
+        label: Stran »Sporni projekti«
+        type: file
+        path: src/content/strani/sporni-projekti.md
+        fields:
+          - { name: naslov, label: Naslov strani, type: string, required: true }
+          - { name: opis, label: Opis za iskalnike in deljenje, type: text }
+          - name: bloki
+            label: Besedila na strani
+            type: object
+            fields:
+              - name: uvod
+                label: Uvod
+                type: object
+                fields:
+                  - { name: naslov, label: Naslov, type: string }
+                  - { name: besedilo, label: "Uvodno besedilo (1 odstavek)", type: text }
+                  - { name: osnutek, label: Osnutek, type: boolean }
+              - name: stalisce
+                label: Naše stališče
+                type: object
+                fields:
+                  - { name: naslov, label: Žig nad stališčem, type: string }
+                  - { name: povezava, label: Predpona povezave na področje programa, type: string }
+      - name: sporni
+        label: Projekti
+        type: collection
+        path: src/content/sporni-projekti
+        filename: "{primary}.md"
+        view:
+          fields: [naslov, vrstniRed, osnutek]
+          primary: naslov
+          default: { sort: vrstniRed, order: asc }
+        fields:
+          - { name: naslov, label: Ime projekta, type: string, required: true }
+          - { name: naslovOsnutek, label: Ime je le nadomestek, type: boolean, description: "Vklopljeno, dokler projekt ni izbran (npr. »Sporni projekt 3«)." }
+          - { name: vrstniRed, label: Vrstni red, type: number, required: true }
+          - { name: opis, label: "Opis projekta: kaj je, kje je in zakaj je sporen (2–3 stavki)", type: text, required: true }
+          - { name: slika, label: Fotografija, type: image, options: { media: fotografije, path: src/assets/fotografije/sporni-projekti }, description: "Ležeča, 4 : 3, najmanj 1600 px po širini. Brez fotografije se prikaže siv okvir." }
+          - { name: oznakaSlike, label: Napis v sivem okviru (dokler ni fotografije), type: string }
+          - { name: osnutek, label: Osnutek (opis in fotografija), type: boolean, description: "Izklopi, ko sta opis in fotografija vnesena." }
+          - { name: stalisce, label: Naše stališče, type: text, required: true }
+          - name: stalisceVir
+            label: Stališče je iz področja programa
+            type: select
+            options:
+              values:
+                - { name: odprto-in-odgovorno-upravljanje, label: "1 · Odprto in odgovorno upravljanje" }
+                - { name: prostor-v-javnem-interesu, label: "2 · Prostor v javnem interesu" }
+                - { name: dostopen-dom-in-zive-soseske, label: "3 · Dostopen dom in žive soseske" }
+                - { name: povezana-in-varna-mobilnost, label: "4 · Povezana in varna mobilnost" }
+                - { name: podnebna-odpornost-in-obnova-narave, label: "5 · Podnebna odpornost in obnova narave" }
+                - { name: pitna-voda-zdravje-in-varnost, label: "6 · Pitna voda, zdravje in varnost" }
+                - { name: energija-odpadki-in-lokalno-gospodarstvo, label: "7 · Energija, odpadki in lokalno gospodarstvo" }
+                - { name: uporabna-digitalizacija, label: "8 · Uporabna digitalizacija" }
+                - { name: solidarnost-kultura-in-dostopnost, label: "9 · Solidarnost, kultura in dostopnost" }
+          - { name: stalisceOsnutek, label: Stališče še ni napisano, type: boolean }
+
+  # ───────────────────────────── Vprašanja in odgovori
+  - name: vprasanja-skupina
+    label: Vprašanja in odgovori
+    type: group
+    items:
+      - name: vprasanja
+        label: Vprašanja meščanov
+        type: collection
+        path: src/content/vprasanja
+        description: "Na strani so prikazana samo vprašanja, ki so objavljena in imajo odgovor."
+        filename: "{year}-{month}-{day}-{primary}.md"
+        view:
+          fields: [vprasanje, datum, objavljeno]
+          primary: vprasanje
+          default: { sort: datum, order: desc }
+        fields:
+          - { name: vprasanje, label: Vprašanje, type: text, required: true, description: "Vprašanje meščanke ali meščana, brez imena." }
+          - name: body
+            label: Odgovor
+            type: rich-text
+            options: { format: markdown, media: false }
+            description: "Apolonijin odgovor, 1–3 odstavki."
+          - { name: datum, label: Datum, type: date, required: true, options: { format: yyyy-MM-dd } }
+          - { name: objavljeno, label: Objavljeno, type: boolean, default: false, description: "Vklopi, ko je odgovor pripravljen in potrjen. Neobjavljena vprašanja niso vidna na strani." }
+          - { name: osnutek, label: Osnutek, type: boolean, description: "Za primere v prototipu. Prava vprašanja tega ne potrebujejo." }
+      - name: vprasanja-stran
+        label: Stran »Vprašanja in odgovori« in obrazec
+        type: file
+        path: src/content/strani/vprasanja.md
+        fields:
+          - { name: naslov, label: Naslov strani, type: string, required: true }
+          - { name: opis, label: Opis za iskalnike in deljenje, type: text }
+          - name: bloki
+            label: Besedila na strani
+            type: object
+            fields:
+              - name: uvod
+                label: Zeleni pas z obrazcem
+                type: object
+                fields:
+                  - { name: naslov, label: Naslov, 1. vrstica, type: string }
+                  - { name: besedilo, label: Naslov, 2. vrstica, type: string }
+              - name: razlika
+                label: Uvodna vrstica nad seznamom
+                type: object
+                fields:
+                  - { name: besedilo, label: "Besedilo (razlika med to stranjo in Odprtimi vprašanji mesta)", type: text }
+                  - { name: povezava, label: Besedilo povezave na Odprta vprašanja mesta, type: string }
+                  - { name: osnutek, label: Osnutek, type: boolean }
+              - name: seznam
+                label: Seznam vprašanj
+                type: object
+                fields:
+                  - { name: naslov, label: Naslov seznama, type: string }
+                  - { name: podpis, label: Oznaka nad odgovorom, type: string }
+              - name: obrazec
+                label: Obrazec za vprašanja (tudi na vstopni strani)
+                type: object
+                fields:
+                  - { name: naslov, label: Namig v praznem polju, type: string }
+                  - { name: besedilo, label: Vrstica pod poljem, type: string }
+                  - { name: podpis, label: Sporočilo po pošiljanju, type: string }
+                  - { name: osnutek, label: "Osnutek (obrazec še ne pošilja)", type: boolean }
+
+  # ───────────────────────────── Arhiv objav
+  - name: arhiv-skupina
+    label: Arhiv objav
+    type: group
+    items:
+      - name: objave
+        label: Objave z Instagrama
+        type: collection
+        path: src/content/objave
+        description: "Prikazane so objave od 1. 10. 2026 naprej, najnovejša prva. Najnovejša je na vstopni strani."
+        filename: "{fields.datum}-{primary}.md"
+        view:
+          fields: [datum, tip, opis]
+          primary: opis
+          default: { sort: datum, order: desc }
+        fields:
+          - { name: datum, label: Datum objave, type: date, required: true, options: { format: yyyy-MM-dd } }
+          - name: tip
+            label: Vrsta objave
+            type: select
+            required: true
+            options:
+              values:
+                - { name: grafika, label: Grafika }
+                - { name: fotografija, label: Fotografija }
+                - { name: carousel, label: Galerija (več slik) }
+                - { name: reel, label: Reel }
+                - { name: video, label: Video }
+          - { name: platforma, label: Platforma, type: select, default: instagram, options: { values: [instagram, facebook] } }
+          - { name: povezava, label: Povezava do objave, type: string, required: true, description: "Npr. https://www.instagram.com/p/…/ (brez ?igsh=…)." }
+          - { name: opis, label: Prva vrstica opisa, type: string, required: true, description: "Samo prva vrstica, točno tako kot na Instagramu." }
+          - { name: slika, label: Slika, type: image, options: { media: objave }, description: "Prva slika objave (pri reelih naslovnica), JPG, najmanj 1080 px." }
+          - { name: osnutek, label: Nadomestna objava, type: boolean, description: "Samo za primere v prototipu." }
+      - name: arhiv-stran
+        label: Stran »Arhiv objav«
+        type: file
+        path: src/content/strani/arhiv.md
+        fields:
+          - { name: naslov, label: Naslov strani, type: string, required: true }
+          - { name: opis, label: Opis za iskalnike in deljenje, type: text }
+          - name: bloki
+            label: Besedila na strani
+            type: object
+            fields:
+              - name: uvod
+                label: Uvod
+                type: object
+                fields:
+                  - { name: naslov, label: Naslov, type: string }
+                  - { name: besedilo, label: Uvodno besedilo, type: text }
+              - name: stevilo
+                label: Vrstica ob številu objav
+                type: object
+                fields:
+                  - { name: naslov, label: Beseda za številom, type: string, description: "Vrste objav se dodajo samodejno." }
+                  - { name: besedilo, label: Pojasnilo, type: string }
+              - name: plakati
+                label: Plakati
+                type: object
+                fields:
+                  - { name: naslov, label: Naslov, type: string }
+                  - { name: besedilo, label: "Uvodno besedilo k plakatom (1–2 stavka)", type: text }
+                  - { name: osnutek, label: Osnutek, type: boolean }
+
+  # ───────────────────────────── Plakati
+  - name: plakati
+    label: Plakati
+    type: file
+    path: src/content/plakati/plakati.yaml
+    format: yaml
+    list: true
+    description: "Imena plakatov (slogan). Slike pripravi razvijalec iz tiskovnih PDF-jev (npm run plakati)."
+    fields:
+      - { name: id, label: Oznaka (ime slike), type: string, readonly: true }
+      - { name: vrstniRed, label: Vrstni red, type: number, required: true }
+      - { name: naslov, label: Slogan, type: string, required: true, description: "Točno tako, kot je na plakatu." }
+
+  # ───────────────────────────── Pomagaj
+  - name: pomagaj
+    label: Pomagaj, če lahko
+    type: file
+    path: src/content/strani/pomagaj.md
+    fields:
+      - { name: naslov, label: Naslov strani, type: string, required: true }
+      - { name: opis, label: Opis za iskalnike in deljenje, type: text }
+      - name: bloki
+        label: Besedila na strani
+        type: object
+        fields:
+          - name: uvod
+            label: Prošnja za donacijo
+            type: object
+            fields:
+              - { name: naslov, label: Naslov, type: string }
+              - { name: besedilo, label: "Besedilo: prošnja za donacijo, za kaj bomo sredstva porabili (1 odstavek)", type: text }
+              - { name: osnutek, label: Osnutek, type: boolean }
+          - name: nakazilo
+            label: Podatki za nakazilo
+            type: object
+            fields:
+              - { name: naslov, label: Naslov, type: string }
+              - { name: besedilo, label: "Pojasnilo o nakazilu in omejitvah donacij (1–2 stavka)", type: text }
+              - { name: podpis, label: Napis na položnici, type: string }
+              - { name: osnutek, label: Osnutek, type: boolean }
+          - name: spletno
+            label: Okvir »Raje prek spleta?«
+            type: object
+            fields:
+              - { name: naslov, label: Naslov, type: string }
+              - { name: besedilo, label: Besedilo, type: text }
+      - name: podatki
+        label: Podatki za nakazilo
+        type: object
+        list: true
+        description: "Vsak podatek ima gumb »Kopiraj«."
+        fields:
+          - { name: oznaka, label: Oznaka, type: string, required: true, description: "Npr. »TRR (IBAN)«." }
+          - { name: vrednost, label: Vrednost, type: string, required: true }
+          - { name: osnutek, label: Osnutek (podatek še ni potrjen), type: boolean }
+      - name: povezave
+        label: Povezava za spletno donacijo
+        type: object
+        list: true
+        fields:
+          - { name: naslov, label: Besedilo povezave, type: string, required: true }
+          - { name: url, label: Naslov (URL), type: string, required: true }
+          - { name: osnutek, label: Osnutek, type: boolean }
+
+  # ───────────────────────────── Kontakt
+  - name: kontakt
+    label: Kontakt
+    type: file
+    path: src/content/strani/kontakt.md
+    fields:
+      - { name: naslov, label: Naslov strani, type: string, required: true }
+      - { name: opis, label: Opis za iskalnike in deljenje, type: text }
+      - name: bloki
+        label: Besedila na strani
+        type: object
+        fields:
+          - name: uvod
+            label: Uvod
+            type: object
+            fields:
+              - { name: naslov, label: Naslov, type: string }
+              - { name: besedilo, label: "Uvodno besedilo: kdo odgovarja na sporočila in v kakšnem času (1–2 stavka)", type: text }
+              - { name: osnutek, label: Osnutek, type: boolean }
+          - name: spletneStrani
+            label: Naslov »Spletne strani«
+            type: object
+            fields:
+              - { name: naslov, label: Naslov, type: string }
+          - name: omrezja
+            label: Naslov »Družbena omrežja«
+            type: object
+            fields:
+              - { name: naslov, label: Naslov, type: string, description: "Sama omrežja se urejajo v »Noga strani«." }
+          - name: vprasanje
+            label: Okvir »Vprašanje za Apolonijo?«
+            type: object
+            fields:
+              - { name: naslov, label: Naslov, type: string }
+              - { name: povezava, label: Besedilo povezave, type: string }
+      - name: podatki
+        label: Kontaktni podatki
+        type: object
+        list: true
+        fields:
+          - { name: oznaka, label: Oznaka, type: string, required: true, description: "Npr. »E-pošta«." }
+          - { name: vrednost, label: Vrednost, type: string, required: true }
+          - { name: povezava, label: Povezava, type: string, description: "Za e-pošto mailto:naslov@…, za telefon tel:+386…" }
+          - { name: osnutek, label: Osnutek (podatek še ni potrjen), type: boolean }
+      - name: povezave
+        label: Spletne strani
+        type: object
+        list: true
+        fields:
+          - { name: naslov, label: Besedilo povezave, type: string, required: true }
+          - { name: url, label: Naslov (URL), type: string, required: true }
+          - { name: osnutek, label: Osnutek, type: boolean }
+
+  # ───────────────────────────── Odprta vprašanja mesta
+  - name: odprta-vprasanja
+    label: Odprta vprašanja mesta
+    type: file
+    path: src/content/odprta-vprasanja/odprta-vprasanja.md
+    fields:
+      - { name: naslov, label: Naslov strani, type: string, required: true }
+      - { name: opis, label: Opis za iskalnike in deljenje, type: text }
+      - { name: uvod, label: Uvodna vrstica, type: text, description: "Pojasni razliko do strani Vprašanja in odgovori." }
+      - { name: uvodPovezava, label: Besedilo povezave na Vprašanja in odgovori, type: string }
+      - { name: uvodOsnutek, label: Osnutek (uvodna vrstica), type: boolean }
+      - { name: osnutek, label: Osnutek (celotno besedilo še ni pregledano), type: boolean, description: "Izklopi, ko ekipa besedilo pregleda." }
+      - name: body
+        label: Dokument
+        type: code
+        options: { format: markdown }
+        description: "Dokument ekipe, dobesedno. Vrstice, ki se začnejo s ###, so poglavja (iz njih nastane kazalo). Za novo verzijo prilepi celoten dokument."
+
+  # ───────────────────────────── Varstvo zasebnosti
+  - name: zasebnost
+    label: Varstvo zasebnosti
+    type: file
+    path: src/content/strani/zasebnost.md
+    fields:
+      - { name: naslov, label: Naslov strani, type: string, required: true }
+      - { name: opis, label: Opis za iskalnike in deljenje, type: text }
+      - name: bloki
+        label: Besedila na strani
+        type: object
+        fields:
+          - name: uvod
+            label: Uvod
+            type: object
+            fields:
+              - { name: naslov, label: Naslov, type: string }
+              - { name: besedilo, label: Uvodno besedilo, type: text }
+          - name: podrobnosti
+            label: Pravno besedilo
+            type: object
+            fields:
+              - { name: naslov, label: Naslov, type: string }
+              - { name: besedilo, label: "Pravno besedilo: upravljavec, namen obdelave, hramba, pravice posameznika", type: text }
+              - { name: osnutek, label: Osnutek, type: boolean }
+
+  # ───────────────────────────── 404
+  - name: stran-ne-obstaja
+    label: Stran ne obstaja (404)
+    type: file
+    path: src/content/strani/404.md
+    fields:
+      - { name: naslov, label: Naslov strani, type: string, required: true }
+      - { name: opis, label: Opis, type: text }
+      - name: bloki
+        label: Besedila na strani
+        type: object
+        fields:
+          - name: uvod
+            label: Sporočilo
+            type: object
+            fields:
+              - { name: naslov, label: Naslov, type: string }
+              - { name: besedilo, label: Besedilo, type: text }
+              - { name: povezava, label: Besedilo povezave na vstopno stran, type: string }
+
+  # ───────────────────────────── Noga strani
+  - name: noga
+    label: Noga strani in družbena omrežja
+    type: file
+    path: src/content/strani/noga.md
+    description: "Noga je na vseh straneh. Družbena omrežja so tudi v meniju in na strani Kontakt."
+    fields:
+      - { name: naslov, label: Ime (interno), type: string, hidden: true }
+      - name: bloki
+        label: Besedila
+        type: object
+        fields:
+          - name: narocnik
+            label: Politični oglas
+            type: object
+            fields:
+              - { name: naslov, label: Oznaka, type: string, description: "»Politični oglas«" }
+              - { name: besedilo, label: Naročnik z naslovom, type: string, description: "Npr. »Naročnik: VESNA – zelena stranka, Ulica 1, 1000 Ljubljana«." }
+              - { name: podpis, label: Volitve, type: string }
+              - { name: osnutek, label: Osnutek (naročnik še ni potrjen), type: boolean }
+          - name: izdelava
+            label: Izdelava spletne strani
+            type: object
+            fields:
+              - { name: besedilo, label: Besedilo, type: string }
+      - name: instagram
+        label: Instagram profil kampanje
+        type: object
+        description: "Prikazan ob zadnji objavi na vstopni strani; povezave objav brez lastne povezave vodijo sem."
+        fields:
+          - { name: handle, label: Uporabniško ime, type: string, description: "Z @, npr. @skupajzamesto." }
+          - { name: url, label: Povezava do profila, type: string }
+          - { name: osnutek, label: Osnutek, type: boolean }
+      - name: omrezja
+        label: Družbena omrežja
+        type: object
+        list: true
+        fields:
+          - { name: naslov, label: Ime omrežja, type: string, required: true }
+          - { name: url, label: Povezava, type: string, required: true }
+          - { name: osnutek, label: Osnutek, type: boolean }
+      - name: povezave
+        label: Povezave v nogi
+        type: object
+        list: true
+        fields:
+          - { name: naslov, label: Besedilo povezave, type: string, required: true }
+          - { name: url, label: Naslov (URL), type: string, required: true }
+          - { name: osnutek, label: Osnutek, type: boolean }
+
+  # ───────────────────────────── Odprte zadeve (interna stran)
+  - name: odprte-zadeve
+    label: Odprte zadeve (interna stran za ekipo)
+    type: file
+    path: src/content/odprte-zadeve/odprte-zadeve.yaml
+    format: yaml
+    list: true
+    description: "Odločitve in podatki, ki jih potrebujemo od ekipe. Prikazano na interni strani /placeholders."
+    fields:
+      - { name: id, label: Oznaka (brez šumnikov), type: string, required: true }
+      - { name: naslov, label: Naslov, type: string, required: true }
+      - { name: opis, label: Opis, type: text, required: true }
+      - { name: kdo, label: Kdo je zadolžen, type: string }
+      - { name: status, label: Stanje, type: select, default: odprto, options: { values: [odprto, v teku, urejeno] } }
+
+  # ───────────────────────────── Novice (pripravljeno, še ni na strani)
+  - name: novice
+    label: Novice (še niso na strani)
+    type: collection
+    path: src/content/novice
+    description: "Pripravljeno za kasneje. Novice se na strani še ne prikazujejo."
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [naslov, datum, objavljeno]
+      primary: naslov
+      default: { sort: datum, order: desc }
+    fields:
+      - { name: naslov, label: Naslov, type: string, required: true }
+      - { name: datum, label: Datum, type: date, required: true, options: { format: yyyy-MM-dd } }
+      - { name: slika, label: Slika, type: image, options: { media: novice }, description: "Ležeča, najmanj 1600 px po širini, JPG do ~5 MB." }
+      - name: body
+        label: Besedilo
+        type: rich-text
+        options: { format: markdown, media: false }
+      - { name: objavljeno, label: Objavljeno, type: boolean, default: false }

@@ -12,6 +12,7 @@ import { getStran } from '../lib/strani';
 
 const { naslov, opis, blok, podatki, povezave } = await getStran('pomagaj');
 const nakazilo = blok('nakazilo');
+const spletno = blok('spletno');
 ---
 
 <BaseLayout title={naslov} description={opis}>
@@ -31,14 +32,14 @@ const nakazilo = blok('nakazilo');
       <PaperCard oblika="g" nagib="-0.5deg" class="mt-8">
         <div>
           <p class="flex items-center gap-2 border-b-2 border-dashed border-crna/40 pb-3 text-xs font-bold uppercase tracking-[0.15em] text-crna/70">
-            <span aria-hidden="true">✂</span> Podatki za nakazilo
+            <span aria-hidden="true">✂</span> {nakazilo.podpis}
           </p>
           <dl class="mt-4 divide-y divide-crna/10">
             {podatki.map((p) => (
               <div class="grid gap-1 py-3 sm:grid-cols-[9rem_1fr_auto] sm:items-center sm:gap-4">
                 <dt class="text-sm font-bold uppercase tracking-wide text-zelena-temna">{p.oznaka}</dt>
                 <dd class="font-mono text-lg font-semibold tracking-wide">
-                  <Placeholder active={p.placeholder}><span data-kopiraj-vrednost>{p.vrednost}</span></Placeholder>
+                  <Placeholder active={p.osnutek}><span data-kopiraj-vrednost>{p.vrednost}</span></Placeholder>
                 </dd>
                 <dd>
                   <button type="button" data-kopiraj class="rounded-full border-2 border-crna px-3 py-1 text-xs font-bold hover:bg-crna hover:text-krema">Kopiraj</button>
@@ -52,10 +53,10 @@ const nakazilo = blok('nakazilo');
 
     <aside class="lg:col-span-4 lg:col-start-9 lg:pt-20">
       <div class="border-2 border-crna p-6">
-        <h2 class="text-xl font-extrabold tracking-tight">Raje prek spleta?</h2>
-        <p class="mt-2 text-base leading-relaxed">Doniraš lahko tudi prek spletne strani Vesne – zelene stranke.</p>
+        <h2 class="text-xl font-extrabold tracking-tight">{spletno.naslov}</h2>
+        <BlockText blok={spletno} class="mt-2 text-base leading-relaxed" />
         <div class="mt-4 text-lg">
-          {povezave.map((l) => <TextLink href={l.url} placeholder={l.placeholder}>{l.naslov}</TextLink>)}
+          {povezave.map((l) => <TextLink href={l.url} osnutek={l.osnutek}>{l.naslov}</TextLink>)}
         </div>
       </div>
     </aside>

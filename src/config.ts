@@ -22,3 +22,7 @@ export const BEHOLD_FEED_URL = '';
 // production build automatically at launch. Simple path on request; anyone who guesses it can open it.
 export const INTERNA_STRAN = NOINDEX;
 export const INTERNA_POT = 'placeholders';
+
+// Pages CMS (https://pagescms.org): base URL of this repository's branch in the hosted app. The team page's
+// "Uredi v CMS" links are built from it and from .pages.yml (src/lib/cms.ts). Change owner/repo/branch here if they change.
+export const CMS_URL = 'https://app.pagescms.org/nikolazupan/apolonija-spletna-stran/main';

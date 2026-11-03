@@ -4,7 +4,7 @@
 // Titles and paragraphs start at the same top line and share column edges. Stacked on mobile.
 import BlockText from '../BlockText.astro';
 
-type Blok = { naslov?: string; besedilo: string; placeholder: boolean };
+type Blok = { naslov?: string; besedilo: string; povezava?: string; podpis?: string; osnutek: boolean };
 interface Props {
   kandidatura: Blok;
   // bold sentence from the CV, shown as a quote under the paragraph
@@ -25,8 +25,8 @@ const title = 'display text-[clamp(2.25rem,7vw,3.5rem)]';
         <BlockText blok={kandidatura} class="max-w-prose text-lg leading-relaxed" />
         <BlockText blok={poudarek} class="mt-5 max-w-prose border-l-[3px] border-zelena pl-4 font-display text-[1.35rem] font-extrabold leading-[1.15] tracking-[-0.02em] [font-stretch:85%] sm:text-2xl" />
       </blockquote>
-      <figcaption class="mt-3 text-sm font-bold text-crna/70">Apolonija Simon</figcaption>
-      <a href="/apolonija-simon" class="mt-4 inline-block border-b-[3px] border-zelena pb-0.5 text-base font-bold hover:text-zelena-temna">Več o Apoloniji →</a>
+      {poudarek.podpis && <figcaption class="mt-3 text-sm font-bold text-crna/70">{poudarek.podpis}</figcaption>}
+      {kandidatura.povezava && <a href="/apolonija-simon" class="mt-4 inline-block border-b-[3px] border-zelena pb-0.5 text-base font-bold hover:text-zelena-temna">{kandidatura.povezava} →</a>}
     </figure>
   </article>
 

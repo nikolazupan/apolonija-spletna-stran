@@ -7,12 +7,12 @@ povzetek: "Zelenje bomo obravnavali kot infrastrukturo za hlajenje, zadrževanje
 viri:
   - naslov: "[Vir 1: naslov dokumenta ali članka]"
     url: "#"
-    placeholder: true
+    osnutek: true
   - naslov: "[Vir 2: naslov dokumenta ali članka]"
     url: "#"
-    placeholder: true
+    osnutek: true
 # The longer text (body below) is not available yet.
-placeholder: true
+osnutek: true
 ---
 
 [Tu bo daljše besedilo o tem področju programa (iz daljše različice programa).]

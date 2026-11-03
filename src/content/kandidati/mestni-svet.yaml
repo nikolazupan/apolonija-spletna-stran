@@ -1,7 +1,7 @@
 # City council list (mestni svet), in ballot order. Source: podatki/kandidati.xlsx, sheet "Kandidati za MS"
 # (columns used: Št., Ime in priimek, Član, Strokovni ali znanstveni naslov). No other personal data here.
-# Photos are matched automatically by id: src/assets/fotografije/kandidati/<id>.jpg (made by `npm run fotografije`).
-# A candidate without a photo shows an initials shape. `slika` can override the automatic match.
+# Photos: `slika` (set in Pages CMS or by hand); fallback: src/assets/fotografije/kandidati/<id>.jpg is matched by id
+# (made by `npm run fotografije`). A candidate without a photo shows an initials shape.
 
 - id: denis-strikovic
   vrstniRed: 1
@@ -9,12 +9,14 @@
   clan: "Vesna"
   naziv: "univerzitetni diplomirani politolog"
   nosilec: true
+  slika: "@assets/fotografije/kandidati/denis-strikovic.jpg"
 
 - id: apolonija-simon
   vrstniRed: 2
   ime: "mag. Apolonija Simon"
   clan: "Civilna iniciativa"
   naziv: "magistrica umetnosti"
+  slika: "@assets/fotografije/kandidati/apolonija-simon.jpg"
 
 - id: jaka-zevnik
   vrstniRed: 3
@@ -27,6 +29,7 @@
   ime: "dr. Jasminka Dedić"
   clan: "Civilna iniciativa"
   naziv: "doktorica političnih ved"
+  slika: "@assets/fotografije/kandidati/jasminka-dedic.jpg"
 
 - id: sasa-djordjevic
   vrstniRed: 5
@@ -45,18 +48,21 @@
   ime: "mag. Tadej Glažar"
   clan: "Civilna iniciativa"
   naziv: "magister znanosti in univerzitetni diplomirani inženir arhitekture"
+  slika: "@assets/fotografije/kandidati/tadej-glazar.jpg"
 
 - id: kaja-lipnik-vehovar
   vrstniRed: 8
   ime: "Kaja Lipnik Vehovar"
   clan: "Civilna iniciativa"
   naziv: "univerzitetena diplomirana inženirka arhitekture"
+  slika: "@assets/fotografije/kandidati/kaja-lipnik-vehovar.jpg"
 
 - id: velimir-zivkovic
   vrstniRed: 9
   ime: "Velimir Živković"
   clan: "Vesna"
   naziv: "elektrotehnik telekomunikacij"
+  slika: "@assets/fotografije/kandidati/velimir-zivkovic.jpg"
 
 - id: mensija-kurtovic
   vrstniRed: 10
@@ -81,12 +87,14 @@
   ime: "Arne Vehovar"
   clan: "Civilna iniciativa"
   naziv: "univerzitetni diplomirani inžinir arhitekture, MA/RCA"
+  slika: "@assets/fotografije/kandidati/arne-vehovar.jpg"
 
 - id: neva-zibrik
   vrstniRed: 14
   ime: "mag. Neva Žibrik"
   clan: "Civilna iniciativa"
   naziv: "magistrica ekonomskih ved"
+  slika: "@assets/fotografije/kandidati/neva-zibrik.jpg"
 
 - id: daniel-hodzic
   vrstniRed: 15
@@ -117,6 +125,7 @@
   ime: "Arian Ramadani"
   clan: "Vesna"
   naziv: "diplomirani ekonomist"
+  slika: "@assets/fotografije/kandidati/arian-ramadani.jpg"
 
 - id: natasa-grcar-napast
   vrstniRed: 20
@@ -135,6 +144,7 @@
   ime: "Afrodita Hebar Kljun"
   clan: "Civilna iniciativa"
   naziv: "grafična oblikovalka"
+  slika: "@assets/fotografije/kandidati/afrodita-hebar-kljun.jpg"
 
 - id: ibrahim-nouhoum
   vrstniRed: 23
@@ -273,3 +283,5 @@
   ime: "Ciril Horjak"
   clan: "Civilna iniciativa"
   naziv: "univerzitetni diplomirani akademski slikar"
+  slika: "@assets/fotografije/kandidati/ciril-horjak.jpg"
+

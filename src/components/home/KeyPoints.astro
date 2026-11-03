@@ -11,23 +11,22 @@ interface Props {
   naslov?: string;
   povezavaBesedilo?: string;
   // the selection itself is provisional: marks the whole section as OSNUTEK
-  placeholder?: boolean;
-  podrocja: CollectionEntry<'program'>[];
-  // shortened texts by area id
-  besedila?: Record<string, string>;
+  osnutek?: boolean;
+  // the areas with their shortened homepage texts
+  podrocja: { podrocje: CollectionEntry<'program'>; besedilo?: string }[];
 }
-const { naslov, povezavaBesedilo = 'Celoten program', placeholder = false, podrocja, besedila = {} } = Astro.props;
+const { naslov, povezavaBesedilo = 'Celoten program', osnutek = false, podrocja } = Astro.props;
 ---
 
 <section class="site-container py-12 lg:py-16">
-  <Placeholder active={placeholder} as="div" class="block py-4">
+  <Placeholder active={osnutek} as="div" class="block py-4">
     <h2 class="display text-center text-[clamp(2.25rem,7vw,3.5rem)]">{naslov}</h2>
 
     <ol class="kljucne mt-8 grid gap-6 md:grid-cols-3 md:gap-8 lg:mt-10" data-kljucne>
-      {podrocja.map((p, i) => (
+      {podrocja.map(({ podrocje: p, besedilo }, i) => (
         <li>
           <PaperCard href={`/program/${p.id}`} {...papirji[i % papirji.length]} class="h-full">
-            <ProgramCardBody podrocje={p} stevilka={i + 1} besedilo={besedila[p.id]} />
+            <ProgramCardBody podrocje={p} stevilka={i + 1} besedilo={besedilo} />
           </PaperCard>
         </li>
       ))}

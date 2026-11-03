@@ -1,7 +1,8 @@
 ---
 // Wraps invented / not yet approved content. Marking is styled in global.css
 // and switched on/off with SHOW_PLACEHOLDERS (src/config.ts).
-// `active={false}` renders the content unmarked (for data-driven `placeholder` flags).
+// `active={false}` renders the content unmarked (for data-driven `osnutek` flags): with a `class`, the wrapper
+// element stays (same layout once an editor switches the flag off); without one, only the content is rendered.
 interface Props {
   as?: string;
   class?: string;
@@ -10,4 +11,4 @@ interface Props {
 const { as: Tag = 'span', class: className, active = true } = Astro.props;
 ---
 
-{active ? <Tag data-placeholder class={className}><slot /></Tag> : <slot />}
+{active ? <Tag data-placeholder class={className}><slot /></Tag> : className ? <Tag class={className}><slot /></Tag> : <slot />}

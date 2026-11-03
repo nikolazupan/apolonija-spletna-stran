@@ -9,15 +9,16 @@ import CutoutImage from '../components/brand/CutoutImage.astro';
 import Blob from '../components/brand/Blob.astro';
 import ShapedText from '../components/brand/ShapedText.astro';
 import Risba from '../components/brand/Risba.astro';
-import portret from '../assets/foto/apolonija-portret-obraz.jpg';
 import narekovaj from '../assets/risbe/narekovaj.svg?url';
 import podcrta from '../assets/risbe/podcrta.svg?url';
 import TextLink from '../components/ui/TextLink.astro';
 import { getStran } from '../lib/strani';
 import { casovnica } from '../lib/casovnica';
 
-const { naslov, opis, blok, citati, povezave } = await getStran('apolonija-simon');
+const { naslov, opis, blok, citati, povezave, fotografije } = await getStran('apolonija-simon');
 const glava = blok('glava');
+const portret = fotografije[0];
+const podpisCitata = blok('citati').podpis;
 const podnaslov = glava.besedilo.split('|').map((s) => s.trim());
 const [glavni, ...ostali] = citati;
 
@@ -51,7 +52,7 @@ const zakaj = vDeli.find((d) => d.vrsta === 'zakaj');
 
     <figure class="relative mx-auto w-[72%] max-w-sm max-md:order-1 md:w-full">
       <Blob variant="f" fill="var(--color-zelena)" class="absolute -inset-[7%] h-[114%] w-[114%] rotate-6" />
-      <CutoutImage src={portret} alt="Portret Apolonije Simon" variant="c" widths={[300, 450]} sizes="(min-width: 768px) 24rem, 72vw" loading="eager" class="relative -rotate-2" imgClass="aspect-square" />
+      {portret?.slika && <CutoutImage src={portret.slika} alt={portret.alt ?? ''} variant="c" widths={[300, 450]} sizes="(min-width: 768px) 24rem, 72vw" loading="eager" class="relative -rotate-2" imgClass="aspect-square" />}
     </figure>
   </section>
 
@@ -94,8 +95,9 @@ const zakaj = vDeli.find((d) => d.vrsta === 'zakaj');
   {zakaj && (
     <section class="paper border-y-2 border-crna bg-bela py-14 lg:py-20" aria-labelledby="zakaj-kandidiram">
       <div class="site-container">
+        <!-- stepped heading: first word, then the rest indented -->
         <h2 id="zakaj-kandidiram" class="display text-[clamp(2.75rem,9vw,5.5rem)]">
-          Zakaj<br /><span class="pl-[0.6em]">kandidiram</span>
+          {zakaj.naslov.split(' ')[0]}<br /><span class="pl-[0.6em]">{zakaj.naslov.split(' ').slice(1).join(' ')}</span>
         </h2>
         <div class="cv cv-zakaj mt-8" style={`--narekovaj:url("${narekovaj}");--podcrta:url("${podcrta}")`}>
           <zakaj.Content />
@@ -114,7 +116,7 @@ const zakaj = vDeli.find((d) => d.vrsta === 'zakaj');
           </blockquote>
           <Risba name="podcrta" color="var(--color-crna)" class="mt-4 h-3 w-48 [--risba-w:4px]" />
           <figcaption class="mt-3 text-sm font-bold">
-            Apolonija Simon, {glavni.url ? <a href={glavni.url} target="_blank" rel="noopener" class="underline underline-offset-2">{glavni.vir} ↗</a> : glavni.vir}
+            {podpisCitata && `${podpisCitata}, `}{glavni.url ? <a href={glavni.url} target="_blank" rel="noopener" class="underline underline-offset-2">{glavni.vir} ↗</a> : glavni.vir}
           </figcaption>
         </figure>
 
@@ -135,9 +137,7 @@ const zakaj = vDeli.find((d) => d.vrsta === 'zakaj');
   )}
 
   <section class="site-container flex flex-wrap gap-x-8 gap-y-3 py-12 text-lg lg:py-16">
-    {povezave.map((p) => <TextLink href={p.url} placeholder={p.placeholder}>{p.naslov}</TextLink>)}
-    <TextLink href="/program">Program</TextLink>
-    <TextLink href="/vprasanja">Vprašaj Apolonijo</TextLink>
+    {povezave.map((p) => <TextLink href={p.url} osnutek={p.osnutek}>{p.naslov}</TextLink>)}
   </section>
 </BaseLayout>
 

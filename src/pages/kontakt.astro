@@ -11,6 +11,7 @@ import { social } from '../data/site';
 
 const { naslov, opis, blok, podatki, povezave } = await getStran('kontakt');
 const uvod = blok('uvod');
+const vprasanje = blok('vprasanje');
 ---
 
 <BaseLayout title={naslov} description={opis}>
@@ -24,7 +25,7 @@ const uvod = blok('uvod');
             <div>
               <dt class="text-sm font-bold uppercase tracking-wide text-zelena-temna">{p.oznaka}</dt>
               <dd class="mt-1 text-xl font-semibold">
-                <Placeholder active={p.placeholder}>
+                <Placeholder active={p.osnutek}>
                   {p.povezava ? <a href={p.povezava} class="underline underline-offset-4 hover:text-zelena-temna">{p.vrednost}</a> : p.vrednost}
                 </Placeholder>
               </dd>
@@ -40,20 +41,20 @@ const uvod = blok('uvod');
 
     <div class="space-y-8 lg:col-span-4 lg:col-start-9 lg:pt-6">
       <div>
-        <h2 class="text-xl font-extrabold tracking-tight">Spletne strani</h2>
+        <h2 class="text-xl font-extrabold tracking-tight">{blok('spletneStrani').naslov}</h2>
         <ul class="mt-3 space-y-2 text-lg">
-          {povezave.map((l) => <li><TextLink href={l.url} placeholder={l.placeholder}>{l.naslov}</TextLink></li>)}
+          {povezave.map((l) => <li><TextLink href={l.url} osnutek={l.osnutek}>{l.naslov}</TextLink></li>)}
         </ul>
       </div>
       <div>
-        <h2 class="text-xl font-extrabold tracking-tight">Družbena omrežja</h2>
+        <h2 class="text-xl font-extrabold tracking-tight">{blok('omrezja').naslov}</h2>
         <ul class="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-lg">
-          {social.map((s) => <li><TextLink href={s.href} placeholder={s.placeholder}>{s.label}</TextLink></li>)}
+          {social.map((s) => <li><TextLink href={s.href} osnutek={s.osnutek}>{s.label}</TextLink></li>)}
         </ul>
       </div>
       <div>
-        <h2 class="text-xl font-extrabold tracking-tight">Vprašanje za Apolonijo?</h2>
-        <p class="mt-2 text-lg"><TextLink href="/vprasanja">Postavi ga tukaj</TextLink></p>
+        <h2 class="text-xl font-extrabold tracking-tight">{vprasanje.naslov}</h2>
+        <p class="mt-2 text-lg"><TextLink href="/vprasanja">{vprasanje.povezava}</TextLink></p>
       </div>
     </div>
   </section>

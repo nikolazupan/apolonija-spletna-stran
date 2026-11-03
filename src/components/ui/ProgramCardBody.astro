@@ -1,6 +1,7 @@
 ---
 // Content of a programme-area card: number, area name, short description, "Več" link label.
 import type { CollectionEntry } from 'astro:content';
+import { getStran } from '../../lib/strani';
 
 interface Props {
   podrocje: CollectionEntry<'program'>;
@@ -9,11 +10,13 @@ interface Props {
   besedilo?: string;
 }
 const { podrocje, stevilka, besedilo } = Astro.props;
+// link label, from src/content/strani/program.md → bloki.kartica
+const vec = (await getStran('program')).blok('kartica').povezava;
 ---
 
 <div class="flex h-full flex-col items-center gap-3 px-1 text-center">
   <span class="display text-5xl text-zelena">{String(stevilka).padStart(2, '0')}</span>
   <h3 class="text-2xl font-extrabold leading-tight tracking-tight">{podrocje.data.naslov}</h3>
   <p class="text-base leading-snug">{besedilo ?? podrocje.data.povzetek}</p>
-  <span class="mt-auto pt-2 text-sm font-bold group-hover:text-zelena-temna">Več o področju →</span>
+  {vec && <span class="mt-auto pt-2 text-sm font-bold group-hover:text-zelena-temna">{vec} →</span>}
 </div>

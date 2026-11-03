@@ -47,7 +47,7 @@ const platforma = o.platforma === 'instagram' ? 'Instagramu' : 'Facebooku';
   <div class="flex flex-1 flex-col px-1 pb-1 pt-3">
     <time class="whitespace-nowrap text-[0.8rem] font-bold sm:text-sm" datetime={o.datum.toISOString()}>{formatDatum(o.datum)}</time>
     <!-- always two lines high, so cards line up whatever the caption length -->
-    <p class="mt-1.5 line-clamp-2 min-h-[2lh] text-sm leading-snug"><Placeholder active={o.placeholder}>{o.opis}</Placeholder></p>
+    <p class="mt-1.5 line-clamp-2 min-h-[2lh] text-sm leading-snug"><Placeholder active={o.osnutek}>{o.opis}</Placeholder></p>
     <a href={povezavaObjave(o)} target="_blank" rel="noopener" class="mt-auto pt-2 text-xs font-bold underline underline-offset-2 hover:text-zelena-temna">Odpri na {platforma} ↗</a>
   </div>
 </article>

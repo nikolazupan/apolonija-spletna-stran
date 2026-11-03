@@ -1,5 +1,5 @@
 ---
-import { getEntry, getEntries } from 'astro:content';
+import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HomeHero from '../components/home/HomeHero.astro';
 import AskQuestion from '../components/home/AskQuestion.astro';
@@ -7,29 +7,29 @@ import KeyPoints from '../components/home/KeyPoints.astro';
 import HomeSkupaj from '../components/home/HomeSkupaj.astro';
 import LatestPosts from '../components/home/LatestPosts.astro';
 import { getObjave } from '../lib/objave';
+import { getStran } from '../lib/strani';
 
-const stran = await getEntry('strani', 'vstopna');
-if (!stran) throw new Error('Missing src/content/strani/vstopna.md');
-const { naslov, opis, hero, poudarki, poudarkiBesedila, bloki } = stran.data;
-
-const blok = (id: string) => {
-  const b = bloki.find((b) => b.id === id);
-  if (!b) throw new Error(`vstopna.md: missing block "${id}"`);
-  return b;
-};
+const { naslov, opis, hero, poudarki, blok } = await getStran('vstopna');
 const vprasanja = blok('vprasanja');
 const poudarkiBlok = blok('poudarki');
-// programme areas selected in vstopna.md, in the listed order
-const podrocja = await getEntries(poudarki);
+const objavaBlok = blok('objava');
+// programme areas selected in vstopna.md, in the listed order, with their shortened texts
+const podrocja = await Promise.all(
+  poudarki.map(async (p) => {
+    const podrocje = await getEntry(p.podrocje);
+    if (!podrocje) throw new Error(`vstopna.md: unknown programme area "${p.podrocje.id}"`);
+    return { podrocje, besedilo: p.besedilo };
+  }),
+);
 // newest post goes into the hero; the archive row shows the next ones, so nothing appears twice
 const [najnovejsa, ...starejse] = await getObjave();
 const objave = starejse.slice(0, 4);
 ---
 
 <BaseLayout title={naslov} description={opis} fullTitle>
-  {hero && <HomeHero hero={hero} objava={najnovejsa} />}
-  <AskQuestion naslov={[vprasanja.naslov ?? '', vprasanja.besedilo]} povezava="/vprasanja" />
-  <KeyPoints naslov={poudarkiBlok.naslov} povezavaBesedilo={poudarkiBlok.besedilo} placeholder={poudarkiBlok.placeholder} podrocja={podrocja} besedila={poudarkiBesedila} />
-  <HomeSkupaj kandidatura={blok('kandidatura')} poudarek={blok('kandidatura-poudarek')} skupaj={blok('skupaj')} />
-  {objave.length > 0 && <LatestPosts objave={objave} naslov={blok('objava').naslov} povezavaArhiv={blok('objava').besedilo} />}
+  {hero && <HomeHero hero={hero} objava={najnovejsa} oznakaObjave={blok('zadnjaObjava').besedilo} />}
+  <AskQuestion naslov={[vprasanja.naslov ?? '', vprasanja.besedilo]} povezava="/vprasanja" povezavaBesedilo={vprasanja.povezava ?? ''} />
+  <KeyPoints naslov={poudarkiBlok.naslov} povezavaBesedilo={poudarkiBlok.povezava} osnutek={poudarkiBlok.osnutek} podrocja={podrocja} />
+  <HomeSkupaj kandidatura={blok('kandidatura')} poudarek={blok('kandidaturaPoudarek')} skupaj={blok('skupaj')} />
+  {objave.length > 0 && <LatestPosts objave={objave} naslov={objavaBlok.naslov} povezavaArhiv={objavaBlok.povezava} />}
 </BaseLayout>

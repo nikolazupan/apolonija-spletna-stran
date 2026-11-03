@@ -5,8 +5,10 @@ import QuestionForm from '../ui/QuestionForm.astro';
 interface Props {
   naslov: string[];
   povezava: string;
+  // link text
+  povezavaBesedilo: string;
 }
-const { naslov, povezava } = Astro.props;
+const { naslov, povezava, povezavaBesedilo } = Astro.props;
 // Split off the trailing "?" so it can be set as a separate, tilted cream mark.
 const vprasanje = naslov[0].replace(/\?$/, '');
 const imaVprasaj = vprasanje !== naslov[0];
@@ -26,7 +28,7 @@ const imaVprasaj = vprasanje !== naslov[0];
       <QuestionForm />
 
       <a href={povezava} class="mt-4 inline-flex items-center gap-2 border-b-[3px] md:mt-6 border-crna pb-0.5 text-lg font-bold hover:border-krema hover:text-krema">
-        Preberi vprašanja in odgovore →
+        {povezavaBesedilo} →
       </a>
     </div>
   </div>

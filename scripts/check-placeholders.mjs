@@ -18,7 +18,7 @@ let lastFile = '';
 for (const h of hits) {
   if (h.rel !== lastFile) console.log(`\n${h.rel}`);
   lastFile = h.rel;
-  console.log(`  ${String(h.line).padStart(4)}  ${h.label.padEnd(20)} ${h.text.slice(0, 90)}`);
+  console.log(`  ${String(h.line).padStart(4)}  ${h.label.padEnd(32)} ${h.text.slice(0, 70)}`);
 }
 console.log(`\n${hits.length} placeholder(s) in ${new Set(hits.map((h) => h.rel)).size} file(s).`);
 process.exit(strict ? 1 : 0);

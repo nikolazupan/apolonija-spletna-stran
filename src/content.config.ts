@@ -3,54 +3,76 @@ import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { objaveLoader } from './lib/objave-loader';
 
-// Text blocks of a page. A block with `placeholder: true` is not approved text yet.
-const blok = z.object({
-  id: z.string(),
+// Content that is not approved yet carries `osnutek: true` (shown with the OSNUTEK mark while
+// SHOW_PLACEHOLDERS is on, listed by `npm run check-placeholders` and on the team page).
+// Editors switch it off themselves in Pages CMS (.pages.yml).
+
+// Fields cleared in the CMS can be saved as "" or null: treat them as not set, so the build doesn't fail.
+const prazno = (v: unknown) => (v === '' || v === null ? undefined : v);
+const brezNull = (v: unknown) =>
+  v && typeof v === 'object' && !Array.isArray(v) ? Object.fromEntries(Object.entries(v).filter(([, x]) => x !== null)) : v;
+
+// Text block of a page (heading, text, label of the block's link). Blocks are named, by key in `bloki`.
+const blok = z.preprocess(brezNull, z.object({
   naslov: z.string().optional(),
-  besedilo: z.string(),
-  placeholder: z.boolean().default(false),
-});
+  besedilo: z.string().default(''),
+  // text of the block's link; the link target is fixed in the page
+  povezava: z.string().optional(),
+  // signature / source line under a quote
+  podpis: z.string().optional(),
+  osnutek: z.boolean().default(false),
+}));
 
 // Label + value pairs (payment details, contact details, ...).
-const podatek = z.object({
+const podatek = z.preprocess(brezNull, z.object({
   oznaka: z.string(),
   vrednost: z.string(),
   // optional link for the value (mailto:, tel:, https:)
   povezava: z.string().optional(),
-  placeholder: z.boolean().default(false),
-});
+  osnutek: z.boolean().default(false),
+}));
 
 // External or internal link.
-const povezava = z.object({
+const povezava = z.preprocess(brezNull, z.object({
   naslov: z.string(),
   url: z.string(),
-  placeholder: z.boolean().default(false),
-});
+  osnutek: z.boolean().default(false),
+}));
 
-// Fixed pages (homepage, subpages): frontmatter holds the page's texts.
-// One file per page in src/content/strani/, file name = page id.
+// Fixed pages (homepage, subpages, footer): frontmatter holds the page's texts and images.
+// One file per page in src/content/strani/, file name = page id. Every field is optional except the title,
+// so each page uses only what it needs (see the page's entry in .pages.yml for what it has).
 const strani = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/strani' }),
   schema: ({ image }) =>
     z.object({
-      // page title (also used in <title>) and meta description
+      // page title (used in <title>, the layout appends the site name) and meta description
       naslov: z.string(),
-      opis: z.string(),
-      placeholder: z.boolean().default(false),
+      opis: z.string().default(''),
+      // the whole page is a draft
+      osnutek: z.boolean().default(false),
       hero: z
         .object({
           podnaslov: z.string(),
           // ballot line next to the circled number from the posters, e.g. "Za županjo obkroži:"
           obkrozi: z.string().optional(),
+          // hero photo, 4:5 (tablet/desktop) and a closer 4:5 crop for phones
+          slika: image(),
+          slikaTelefon: image(),
+          alt: z.string(),
         })
         .optional(),
-      // Programme areas highlighted on this page (homepage: the 3 key points), by file name in src/content/program/.
-      poudarki: z.array(reference('program')).default([]),
-      // shortened texts for the highlighted areas on this page, by area file name (the full text stays on /program)
-      poudarkiBesedila: z.record(z.string(), z.string()).default({}),
-      bloki: z.array(blok).default([]),
+      // Programme areas highlighted on this page (homepage: the 3 key points), by file name in src/content/program/,
+      // each with an optional shortened text for this page (the full text stays on /program).
+      poudarki: z
+        .array(z.object({ podrocje: reference('program'), besedilo: z.string().optional() }))
+        .default([]),
+      bloki: z.record(z.string(), blok).default({}),
       podatki: z.array(podatek).default([]),
       povezave: z.array(povezava).default([]),
+      // footer: social profiles, and the Instagram profile the posts come from
+      omrezja: z.array(povezava).default([]),
+      instagram: z.object({ handle: z.string(), url: z.string(), osnutek: z.boolean().default(false) }).optional(),
       // Real quotes only, each with its source.
       citati: z
         .array(
@@ -65,9 +87,9 @@ const strani = defineCollection({
       fotografije: z
         .array(
           z.object({
-            slika: image().optional(),
-            alt: z.string().optional(),
-            oznaka: z.string().optional(),
+            slika: z.preprocess(prazno, image().optional()),
+            alt: z.preprocess(prazno, z.string().optional()),
+            oznaka: z.preprocess(prazno, z.string().optional()),
           }),
         )
         .default([]),
@@ -83,7 +105,8 @@ const program = defineCollection({
     vrstniRed: z.number(),
     povzetek: z.string(),
     viri: z.array(povezava).default([]),
-    placeholder: z.boolean().default(false),
+    // the longer text (body) is a draft
+    osnutek: z.boolean().default(false),
   }),
 });
 
@@ -99,7 +122,7 @@ const kandidati = defineCollection({
       clan: z.enum(['Vesna', 'Civilna iniciativa']),
       // professional or academic title, exactly as supplied
       naziv: z.string(),
-      slika: image().optional(),
+      slika: z.preprocess(prazno, image().optional()),
     }),
 });
 
@@ -111,7 +134,7 @@ const cetrtneSkupnosti = defineCollection({
     // order of the source file
     vrstniRed: z.number(),
     kandidati: z.array(z.string()),
-    placeholder: z.boolean().default(false),
+    osnutek: z.boolean().default(false),
   }),
 });
 
@@ -122,29 +145,43 @@ const sporniProjekti = defineCollection({
     z.object({
       naslov: z.string(),
       // the project name itself is not real (e.g. "Sporni projekt 3")
-      naslovPlaceholder: z.boolean().default(false),
+      naslovOsnutek: z.boolean().default(false),
       vrstniRed: z.number(),
       opis: z.string(),
       stalisce: z.string(),
       // programme area the position is quoted from (file name in src/content/program/)
-      stalisceVir: reference('program').optional(),
+      stalisceVir: z.preprocess(prazno, reference('program').optional()),
       // position is not written yet
       stalisceOsnutek: z.boolean().default(false),
-      slika: image().optional(),
-      oznakaSlike: z.string().optional(),
+      slika: z.preprocess(prazno, image().optional()),
+      oznakaSlike: z.preprocess(prazno, z.string().optional()),
       // description and photo are not supplied yet
-      placeholder: z.boolean().default(false),
+      osnutek: z.boolean().default(false),
     }),
 });
 
 // Questions from residents with Apolonija's answers (/vprasanja). The body is the answer.
+// Only entries with `objavljeno: true` and an answer are shown (lib/vprasanja.ts).
 const vprasanja = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/vprasanja' }),
   schema: z.object({
     vprasanje: z.string(),
     datum: z.coerce.date(),
-    placeholder: z.boolean().default(false),
+    objavljeno: z.boolean().default(false),
+    osnutek: z.boolean().default(false),
   }),
+});
+
+// News (prepared for later, not shown on the site yet). The body is the text.
+const novice = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/novice' }),
+  schema: ({ image }) =>
+    z.object({
+      naslov: z.string(),
+      datum: z.coerce.date(),
+      slika: z.preprocess(prazno, image().optional()),
+      objavljeno: z.boolean().default(false),
+    }),
 });
 
 // Social media posts for the homepage and /arhiv.
@@ -164,9 +201,9 @@ const objave = defineCollection({
       // first line of the caption
       opis: z.string(),
       // hand-made entries: local image (src/assets/objave/); feed entries: remote image URL
-      slika: image().optional(),
+      slika: z.preprocess(prazno, image().optional()),
       slikaUrl: z.string().optional(),
-      placeholder: z.boolean().default(false),
+      osnutek: z.boolean().default(false),
     }),
 });
 
@@ -177,8 +214,10 @@ const odprtaVprasanja = defineCollection({
     naslov: z.string(),
     opis: z.string(),
     uvod: z.string(),
-    uvodPlaceholder: z.boolean().default(false),
-    placeholder: z.boolean().default(false),
+    // text of the link after the intro line (to /vprasanja)
+    uvodPovezava: z.string().default('Vprašanja in odgovori'),
+    uvodOsnutek: z.boolean().default(false),
+    osnutek: z.boolean().default(false),
   }),
 });
 
@@ -216,4 +255,4 @@ const odprteZadeve = defineCollection({
   }),
 });
 
-export const collections = { odprteZadeve, plakati, strani, program, kandidati, cetrtneSkupnosti, sporniProjekti, vprasanja, objave, odprtaVprasanja, zivljenjepis };
+export const collections = { odprteZadeve, plakati, strani, program, kandidati, cetrtneSkupnosti, sporniProjekti, vprasanja, objave, odprtaVprasanja, zivljenjepis, novice };

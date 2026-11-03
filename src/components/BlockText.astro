@@ -1,14 +1,14 @@
 ---
-// Renders a content block's text, marked as OSNUTEK when the block is a placeholder.
+// Renders a content block's text, marked as OSNUTEK when the block has `osnutek: true`.
 import Placeholder from './Placeholder.astro';
 
 interface Props {
-  blok: { besedilo: string; placeholder: boolean };
+  blok: { besedilo: string; osnutek: boolean };
   class?: string;
 }
 const { blok, class: className } = Astro.props;
 ---
 
 <p class={className}>
-  {blok.placeholder ? <Placeholder>{blok.besedilo}</Placeholder> : blok.besedilo}
+  <Placeholder active={blok.osnutek}>{blok.besedilo}</Placeholder>
 </p>

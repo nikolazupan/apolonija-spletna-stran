@@ -2,13 +2,14 @@
 // Internal page for the team (/placeholders): what content is still missing and which decisions are open.
 // Not linked anywhere, noindex/nofollow, built only while INTERNA_STRAN is on (follows NOINDEX, so it
 // is left out of the production build at launch). Plain layout on purpose: no public header/menu/footer.
-// Section 1 is generated from the placeholder scan (src/lib/manjkajoce.ts), section 2 from
-// src/content/odprte-zadeve/odprte-zadeve.yaml.
+// Section 1 is generated from the placeholder scan (src/lib/manjkajoce.ts), each item with a link to the
+// matching entry in Pages CMS ("Uredi v CMS", src/lib/cms.ts); section 2 from src/content/odprte-zadeve/odprte-zadeve.yaml.
 import { getCollection } from 'astro:content';
 import { readFileSync } from 'node:fs';
 import '../styles/global.css';
 import { INTERNA_STRAN, INTERNA_POT } from '../config';
 import { getManjkajoce } from '../lib/manjkajoce';
+import { urediVCms } from '../lib/cms';
 
 export function getStaticPaths() {
   return INTERNA_STRAN ? [{ params: { interna: INTERNA_POT } }] : [];
@@ -21,6 +22,7 @@ const vrstniRed = [...readFileSync('src/content/odprte-zadeve/odprte-zadeve.yaml
 const zadeve = (await getCollection('odprteZadeve')).sort(
   (a, b) => red[a.data.status] - red[b.data.status] || vrstniRed.indexOf(a.id) - vrstniRed.indexOf(b.id),
 );
+const zadeveCms = urediVCms('src/content/odprte-zadeve/odprte-zadeve.yaml');
 const odprte = zadeve.filter((z) => z.data.status !== 'urejeno').length;
 const posodobljeno = new Intl.DateTimeFormat('sl-SI', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Ljubljana' }).format(new Date());
 const steviloStrani = (n: number) => `${n} ${n === 1 ? 'vsebina' : n === 2 ? 'vsebini' : n < 5 ? 'vsebine' : 'vsebin'}`;
@@ -81,6 +83,7 @@ const steviloStrani = (n: number) => `${n} ${n === 1 ? 'vsebina' : n === 2 ? 'vs
                           <p class="mt-0.5 text-sm text-crna/60">
                             {p.oblika && <span>{p.oblika} · </span>}
                             <a href={p.povezava} class="text-zelena-temna underline underline-offset-2" target="_blank" rel="noopener">poglej na strani ↗</a>
+                            {p.cms && <> · <a href={p.cms} class="font-bold text-zelena-temna underline underline-offset-2" target="_blank" rel="noopener">Uredi v CMS ↗</a></>}
                           </p>
                         </div>
                       </li>
@@ -97,7 +100,7 @@ const steviloStrani = (n: number) => `${n} ${n === 1 ? 'vsebina' : n === 2 ? 'vs
       <!-- 2: maintained by hand -->
       <section id="odprte" class="mt-14">
         <h2 class="text-2xl font-extrabold tracking-tight">2. Odprte zadeve</h2>
-        <p class="mt-1 text-sm text-crna/70">Odločitve in podatki, ki jih potrebujemo od ekipe.</p>
+        <p class="mt-1 text-sm text-crna/70">Odločitve in podatki, ki jih potrebujemo od ekipe. {zadeveCms && <a href={zadeveCms} class="font-bold text-zelena-temna underline underline-offset-2" target="_blank" rel="noopener">Uredi v CMS ↗</a>}</p>
         <ul class="mt-4 space-y-3">
           {zadeve.map(({ data: z }) => (
             <li class:list={['rounded-lg border p-4', z.status === 'urejeno' ? 'border-crna/10 bg-neutral-100 text-crna/45' : 'border-crna/20']}>

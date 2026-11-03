@@ -12,13 +12,15 @@ const { naslov, opis, blok } = await getStran('arhiv');
 const objave = await getObjave();
 const tilt = ['-rotate-1', 'rotate-1', 'rotate-[0.5deg]', '-rotate-[1.5deg]', 'rotate-[1.5deg]'];
 const tipi = Object.values(tipOznaka).join(', ').toLowerCase();
+// line next to the number of posts ("objav: <types>. …")
+const stevilo = blok('stevilo');
 ---
 
 <BaseLayout title={naslov} description={opis}>
   <PageIntro naslov={naslov} uvod={blok('uvod')} oblika="h">
     <p slot="deco" class="max-w-[14rem] text-sm font-medium leading-snug">
       <span class="display block text-6xl text-zelena">{objave.length}</span>
-      objav: {tipi}. Vsebina z Instagrama se naloži šele, ko klikneš nanjo.
+      {stevilo.naslov} {tipi}. {stevilo.besedilo}
     </p>
   </PageIntro>
 

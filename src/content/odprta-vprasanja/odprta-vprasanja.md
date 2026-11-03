@@ -5,9 +5,9 @@ naslov: "Odprta vprašanja mesta"
 opis: "Odprta vprašanja v Ljubljani, na katera opozarjajo prebivalci, civilne iniciative in stroka, ter kako jih bo obravnavala nova mestna oblast."
 # intro line that tells this page apart from /vprasanja (draft)
 uvod: "Pregled odprtih vprašanj v Ljubljani, na katera že leta opozarjajo prebivalci, civilne iniciative in stroka. Vprašanja, ki nam jih zastavljate meščanke in meščani, in naše odgovore najdete na strani Vprašanja in odgovori."
-uvodPlaceholder: true
+uvodOsnutek: true
 # the whole text is a draft until the team has reviewed it
-placeholder: true
+osnutek: true
 ---
 
 **Odprta vprašanja mesta, ki zahtevajo odgovore**

@@ -22,7 +22,7 @@ export const formatDatum = (d: Date) => datumFormat.format(d);
 // Posts from OBJAVE_OD on, newest first. Placeholder posts are shown only while no real post exists.
 export async function getObjave() {
   const vse = await getCollection('objave');
-  const prave = vse.filter((o) => !o.data.placeholder);
+  const prave = vse.filter((o) => !o.data.osnutek);
   const od = new Date(`${OBJAVE_OD}T00:00:00`);
   return (prave.length ? prave : vse)
     .filter((o) => o.data.datum >= od)

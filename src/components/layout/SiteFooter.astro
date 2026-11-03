@@ -11,7 +11,7 @@ import { navigation, narocnik, links, social, izdelava } from '../../data/site';
       <VesnaLogo class="text-[0.8rem]" color="var(--color-krema)" />
       <p class="mt-6 text-sm leading-relaxed">
         <strong class="font-bold">{narocnik.oznaka}</strong><br />
-        {narocnik.placeholder ? <Placeholder>{narocnik.besedilo}</Placeholder> : narocnik.besedilo}<br />
+        <Placeholder active={narocnik.osnutek}>{narocnik.besedilo}</Placeholder><br />
         {narocnik.volitve}
       </p>
     </div>
@@ -28,16 +28,14 @@ import { navigation, narocnik, links, social, izdelava } from '../../data/site';
       <ul class="flex flex-wrap gap-x-5 gap-y-2 font-bold">
         {social.map((s) => (
           <li>
-            {s.placeholder ? <Placeholder><a href={s.href}>{s.label}</a></Placeholder> : <a href={s.href}>{s.label}</a>}
+            <Placeholder active={s.osnutek}><a href={s.href}>{s.label}</a></Placeholder>
           </li>
         ))}
       </ul>
       <ul class="space-y-1">
-        {Object.values(links).map((l) => (
+        {links.map((l) => (
           <li>
-            {l.placeholder
-              ? <Placeholder><a href={l.href} class="underline underline-offset-4">{l.label}</a></Placeholder>
-              : <a href={l.href} class="underline underline-offset-4">{l.label}</a>}
+            <Placeholder active={l.osnutek}><a href={l.href} class="underline underline-offset-4">{l.label}</a></Placeholder>
           </li>
         ))}
       </ul>

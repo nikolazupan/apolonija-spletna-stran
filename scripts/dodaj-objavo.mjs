@@ -14,7 +14,7 @@
 // Writes:
 //   src/assets/objave/<datum>-<shortcode>.jpg   web version: max 2400 px, JPEG 82, EXIF-rotated, no metadata
 //   src/content/objave/<datum>-<shortcode>.md   the post entry
-// The first real post also removes all placeholder posts (entries with `placeholder: true`)
+// The first real post also removes all placeholder posts (entries with `osnutek: true`)
 // and their stand-in image.
 
 import { existsSync } from 'node:fs';
@@ -76,7 +76,7 @@ tip: ${a.tip}
 platforma: instagram
 povezava: ${q(povezava)}
 opis: ${q(opis)}
-slika: ${q(`../../assets/objave/${ime}.jpg`)}
+slika: ${q(`@assets/objave/${ime}.jpg`)}
 ---
 `,
 );
@@ -88,7 +88,7 @@ const odstranjene = [];
 for (const f of await readdir(VSEBINA)) {
   if (!f.endsWith('.md')) continue;
   const besedilo = await readFile(join(VSEBINA, f), 'utf8');
-  if (/^placeholder:\s*true\s*$/m.test(besedilo)) {
+  if (/^osnutek:\s*true\s*$/m.test(besedilo)) {
     await rm(join(VSEBINA, f));
     odstranjene.push(f);
   }

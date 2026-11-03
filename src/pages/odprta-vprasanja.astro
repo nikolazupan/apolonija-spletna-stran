@@ -11,7 +11,7 @@ import Risba from '../components/brand/Risba.astro';
 
 const stran = await getEntry('odprtaVprasanja', 'odprta-vprasanja');
 if (!stran) throw new Error('Missing src/content/odprta-vprasanja/odprta-vprasanja.md');
-const { naslov, opis, uvod, uvodPlaceholder, placeholder } = stran.data;
+const { naslov, opis, uvod, uvodPovezava, uvodOsnutek, osnutek } = stran.data;
 const { Content, headings } = await render(stran);
 const poglavja = headings.filter((h) => h.depth === 3);
 ---
@@ -30,8 +30,8 @@ const poglavja = headings.filter((h) => h.depth === 3);
   <section class="site-container pb-16 lg:pb-24">
     <!-- intro line: what this page is, and where the citizens' questions are -->
     <p class="max-w-prose text-lg leading-relaxed">
-      <Placeholder active={uvodPlaceholder}>{uvod}</Placeholder>
-      <a href="/vprasanja" class="ml-1 whitespace-nowrap border-b-2 border-zelena font-bold hover:text-zelena-temna">Vprašanja in odgovori →</a>
+      <Placeholder active={uvodOsnutek}>{uvod}</Placeholder>
+      <a href="/vprasanja" class="ml-1 whitespace-nowrap border-b-2 border-zelena font-bold hover:text-zelena-temna">{uvodPovezava} →</a>
     </p>
 
     <div class="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-12">
@@ -52,7 +52,7 @@ const poglavja = headings.filter((h) => h.depth === 3);
 
       <!-- the document, exactly as written by the team -->
       <article class="lg:col-span-8 xl:col-span-7 xl:col-start-5">
-        <Placeholder active={placeholder} as="div" class="vsebina block">
+        <Placeholder active={osnutek} as="div" class="vsebina block">
           <Content />
         </Placeholder>
       </article>

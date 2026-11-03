@@ -11,6 +11,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "check-placeholders": "node scripts/check-placeholders.mjs",
+    "check-cms": "node scripts/check-cms.mjs",
     "fotografije": "node scripts/pripravi-fotografije.mjs",
     "objava": "node scripts/dodaj-objavo.mjs",
     "plakati": "node scripts/pripravi-plakate.mjs"
@@ -20,5 +21,8 @@
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.4.2",
     "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "yaml": "^2.9.1"
   }
 }

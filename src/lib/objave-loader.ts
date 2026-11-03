@@ -36,7 +36,7 @@ export function izBehold(p: BeholdPost) {
     povezava: p.permalink,
     opis: prvaVrstica(p.prunedCaption ?? p.caption),
     slikaUrl,
-    placeholder: false,
+    osnutek: false,
   };
 }
 

@@ -6,10 +6,7 @@
 // "Zadnja objava na Instagramu" button under the shape switches to the post.
 // The back face is absolutely positioned over the front, so flipping never changes the layout.
 import type { CollectionEntry } from 'astro:content';
-// hero photo: crops of podatki/fotografije-originali/apolonija-uvod.jpg (made by `npm run fotografije`)
-import foto from '../../assets/fotografije/apolonija-uvod-izrez.jpg';
-// tighter crop for phones: she fills the frame
-import fotoBlizje from '../../assets/fotografije/apolonija-uvod-blizje.jpg';
+import type { ImageMetadata } from 'astro';
 import Blob from '../brand/Blob.astro';
 import CutoutImage from '../brand/CutoutImage.astro';
 import InstagramProfil from '../ui/InstagramProfil.astro';
@@ -19,12 +16,17 @@ import { formatDatum, povezavaObjave, slikaObjave } from '../../lib/objave';
 interface Props {
   // the newest post; without it the shape shows only her photo
   objava?: CollectionEntry<'objave'>;
+  // hero photo (4:5, tablet/desktop) and the closer crop for phones (vstopna.md → hero)
+  slika: ImageMetadata;
+  slikaTelefon: ImageMetadata;
+  alt: string;
+  // "Zadnja objava na Instagramu" (vstopna.md → bloki.zadnjaObjava); the date is added here
+  oznakaObjave: string;
 }
-const { objava } = Astro.props;
+const { objava, slika: foto, slikaTelefon: fotoBlizje, alt, oznakaObjave } = Astro.props;
 const o = objava?.data;
-const oznaka = o ? `Zadnja objava na Instagramu · ${formatDatum(o.datum)}` : '';
+const oznaka = o ? `${oznakaObjave} · ${formatDatum(o.datum)}` : '';
 const slika = o ? slikaObjave(o) : undefined;
-const alt = 'Apolonija Simon pod dežnikom, nanjo pada curek vodnjaka v središču Ljubljane';
 ---
 
 <div class="obrat" data-obrat={o ? '' : undefined}>
@@ -67,7 +69,7 @@ const alt = 'Apolonija Simon pod dežnikom, nanjo pada curek vodnjaka v središ�
   <!-- reduced motion only: switches to the post (shown under the shape from the start, so nothing moves) -->
   {o && (
     <button type="button" data-obrni class="obrat-staticno relative z-10 mx-auto mt-10 items-center gap-2 border-b-[3px] border-zelena pb-0.5 text-sm font-bold">
-      Zadnja objava na Instagramu <span aria-hidden="true">↺</span>
+      {oznakaObjave} <span aria-hidden="true">↺</span>
     </button>
   )}
 </div>

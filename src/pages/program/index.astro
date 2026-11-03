@@ -1,6 +1,6 @@
 ---
 // Programme overview: the intro, then the 9 areas as hand-cut paper cards, each linking to its page.
-// The whole content is marked OSNUTEK while the page's `placeholder` flag is set (program still under review).
+// The whole content is marked OSNUTEK while the page's `osnutek` flag is set (program still under review).
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageIntro from '../../components/ui/PageIntro.astro';
 import PaperCard from '../../components/ui/PaperCard.astro';
@@ -13,7 +13,7 @@ import Placeholder from '../../components/Placeholder.astro';
 import { getProgram } from '../../lib/program';
 import { papirji } from '../../lib/blob';
 
-const { naslov, opis, blok, povezave, placeholder } = await getStran('program');
+const { naslov, opis, blok, povezave, osnutek } = await getStran('program');
 const uvod = blok('uvod');
 const uvod2 = blok('uvod2');
 const celoten = blok('celoten');
@@ -21,11 +21,11 @@ const podrocja = await getProgram();
 ---
 
 <BaseLayout title={naslov} description={opis}>
-  <Placeholder active={placeholder} as="div" class="block">
+  <Placeholder active={osnutek} as="div" class="block">
   <PageIntro naslov={uvod.naslov ?? naslov} uvod={uvod} oblika="g">
     <p slot="deco" class="relative px-4 text-center font-display font-extrabold leading-none" aria-hidden="true">
       <span class="block text-[7rem] text-zelena sm:text-[9rem]">{podrocja.length}</span>
-      <span class="block text-xl tracking-tight">področij</span>
+      <span class="block text-xl tracking-tight">{blok('stevilo').besedilo}</span>
       <Risba name="podcrta" class="mx-auto mt-2 h-2.5 w-28 [--risba-w:4px]" />
     </p>
   </PageIntro>
@@ -54,7 +54,7 @@ const podrocja = await getProgram();
         <BlockText blok={celoten} class="mt-2 max-w-prose text-base leading-relaxed" />
       </div>
       <div class="mt-4 shrink-0 text-lg md:mt-0">
-        {povezave.map((l) => <TextLink href={l.url} placeholder={l.placeholder}>{l.naslov}</TextLink>)}
+        {povezave.map((l) => <TextLink href={l.url} osnutek={l.osnutek}>{l.naslov}</TextLink>)}
       </div>
     </div>
   </section>

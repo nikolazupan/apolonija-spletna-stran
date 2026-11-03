@@ -1,7 +1,10 @@
-// Site-wide settings: menu, external links, organizer notice.
-// Entries with `placeholder: true` are not confirmed yet (listed by `npm run check-placeholders`).
+// Site-wide settings: menu, and (from src/content/strani/noga.md, editable in Pages CMS as "Noga strani")
+// the organizer notice, footer links, social profiles and the campaign's Instagram profile.
+// Entries with `osnutek: true` are not confirmed yet (listed by `npm run check-placeholders`).
+import { getStran } from '../lib/strani';
 
-// `short` is used in the desktop header, where space is tight.
+// Menu (header overlay, footer, 404). Follows the pages in src/pages/, so it stays in code.
+// `short` is used where space is tight.
 export const navigation = [
   { label: 'Vstopna stran', short: 'Domov', href: '/' },
   { label: 'Apolonija Simon', short: 'Apolonija Simon', href: '/apolonija-simon' },
@@ -15,29 +18,26 @@ export const navigation = [
   { label: 'Odprta vprašanja mesta', short: 'Odprta vprašanja', href: '/odprta-vprasanja' },
 ];
 
-// Wording from the posters ("Politični oglas / Naročnik: ..."); the organizer of the website is not confirmed yet.
+const noga = await getStran('noga');
+const narocnikBlok = noga.blok('narocnik');
+
+// Organizer notice in the footer ("Politični oglas / Naročnik: ... / Volitve v MOL 2026.").
 export const narocnik = {
-  oznaka: 'Politični oglas',
-  besedilo: 'Naročnik: VESNA – zelena stranka, [naslov naročnika]',
-  volitve: 'Volitve v MOL 2026.',
-  placeholder: true,
+  oznaka: narocnikBlok.naslov ?? '',
+  besedilo: narocnikBlok.besedilo,
+  volitve: narocnikBlok.podpis ?? '',
+  osnutek: narocnikBlok.osnutek,
 };
 
-export const links = {
-  // from the print material
-  vesna: { label: 'vesnazelenastranka.si', href: 'https://vesnazelenastranka.si/ljubljana', placeholder: false },
-  apolonija: { label: 'Osebna spletna stran Apolonije Simon', href: 'https://www.apolonijasimon.si/', placeholder: false },
-  zasebnost: { label: 'Varstvo zasebnosti', href: '/zasebnost', placeholder: false },
-};
+// Footer links.
+export const links = noga.povezave.map((p) => ({ label: p.naslov, href: p.url, osnutek: p.osnutek }));
 
 // Campaign Instagram profile: shown on the latest post in the hero, and the source of the posts
 // (hero, /arhiv). Post links without a permalink yet point to the profile.
-export const instagramProfil = { handle: '@skupajzamesto', url: 'https://www.instagram.com/skupajzamesto', placeholder: false };
+export const instagramProfil = noga.instagram ?? { handle: '', url: '', osnutek: false };
 
-export const social = [
-  { label: 'Instagram', href: instagramProfil.url, placeholder: false },
-  { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61595183339767', placeholder: false },
-];
+// Social profiles (footer, menu overlay, /kontakt).
+export const social = noga.omrezja.map((p) => ({ label: p.naslov, href: p.url, osnutek: p.osnutek }));
 
 // Credit line at the very bottom of the footer.
-export const izdelava = 'Izdelava spletne strani: Nikola Zupan';
+export const izdelava = noga.blok('izdelava').besedilo;
