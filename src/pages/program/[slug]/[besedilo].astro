@@ -1,0 +1,192 @@
+---
+// Additional text of a program chapter (src/content/dodatna-besedila/), e.g. /program/odprto-in-odgovorno-mesto/deliberacija.
+// Text exactly as written. Title on a hand-cut shape, author line, back link to the chapter, table of contents from
+// the text's ## headings (sticky beside the text on desktop, collapsible on phones), tables scroll sideways on phones,
+// reference marks [1]… link to the numbered sources at the bottom (lib/program.ts → pripraviBesedilo).
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageIntro from '../../../components/ui/PageIntro.astro';
+import Placeholder from '../../../components/Placeholder.astro';
+import { getStran } from '../../../lib/strani';
+import { getDodatnaBesedila, pripraviBesedilo } from '../../../lib/program';
+
+export async function getStaticPaths() {
+  const besedila = await getDodatnaBesedila();
+  return besedila.map((b) => ({ params: { slug: b.data.poglavje.id, besedilo: b.id }, props: { besedilo: b } }));
+}
+
+const { besedilo } = Astro.props;
+const { naslov, avtor, avtorOsnutek, viri, viriOpomba } = besedilo.data;
+const poglavje = await getEntry(besedilo.data.poglavje);
+if (!poglavje) throw new Error(`dodatna-besedila/${besedilo.id}.md: unknown chapter "${besedilo.data.poglavje.id}"`);
+const html = pripraviBesedilo(besedilo.rendered?.html ?? '', viri.length);
+const poglavja = (besedilo.rendered?.metadata?.headings ?? []).filter((h) => h.depth === 2);
+// author label, heading of the references, back link prefix
+const oznake = (await getStran('program')).blok('dodatno');
+---
+
+<BaseLayout title={`${naslov} | Program`} description={`${naslov}: dodatno besedilo k poglavju programa »${poglavje.data.naslov}«.`}>
+  <section class="site-container pt-6 lg:pt-10">
+    <a href={`/program/${poglavje.id}`} class="text-sm font-bold hover:text-zelena-temna">← {oznake.povezava} {poglavje.data.naslov}</a>
+  </section>
+  <PageIntro naslov={naslov} oblika="h" />
+
+  <section class="site-container pb-16 lg:pb-24">
+    {avtor && (
+      <p class="text-base font-bold">
+        {oznake.podpis} <Placeholder active={avtorOsnutek}>{avtor}</Placeholder>
+      </p>
+    )}
+
+    <div class="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-12">
+      {poglavja.length > 1 && (
+        <nav class="lg:col-span-4 xl:col-span-3" aria-labelledby="kazalo">
+          <details class="kazalo group border-2 border-crna bg-bela/60 lg:sticky lg:top-28 lg:border-0 lg:bg-transparent" open>
+            <summary id="kazalo" class="flex cursor-pointer list-none items-center justify-between px-4 py-3 text-lg font-extrabold tracking-tight lg:pointer-events-none lg:px-0 lg:pt-0">
+              Kazalo
+              <svg viewBox="0 0 16 16" class="h-4 w-4 transition-transform group-open:rotate-45 lg:hidden" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M8 2v12M2 8h12" /></svg>
+            </summary>
+            <ol class="space-y-1.5 border-t-2 border-crna/15 px-4 pb-4 pt-3 text-[0.95rem] leading-snug lg:px-0">
+              {poglavja.map((h) => <li><a href={`#${h.slug}`} class="block hover:text-zelena-temna hover:underline">{h.text}</a></li>)}
+              {viri.length > 0 && <li><a href="#viri" class="block hover:text-zelena-temna hover:underline">{oznake.naslov}</a></li>}
+            </ol>
+          </details>
+        </nav>
+      )}
+
+      <article class:list={['min-w-0', poglavja.length > 1 ? 'lg:col-span-8 xl:col-span-7 xl:col-start-5' : 'lg:col-span-8']}>
+        <div class="besedilo" set:html={html} />
+
+        {viri.length > 0 && (
+          <section class="besedilo mt-12 border-t-2 border-crna pt-6" aria-labelledby="viri">
+            <h2 id="viri">{oznake.naslov}</h2>
+            <ol class="viri">
+              {viri.map((v, i) => (
+                <li id={`vir-${i + 1}`}>
+                  <span class="viri-st">[{i + 1}]</span>
+                  <span>
+                    {v.besedilo}{' '}
+                    {v.url && <a href={v.url} target="_blank" rel="noopener" class="break-all">{v.url}</a>}
+                  </span>
+                </li>
+              ))}
+            </ol>
+            {viriOpomba && <p class="mt-5 text-base text-crna/80">{viriOpomba}</p>}
+          </section>
+        )}
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .kazalo summary::-webkit-details-marker {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .kazalo:not([open]) > ol {
+      display: block;
+    }
+  }
+
+  /* long text: comfortable line length and clear structure (rendered markdown, so the rules are global, scoped by .besedilo) */
+  :global(.besedilo) {
+    max-width: 42rem;
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+  :global(.besedilo > * + *) {
+    margin-top: 1rem;
+  }
+  :global(.besedilo h2) {
+    scroll-margin-top: 7rem;
+    margin-top: 3rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 85%;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    font-size: clamp(1.6rem, 4.5vw, 2.25rem);
+  }
+  :global(.besedilo h3) {
+    scroll-margin-top: 7rem;
+    margin-top: 2rem;
+    font-weight: 800;
+    font-size: 1.2rem;
+    line-height: 1.3;
+  }
+  :global(.besedilo h2 + *),
+  :global(.besedilo h3 + *) {
+    margin-top: 0.5rem;
+  }
+  :global(.besedilo a) {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  :global(.besedilo a:hover) {
+    color: var(--color-zelena-temna);
+  }
+  /* reference marks [1] */
+  :global(.besedilo a.sklic) {
+    font-weight: 700;
+    color: var(--color-zelena-temna);
+    text-decoration-thickness: 2px;
+  }
+  :global(.besedilo [id^='vir-']:target) {
+    background: rgb(0 152 84 / 0.12);
+  }
+
+  /* tables: scroll sideways on phones instead of squeezing the columns */
+  :global(.tabela-ovoj) {
+    max-width: 100%;
+    overflow-x: auto;
+    border-top: 2px solid var(--color-crna);
+    border-bottom: 2px solid var(--color-crna);
+    -webkit-overflow-scrolling: touch;
+  }
+  :global(.tabela-ovoj:focus-visible) {
+    outline: 3px solid var(--color-crna);
+    outline-offset: 3px;
+  }
+  :global(.besedilo table) {
+    width: 100%;
+    min-width: 34rem;
+    border-collapse: collapse;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  :global(.besedilo th) {
+    padding: 0.65rem 0.75rem 0.55rem 0;
+    text-align: left;
+    vertical-align: bottom;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-zelena-temna);
+  }
+  :global(.besedilo th strong) {
+    font-weight: inherit;
+  }
+  :global(.besedilo td) {
+    padding: 0.6rem 0.75rem 0.6rem 0;
+    vertical-align: top;
+    border-top: 1px solid rgb(20 20 20 / 0.15);
+  }
+  /* numbered sources */
+  :global(.besedilo .viri) {
+    margin-top: 1rem;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+  :global(.besedilo .viri li) {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    padding: 0.4rem 0.25rem;
+    scroll-margin-top: 7rem;
+  }
+  :global(.besedilo .viri-st) {
+    font-weight: 800;
+    color: var(--color-zelena-temna);
+  }
+</style>

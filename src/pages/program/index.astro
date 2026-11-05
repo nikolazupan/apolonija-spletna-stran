@@ -1,30 +1,30 @@
 ---
-// Programme overview: the intro, then the 9 areas as hand-cut paper cards, each linking to its page.
-// The whole content is marked OSNUTEK while the page's `osnutek` flag is set (program still under review).
+// Program, level 2 (condensed version): the intro from the program summary, then the 8 chapters. Each chapter:
+// number + title, the leaflet measure on a hand-cut paper note, the condensed text, link to the chapter page
+// (level 3, broad version). Chapters: src/content/program/, page texts: src/content/strani/program.md.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageIntro from '../../components/ui/PageIntro.astro';
 import PaperCard from '../../components/ui/PaperCard.astro';
-import ProgramCardBody from '../../components/ui/ProgramCardBody.astro';
 import BlockText from '../../components/BlockText.astro';
 import TextLink from '../../components/ui/TextLink.astro';
+import Placeholder from '../../components/Placeholder.astro';
 import Risba from '../../components/brand/Risba.astro';
 import { getStran } from '../../lib/strani';
-import Placeholder from '../../components/Placeholder.astro';
-import { getProgram } from '../../lib/program';
+import { getProgram, odstavki } from '../../lib/program';
 import { papirji } from '../../lib/blob';
 
-const { naslov, opis, blok, povezave, osnutek } = await getStran('program');
+const { naslov, opis, blok, povezave } = await getStran('program');
 const uvod = blok('uvod');
 const uvod2 = blok('uvod2');
 const celoten = blok('celoten');
-const podrocja = await getProgram();
+const vec = blok('kartica').povezava;
+const poglavja = await getProgram();
 ---
 
 <BaseLayout title={naslov} description={opis}>
-  <Placeholder active={osnutek} as="div" class="block">
   <PageIntro naslov={uvod.naslov ?? naslov} uvod={uvod} oblika="g">
     <p slot="deco" class="relative px-4 text-center font-display font-extrabold leading-none" aria-hidden="true">
-      <span class="block text-[7rem] text-zelena sm:text-[9rem]">{podrocja.length}</span>
+      <span class="block text-[7rem] text-zelena sm:text-[9rem]">{poglavja.length}</span>
       <span class="block text-xl tracking-tight">{blok('stevilo').besedilo}</span>
       <Risba name="podcrta" class="mx-auto mt-2 h-2.5 w-28 [--risba-w:4px]" />
     </p>
@@ -34,18 +34,32 @@ const podrocja = await getProgram();
     <BlockText blok={uvod2} class="max-w-prose text-lg leading-relaxed" />
   </section>
 
-  <section class="site-container pb-12 pt-4 lg:pb-16" aria-label="Področja programa">
-    <ol class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-      {podrocja.map((p, i) => (
-        <li>
-          <PaperCard href={`/program/${p.id}`} {...papirji[i % papirji.length]} class="h-full">
-            <ProgramCardBody podrocje={p} stevilka={p.data.vrstniRed} />
-          </PaperCard>
+  <section class="site-container pb-12 pt-4 lg:pb-16" aria-label="Poglavja programa">
+    <ol class="space-y-12 lg:space-y-16">
+      {poglavja.map((p, i) => (
+        <li id={p.id} class="grid scroll-mt-28 gap-5 border-t-2 border-crna pt-6 md:grid-cols-12 md:gap-8 lg:pt-8">
+          <div class="md:col-span-5 lg:col-span-4">
+            <span class="display block text-5xl text-zelena sm:text-6xl" aria-hidden="true">{String(p.data.vrstniRed).padStart(2, '0')}</span>
+            <h2 class="mt-2 font-display text-[clamp(1.75rem,4.5vw,2.5rem)] font-extrabold leading-[0.98] tracking-[-0.035em] [font-stretch:85%]">
+              <a href={`/program/${p.id}`} class="hover:text-zelena-temna">{p.data.naslov}</a>
+            </h2>
+          </div>
+
+          <div class="md:col-span-7 lg:col-span-7 lg:col-start-6">
+            <!-- leaflet measure on a paper note -->
+            <PaperCard {...papirji[i % papirji.length]} class="max-w-2xl">
+              <p class="text-lg font-semibold leading-snug sm:text-xl">{p.data.ukrep}</p>
+            </PaperCard>
+            <!-- condensed version -->
+            <Placeholder active={p.data.strnjenaOsnutek} as="div" class="mt-5 block max-w-prose space-y-4 text-lg leading-relaxed">
+              {odstavki(p.data.strnjena).map((o) => <p>{o}</p>)}
+            </Placeholder>
+            {vec && <p class="mt-5 text-lg"><TextLink href={`/program/${p.id}`}>{vec}</TextLink></p>}
+          </div>
         </li>
       ))}
     </ol>
   </section>
-  </Placeholder>
 
   <section class="site-container pb-16 lg:pb-20">
     <div class="border-2 border-crna p-6 sm:p-8 md:flex md:items-center md:justify-between md:gap-10">

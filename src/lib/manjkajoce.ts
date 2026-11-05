@@ -40,7 +40,6 @@ const STRANI: [string, string, string][] = [
 
 // Plainer wording / format hints for text blocks, by "page#block name" (optional; otherwise the block title is used).
 const BLOKI: Record<string, { sekcija?: string; kaj: string; oblika?: string }> = {
-  'vstopna#poudarki': { sekcija: 'Ključne točke programa', kaj: 'Izbor 3 ključnih točk programa za vstopno stran', oblika: '3 od 9 področij, s skrajšanimi besedili (2 stavka)' },
   'vstopna#kandidatura': { sekcija: 'Zakaj Apolonija kandidira', kaj: 'Besedilo: zakaj Apolonija kandidira', oblika: '1–2 odstavka' },
   'vstopna#skupaj': { sekcija: 'Vesna in civilna družba skupaj', kaj: 'Besedilo: zakaj Vesna in civilna družba nastopata skupaj (zdaj je na strani osnutek, ki ga je treba potrditi ali nadomestiti)', oblika: '1 odstavek' },
   'lista#uvod': { sekcija: 'Uvod', kaj: 'Uvodno besedilo o listi Vesna in civilna družba', oblika: '1 odstavek' },
@@ -110,9 +109,17 @@ export async function getManjkajoce(root: string) {
         dodaj(ime, 'Drugo', { kaj: `Vsebina (${pot.join(' → ')})`, povezava: url, vir }, cms);
       }
     } else if (h.rel.startsWith('src/content/program/')) {
+      // program chapters: condensed version (/program) and broad version (chapter page); sections numbered, in chapter order
       const naslov = niz(podatki.naslov);
-      if (pot[0] === 'viri') dodaj('program', naslov, { kaj: `Vir ali povezava (${niz(el.naslov).replace(/^\[|\]$/g, '').split(':')[0]})`, oblika: 'naslov in povezava (URL) ali dokument', povezava: `/program/${ime}`, vir }, cms);
-      else dodaj('program', naslov, { kaj: `Daljše besedilo področja »${naslov}«`, oblika: 'iz daljše verzije programa (nekaj odstavkov)', povezava: `/program/${ime}`, vir }, cms);
+      const sekcija = `${podatki.vrstniRed}. ${naslov}`;
+      if (kljuc === 'strnjenaOsnutek') dodaj('program', sekcija, { kaj: `Strnjena verzija poglavja »${naslov}«`, oblika: 'nekaj odstavkov (stran Program)', povezava: `/program#${ime}`, vir }, cms);
+      else dodaj('program', sekcija, { kaj: `Širša verzija poglavja »${naslov}«`, oblika: 'celotno besedilo poglavja (stran poglavja)', povezava: `/program/${ime}`, vir }, cms);
+    } else if (h.rel.startsWith('src/content/dodatna-besedila/')) {
+      // additional texts of a chapter
+      const naslov = niz(podatki.naslov);
+      const url = `/program/${niz(podatki.poglavje)}/${ime}`;
+      if (kljuc === 'avtorOsnutek') dodaj('program', `Dodatno besedilo: ${naslov}`, { kaj: `Avtor/ica besedila »${naslov}«`, oblika: 'ime in priimek (potrditev ekipe)', povezava: url, vir }, cms);
+      else dodaj('program', `Dodatno besedilo: ${naslov}`, { kaj: `Vsebina: ${pot.join(' → ')}`, povezava: url, vir }, cms);
     } else if (h.rel.startsWith('src/content/sporni-projekti/')) {
       const naslov = niz(podatki.naslov);
       const izmisljen = podatki.naslovOsnutek === true;
@@ -158,7 +165,10 @@ export async function getManjkajoce(root: string) {
   const strani: Stran[] = STRANI.filter(([id]) => zbirka.has(id)).map(([id, ime, povezava]) => ({
     ime,
     povezava,
-    sekcije: [...zbirka.get(id)!.entries()].map(([ime, postavke]) => ({ ime, postavke })),
+    // numbered sections ("3. …", program chapters) in their order, then the others in scan order
+    sekcije: [...zbirka.get(id)!.entries()]
+      .map(([ime, postavke]) => ({ ime, postavke }))
+      .sort((a, b) => (parseInt(a.ime) || 99) - (parseInt(b.ime) || 99)),
   }));
   const skupaj = strani.reduce((n, s) => n + s.sekcije.reduce((m, x) => m + x.postavke.length, 0), 0);
   return { strani, skupaj, placeholderjev: hits.length };

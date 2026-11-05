@@ -1,82 +1,212 @@
 ---
-// The key programme areas (selected in vstopna.md), each on its own hand-cut paper card, with the
-// homepage's shortened texts. From md the three shapes are made exactly the same height (script below).
+// Homepage "Program": the 8 chapters with their leaflet measure as a slider, in leaflet order, each on its own
+// hand-cut paper card (wobble on hover, see PaperCard) linking to its chapter page; "Celoten program" → /program below.
+// Visible: 3 cards on desktop (lg), 2 on tablets (sm), 1 on phones with the next one peeking in at the edge.
+// Native CSS scroll-snap: swipe/drag/trackpad scroll natively. A small script adds the hand-drawn arrow buttons,
+// keyboard arrows and the "1–3 / 8" counter, and gives all cards the same height. Without JS the list is a plain
+// horizontally scrollable row (scrollbar visible, every link reachable with Tab). No autoplay.
 import type { CollectionEntry } from 'astro:content';
 import PaperCard from '../ui/PaperCard.astro';
 import ProgramCardBody from '../ui/ProgramCardBody.astro';
-import Placeholder from '../Placeholder.astro';
+import Blob from '../brand/Blob.astro';
+import Risba from '../brand/Risba.astro';
 import { papirji } from '../../lib/blob';
 
 interface Props {
   naslov?: string;
   povezavaBesedilo?: string;
-  // the selection itself is provisional: marks the whole section as OSNUTEK
-  osnutek?: boolean;
-  // the areas with their shortened homepage texts
-  podrocja: { podrocje: CollectionEntry<'program'>; besedilo?: string }[];
+  poglavja: CollectionEntry<'program'>[];
 }
-const { naslov, povezavaBesedilo = 'Celoten program', osnutek = false, podrocja } = Astro.props;
+const { naslov, povezavaBesedilo, poglavja } = Astro.props;
+const gumbi = [
+  { smer: 'nazaj', label: 'Prejšnje poglavje', zrcali: true, oblika: 'b' as const, nagib: '-rotate-3' },
+  { smer: 'naprej', label: 'Naslednje poglavje', zrcali: false, oblika: 'c' as const, nagib: 'rotate-2' },
+];
 ---
 
-<section class="site-container py-12 lg:py-16">
-  <Placeholder active={osnutek} as="div" class="block py-4">
-    <h2 class="display text-center text-[clamp(2.25rem,7vw,3.5rem)]">{naslov}</h2>
+<section class="site-container py-12 lg:py-16" aria-labelledby="program-naslov">
+  <h2 id="program-naslov" class="display text-center text-[clamp(2.25rem,7vw,3.5rem)]">{naslov}</h2>
 
-    <ol class="kljucne mt-8 grid gap-6 md:grid-cols-3 md:gap-8 lg:mt-10" data-kljucne>
-      {podrocja.map(({ podrocje: p, besedilo }, i) => (
-        <li>
+  <div class="drsnik mt-6 lg:mt-8" data-drsnik>
+    <ol id="program-trak" class="drsnik-trak" data-trak tabindex="0" aria-label={`${naslov}: ${poglavja.length} poglavij`}>
+      {poglavja.map((p, i) => (
+        <li class="drsnik-kartica" aria-label={`${i + 1} od ${poglavja.length}`}>
           <PaperCard href={`/program/${p.id}`} {...papirji[i % papirji.length]} class="h-full">
-            <ProgramCardBody podrocje={p} stevilka={i + 1} besedilo={besedilo} />
+            <ProgramCardBody poglavje={p} />
           </PaperCard>
         </li>
       ))}
     </ol>
 
-    <div class="mt-10 text-center">
+    <!-- controls: shown by the script (hidden without JS, where the row simply scrolls) -->
+    <div class="mt-4 flex items-center justify-center gap-5" data-kontrole hidden>
+      {gumbi.slice(0, 1).map((g) => (
+        <button type="button" class="drsnik-gumb group" data-smer={g.smer} aria-label={g.label} aria-controls="program-trak">
+          <Blob variant={g.oblika} fill="var(--color-bela)" class:list={['absolute inset-0 h-full w-full transition-transform group-hover:rotate-0', g.nagib]} />
+          <Risba name="puscicaDesno" color="var(--color-crna)" class:list={['relative h-5 w-8 [--risba-w:3px]', g.zrcali && '-scale-x-100']} />
+        </button>
+      ))}
+      <p class="min-w-[4.5rem] text-center text-sm font-bold tabular-nums" aria-live="polite" data-stevec></p>
+      {gumbi.slice(1).map((g) => (
+        <button type="button" class="drsnik-gumb group" data-smer={g.smer} aria-label={g.label} aria-controls="program-trak">
+          <Blob variant={g.oblika} fill="var(--color-bela)" class:list={['absolute inset-0 h-full w-full transition-transform group-hover:rotate-0', g.nagib]} />
+          <Risba name="puscicaDesno" color="var(--color-crna)" class:list={['relative h-5 w-8 [--risba-w:3px]', g.zrcali && '-scale-x-100']} />
+        </button>
+      ))}
+    </div>
+  </div>
+
+  {povezavaBesedilo && (
+    <div class="mt-8 text-center lg:mt-10">
       <a href="/program" class="inline-block border-b-[3px] border-zelena pb-0.5 text-base font-bold hover:text-zelena-temna">{povezavaBesedilo} →</a>
     </div>
-  </Placeholder>
+  )}
 </section>
 
 <style>
-  /* let the card body fill an enlarged text box, so "Več o področju" sits at the bottom */
-  .kljucne :global([data-oblik-vsebina]) {
+  /* the row of cards: 1 (+ the next peeking in) / 2 / 3 visible */
+  .drsnik-trak {
+    --vrzel: 1rem;
+    --vidnih: 1.2;
+    display: flex;
+    gap: var(--vrzel);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    /* room for the tilted shapes and the hover wobble, which would otherwise be clipped by the scroll box */
+    padding: 1rem 0.5rem 1.25rem;
+    margin-inline: -0.5rem;
+    scroll-padding-inline: 0.5rem;
+    list-style: none;
+  }
+  @media (min-width: 640px) {
+    .drsnik-trak {
+      --vrzel: 1.5rem;
+      --vidnih: 2;
+    }
+  }
+  @media (min-width: 1024px) {
+    .drsnik-trak {
+      --vrzel: 1.75rem;
+      --vidnih: 3;
+    }
+  }
+  .drsnik-trak:focus-visible {
+    outline: 3px solid var(--color-crna);
+    outline-offset: 2px;
+  }
+  /* width so that exactly --vidnih cards fit (on phones 1.2: the next one peeks in) */
+  .drsnik-kartica {
+    flex: 0 0 calc((100% - (var(--vidnih) - 1) * var(--vrzel)) / var(--vidnih));
+    scroll-snap-align: start;
+  }
+  /* with the script running, the arrows and swiping replace the scrollbar */
+  .drsnik.je-js .drsnik-trak {
+    scrollbar-width: none;
+  }
+  .drsnik.je-js .drsnik-trak::-webkit-scrollbar {
+    display: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .drsnik-trak {
+      scroll-behavior: smooth;
+    }
+  }
+
+  .drsnik-gumb {
+    position: relative;
+    display: flex;
+    height: 3rem;
+    width: 3.75rem;
+    align-items: center;
+    justify-content: center;
+  }
+  .drsnik-gumb:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+  .drsnik-gumb:focus-visible {
+    outline: 3px solid var(--color-crna);
+    outline-offset: 2px;
+    border-radius: 9999px;
+  }
+
+  /* let the card body fill an enlarged text box, so "Več o poglavju" sits at the bottom */
+  .drsnik :global([data-oblik-vsebina]) {
     display: flex;
     flex-direction: column;
   }
-  .kljucne :global([data-oblik-vsebina] > div) {
+  .drsnik :global([data-oblik-vsebina] > div) {
     display: flex;
     flex: 1;
     flex-direction: column;
   }
-  .kljucne :global([data-oblik-vsebina] > div > *) {
+  .drsnik :global([data-oblik-vsebina] > div > *) {
     flex: 1;
   }
 </style>
 
 <script>
-  // Same height for the three shapes when side by side. Each outline adds its own share above and below
-  // the text box (ShapedText: total = box × (1 + top + bottom)), so each box gets the height that makes
-  // its total equal to the tallest card's; ShapedText's ResizeObserver then refits the shape.
-  const vrste = document.querySelectorAll<HTMLElement>('[data-kljucne]');
-  const md = window.matchMedia('(min-width: 768px)');
-  const izenaci = () => {
-    vrste.forEach((vrsta) => {
-      const kartice = [...vrsta.querySelectorAll<HTMLElement>('[data-oblik-vsebina]')].map((box) => {
+  document.querySelectorAll<HTMLElement>('[data-drsnik]').forEach((drsnik) => {
+    const trak = drsnik.querySelector<HTMLElement>('[data-trak]')!;
+    const kartice = [...trak.children] as HTMLElement[];
+    const kontrole = drsnik.querySelector<HTMLElement>('[data-kontrole]')!;
+    const stevec = drsnik.querySelector<HTMLElement>('[data-stevec]')!;
+    const nazaj = drsnik.querySelector<HTMLButtonElement>('[data-smer="nazaj"]')!;
+    const naprej = drsnik.querySelector<HTMLButtonElement>('[data-smer="naprej"]')!;
+    drsnik.classList.add('je-js');
+    kontrole.hidden = false;
+
+    // one step = one card + the gap
+    const korak = () => (kartice[1] ? kartice[1].offsetLeft - kartice[0].offsetLeft : trak.clientWidth);
+    const prvi = () => Math.round(trak.scrollLeft / korak());
+    // whole cards in view, from the CSS (--vidnih: 1.2 on phones → 1, the peeking one doesn't count)
+    const vidnih = () => Math.max(1, Math.floor(parseFloat(getComputedStyle(trak).getPropertyValue('--vidnih')) || 1));
+
+    const osvezi = () => {
+      const od = Math.min(prvi(), kartice.length - 1);
+      const n = vidnih();
+      const doK = Math.min(od + n, kartice.length);
+      stevec.textContent = n > 1 ? `${od + 1}–${doK} / ${kartice.length}` : `${od + 1} / ${kartice.length}`;
+      nazaj.disabled = trak.scrollLeft <= 2;
+      naprej.disabled = trak.scrollLeft + trak.clientWidth >= trak.scrollWidth - 2;
+    };
+    const premakni = (smer: number) => trak.scrollBy({ left: smer * korak() });
+
+    nazaj.addEventListener('click', () => premakni(-1));
+    naprej.addEventListener('click', () => premakni(1));
+    // keyboard: arrows move one card while focus is in the row (the row itself or a card link)
+    trak.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      premakni(e.key === 'ArrowRight' ? 1 : -1);
+    });
+    let t: number | undefined;
+    trak.addEventListener('scroll', () => {
+      window.cancelAnimationFrame(t ?? 0);
+      t = window.requestAnimationFrame(osvezi);
+    }, { passive: true });
+
+    // Same height for all cards. Each outline adds its own share above and below the text box
+    // (ShapedText: total = box × (1 + top + bottom)), so each box gets the height that makes its total equal
+    // to the tallest card's; ShapedText's ResizeObserver then refits the shape.
+    const izenaci = () => {
+      const k = kartice.map((li) => {
+        const box = li.querySelector<HTMLElement>('[data-oblik-vsebina]')!;
         const okvir = box.parentElement as HTMLElement;
         return { box, f: 1 + Number(okvir.dataset.oblikTop) + Number(okvir.dataset.oblikBottom) };
       });
-      kartice.forEach(({ box }) => (box.style.minHeight = ''));
-      if (!md.matches) return;
-      const visina = Math.max(...kartice.map(({ box, f }) => box.offsetHeight * f));
-      kartice.forEach(({ box, f }) => (box.style.minHeight = `${visina / f}px`));
+      k.forEach(({ box }) => (box.style.minHeight = ''));
+      const visina = Math.max(...k.map(({ box, f }) => box.offsetHeight * f));
+      k.forEach(({ box, f }) => (box.style.minHeight = `${visina / f}px`));
+      osvezi();
+    };
+    let r: number | undefined;
+    window.addEventListener('resize', () => {
+      window.clearTimeout(r);
+      r = window.setTimeout(izenaci, 100);
     });
-  };
-  let t: number | undefined;
-  window.addEventListener('resize', () => {
-    window.clearTimeout(t);
-    t = window.setTimeout(izenaci, 100);
+    document.fonts?.ready.then(izenaci);
+    izenaci();
   });
-  document.fonts?.ready.then(izenaci);
-  izenaci();
 </script>

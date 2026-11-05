@@ -62,28 +62,6 @@ content:
           - { name: slika, label: Fotografija (tablica in računalnik), type: image, required: true, options: { media: fotografije }, description: "Pokončna, razmerje 4 : 5, najmanj 1200 × 1500 px, JPG do ~5 MB. Apolonija naj bo v sredini." }
           - { name: slikaTelefon, label: Fotografija (telefon), type: image, required: true, options: { media: fotografije }, description: "Isti motiv, tesneje obrezan (4 : 5), da obraz zapolni okvir. Najmanj 1200 × 1500 px." }
           - { name: alt, label: Opis fotografije (za slabovidne), type: string, required: true, description: "Kaj je na fotografiji, v enem stavku." }
-      - name: poudarki
-        label: Ključne točke programa (3 področja)
-        type: object
-        list: { min: 1, max: 3, collapsible: { collapsed: true, summary: "{podrocje}" } }
-        description: "Področja, prikazana pod okvirčkom z vprašanjem, v tem vrstnem redu. Celotna besedila ostanejo na strani Program."
-        fields:
-          - name: podrocje
-            label: Področje programa
-            type: select
-            required: true
-            options:
-              values:
-                - { name: odprto-in-odgovorno-upravljanje, label: "1 · Odprto in odgovorno upravljanje" }
-                - { name: prostor-v-javnem-interesu, label: "2 · Prostor v javnem interesu" }
-                - { name: dostopen-dom-in-zive-soseske, label: "3 · Dostopen dom in žive soseske" }
-                - { name: povezana-in-varna-mobilnost, label: "4 · Povezana in varna mobilnost" }
-                - { name: podnebna-odpornost-in-obnova-narave, label: "5 · Podnebna odpornost in obnova narave" }
-                - { name: pitna-voda-zdravje-in-varnost, label: "6 · Pitna voda, zdravje in varnost" }
-                - { name: energija-odpadki-in-lokalno-gospodarstvo, label: "7 · Energija, odpadki in lokalno gospodarstvo" }
-                - { name: uporabna-digitalizacija, label: "8 · Uporabna digitalizacija" }
-                - { name: solidarnost-kultura-in-dostopnost, label: "9 · Solidarnost, kultura in dostopnost" }
-          - { name: besedilo, label: Skrajšano besedilo za vstopno stran, type: text, description: "2 stavka. Če je prazno, se prikaže celoten opis področja." }
       - name: bloki
         label: Besedila na strani
         type: object
@@ -95,13 +73,13 @@ content:
               - { name: naslov, label: Naslov, 1. vrstica, type: string, description: "Npr. »Imaš vprašanje?« (vprašaj na koncu se izriše posebej)." }
               - { name: besedilo, label: Naslov, 2. vrstica, type: string }
               - { name: povezava, label: Besedilo povezave na vprašanja in odgovore, type: string }
-          - name: poudarki
-            label: Razdelek »Ključne točke programa«
+          - name: program
+            label: "Razdelek »Program« (8 poglavij)"
             type: object
+            description: "Poglavja in njihovi ukrepi se urejajo v Program → Poglavja programa (ukrep za letak)."
             fields:
               - { name: naslov, label: Naslov razdelka, type: string }
               - { name: povezava, label: Besedilo povezave na celoten program, type: string }
-              - { name: osnutek, label: "Osnutek (izbor 3 področij še ni dokončen)", type: boolean, description: "Izklopi, ko je izbor treh področij potrjen." }
           - name: kandidatura
             label: "Razdelek »Zakaj Apolonija kandidira«"
             type: object
@@ -299,14 +277,79 @@ content:
     label: Program
     type: group
     items:
+      - name: program
+        label: Poglavja programa
+        type: collection
+        path: src/content/program
+        description: "8 poglavij iz letaka. Tri ravni: ukrep za letak (vstopna stran) → strnjena verzija (stran Program) → širša verzija (stran poglavja)."
+        operations: { create: false, rename: false, delete: false }
+        view:
+          fields: [naslov, vrstniRed, strnjenaOsnutek, osnutek]
+          primary: naslov
+          default: { sort: vrstniRed, order: asc }
+        fields:
+          - { name: naslov, label: Naslov poglavja, type: string, required: true, description: "Kot na letaku." }
+          - { name: vrstniRed, label: Zaporedna številka, type: number, required: true }
+          - { name: ukrep, label: Ukrep za letak, type: text, required: true, description: "En ukrep, 1–2 stavka, dobesedno kot na letaku. Prikazan na vstopni strani in na strani Program." }
+          - { name: strnjena, label: Strnjena verzija, type: text, description: "Stran Program. Nekaj odstavkov; odstavke loči s prazno vrstico." }
+          - { name: strnjenaOsnutek, label: Osnutek (strnjena verzija), type: boolean, description: "Izklopi, ko je strnjena verzija vnesena in potrjena." }
+          - name: body
+            label: Širša verzija
+            type: rich-text
+            options: { format: markdown, media: false }
+            description: "Stran poglavja (/program/…). Celotno besedilo poglavja."
+          - { name: osnutek, label: Osnutek (širša verzija), type: boolean, description: "Izklopi, ko je širša verzija vnesena in potrjena." }
+      - name: dodatna-besedila
+        label: Dodatna besedila
+        type: collection
+        path: src/content/dodatna-besedila
+        description: "Daljša besedila k posameznemu poglavju (npr. deliberacija). Na strani poglavja so pod »Dodatna besedila«, vsako ima svojo stran /program/<poglavje>/<ime datoteke>."
+        filename: "{primary}.md"
+        view:
+          fields: [naslov, poglavje, objavljeno]
+          primary: naslov
+          default: { sort: naslov, order: asc }
+        fields:
+          - { name: naslov, label: Naslov, type: string, required: true }
+          - name: poglavje
+            label: Poglavje programa
+            type: select
+            required: true
+            options:
+              values:
+                - { name: odprto-in-odgovorno-mesto, label: "1 · Odprto in odgovorno mesto" }
+                - { name: urbanizem-in-prostor-v-javnem-interesu, label: "2 · Urbanizem in prostor v javnem interesu" }
+                - { name: dostopen-dom-in-zive-soseske, label: "3 · Dostopen dom in žive soseske" }
+                - { name: trajnostna-mobilnost-in-cist-zrak, label: "4 · Trajnostna mobilnost in čist zrak" }
+                - { name: podnebno-odporno-in-regenerativno-mesto, label: "5 · Podnebno odporno in regenerativno mesto" }
+                - { name: zdravo-in-varno-zivljenjsko-okolje, label: "6 · Zdravo in varno življenjsko okolje" }
+                - { name: energija-digitalizacija-in-lokalno-krozno-gospodarstvo, label: "7 · Energija, digitalizacija in lokalno, krožno gospodarstvo" }
+                - { name: solidarno-ustvarjalno-in-dostopno-mesto, label: "8 · Solidarno, ustvarjalno in dostopno mesto" }
+          - { name: vrstniRed, label: Vrstni red v poglavju, type: number, default: 1 }
+          - { name: avtor, label: Avtor/ica, type: string, description: "Ime in priimek." }
+          - { name: avtorOsnutek, label: Osnutek (avtor/ica še ni potrjen/a), type: boolean }
+          - name: body
+            label: Besedilo
+            type: code
+            options: { format: markdown }
+            description: "Markdown, dobesedno. ## za poglavja (iz njih nastane kazalo), ### za podpoglavja, tabele v obliki | … |. Sklici [1], [2] … se samodejno povežejo z virom pod besedilom (zapiši jih kot \\[1\\])."
+          - name: viri
+            label: Viri
+            type: object
+            list: { collapsible: { collapsed: true, summary: "[{index}] {besedilo}" } }
+            description: "V vrstnem redu: prvi vir je [1], drugi [2] …"
+            fields:
+              - { name: besedilo, label: Opis vira, type: text, required: true, description: "Avtor, naslov, datum (brez povezave)." }
+              - { name: url, label: Povezava, type: string }
+          - { name: viriOpomba, label: Opomba pod viri, type: text }
+          - { name: objavljeno, label: Objavljeno, type: boolean, default: false, description: "Vklopi, ko je besedilo pripravljeno. Neobjavljena besedila niso na strani." }
       - name: program-stran
-        label: Stran »Program«
+        label: Stran »Program« (besedila strani)
         type: file
         path: src/content/strani/program.md
         fields:
           - { name: naslov, label: Naslov strani, type: string, required: true }
           - { name: opis, label: Opis za iskalnike in deljenje, type: text }
-          - { name: osnutek, label: "Osnutek (cel program še ni potrjen)", type: boolean, description: "Izklopi, ko ekipa potrdi končno verzijo programa." }
           - name: bloki
             label: Besedila na strani
             type: object
@@ -323,28 +366,35 @@ content:
                 fields:
                   - { name: besedilo, label: Besedilo, type: text }
               - name: stevilo
-                label: Beseda pod številom področij
+                label: Beseda pod številom poglavij
                 type: object
                 fields:
                   - { name: besedilo, label: Beseda, type: string }
               - name: kartica
-                label: Kartice področij
+                label: Povezava na stran poglavja
                 type: object
                 fields:
-                  - { name: povezava, label: Besedilo povezave na kartici, type: string }
+                  - { name: povezava, label: "Besedilo povezave (kartice na vstopni strani, pod poglavji na strani Program)", type: string }
               - name: celoten
                 label: Okvir »Celoten program«
                 type: object
                 fields:
                   - { name: naslov, label: Naslov, type: string }
                   - { name: besedilo, label: Besedilo, type: text }
-              - name: podrocje
-                label: Strani posameznih področij
+              - name: poglavje
+                label: Strani poglavij
                 type: object
                 fields:
-                  - { name: povezava, label: Povezava nazaj na seznam, type: string }
-                  - { name: naslov, label: Naslov ob virih, type: string }
-                  - { name: podpis, label: Predpona povezave na celoten program, type: string }
+                  - { name: povezava, label: Povezava nazaj na stran Program, type: string }
+                  - { name: naslov, label: Naslov razdelka z dodatnimi besedili, type: string }
+                  - { name: besedilo, label: Vrstica, ko poglavje nima dodatnih besedil, type: string }
+              - name: dodatno
+                label: Strani dodatnih besedil
+                type: object
+                fields:
+                  - { name: podpis, label: Oznaka pred imenom avtorja, type: string }
+                  - { name: naslov, label: Naslov seznama virov, type: string }
+                  - { name: povezava, label: Predpona povezave nazaj na poglavje, type: string }
           - name: povezave
             label: Povezava na celoten program
             type: object
@@ -352,33 +402,6 @@ content:
             fields:
               - { name: naslov, label: Besedilo povezave, type: string, required: true }
               - { name: url, label: Naslov (URL), type: string, required: true }
-              - { name: osnutek, label: Osnutek, type: boolean }
-      - name: program
-        label: Področja programa
-        type: collection
-        path: src/content/program
-        operations: { create: false, rename: false, delete: false }
-        view:
-          fields: [naslov, vrstniRed, osnutek]
-          primary: naslov
-          default: { sort: vrstniRed, order: asc }
-        fields:
-          - { name: naslov, label: Naslov področja, type: string, required: true }
-          - { name: vrstniRed, label: Zaporedna številka, type: number, required: true }
-          - { name: povzetek, label: Kratek opis (iz povzetka programa), type: text, required: true, description: "Dobesedno iz povzetka programa." }
-          - name: body
-            label: Daljše besedilo področja
-            type: rich-text
-            options: { format: markdown, media: false }
-            description: "Iz daljše verzije programa, nekaj odstavkov."
-          - { name: osnutek, label: Osnutek (daljše besedilo), type: boolean, description: "Izklopi, ko je daljše besedilo vneseno in potrjeno." }
-          - name: viri
-            label: Viri in povezave
-            type: object
-            list: { collapsible: { collapsed: true, summary: "{naslov}" } }
-            fields:
-              - { name: naslov, label: Naslov vira, type: string, required: true }
-              - { name: url, label: Povezava (URL), type: string, required: true }
               - { name: osnutek, label: Osnutek, type: boolean }
 
   # ───────────────────────────── Sporni projekti
@@ -409,7 +432,6 @@ content:
                 type: object
                 fields:
                   - { name: naslov, label: Žig nad stališčem, type: string }
-                  - { name: povezava, label: Predpona povezave na področje programa, type: string }
       - name: sporni
         label: Projekti
         type: collection
@@ -428,20 +450,6 @@ content:
           - { name: oznakaSlike, label: Napis v sivem okviru (dokler ni fotografije), type: string }
           - { name: osnutek, label: Osnutek (opis in fotografija), type: boolean, description: "Izklopi, ko sta opis in fotografija vnesena." }
           - { name: stalisce, label: Naše stališče, type: text, required: true }
-          - name: stalisceVir
-            label: Stališče je iz področja programa
-            type: select
-            options:
-              values:
-                - { name: odprto-in-odgovorno-upravljanje, label: "1 · Odprto in odgovorno upravljanje" }
-                - { name: prostor-v-javnem-interesu, label: "2 · Prostor v javnem interesu" }
-                - { name: dostopen-dom-in-zive-soseske, label: "3 · Dostopen dom in žive soseske" }
-                - { name: povezana-in-varna-mobilnost, label: "4 · Povezana in varna mobilnost" }
-                - { name: podnebna-odpornost-in-obnova-narave, label: "5 · Podnebna odpornost in obnova narave" }
-                - { name: pitna-voda-zdravje-in-varnost, label: "6 · Pitna voda, zdravje in varnost" }
-                - { name: energija-odpadki-in-lokalno-gospodarstvo, label: "7 · Energija, odpadki in lokalno gospodarstvo" }
-                - { name: uporabna-digitalizacija, label: "8 · Uporabna digitalizacija" }
-                - { name: solidarnost-kultura-in-dostopnost, label: "9 · Solidarnost, kultura in dostopnost" }
           - { name: stalisceOsnutek, label: Stališče še ni napisano, type: boolean }
 
   # ───────────────────────────── Vprašanja in odgovori

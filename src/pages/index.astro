@@ -1,26 +1,20 @@
 ---
-import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HomeHero from '../components/home/HomeHero.astro';
 import AskQuestion from '../components/home/AskQuestion.astro';
-import KeyPoints from '../components/home/KeyPoints.astro';
+import HomeProgram from '../components/home/HomeProgram.astro';
 import HomeSkupaj from '../components/home/HomeSkupaj.astro';
 import LatestPosts from '../components/home/LatestPosts.astro';
 import { getObjave } from '../lib/objave';
 import { getStran } from '../lib/strani';
+import { getProgram } from '../lib/program';
 
-const { naslov, opis, hero, poudarki, blok } = await getStran('vstopna');
+const { naslov, opis, hero, blok } = await getStran('vstopna');
 const vprasanja = blok('vprasanja');
-const poudarkiBlok = blok('poudarki');
+const programBlok = blok('program');
 const objavaBlok = blok('objava');
-// programme areas selected in vstopna.md, in the listed order, with their shortened texts
-const podrocja = await Promise.all(
-  poudarki.map(async (p) => {
-    const podrocje = await getEntry(p.podrocje);
-    if (!podrocje) throw new Error(`vstopna.md: unknown programme area "${p.podrocje.id}"`);
-    return { podrocje, besedilo: p.besedilo };
-  }),
-);
+// all program chapters with their leaflet measure
+const poglavja = await getProgram();
 // newest post goes into the hero; the archive row shows the next ones, so nothing appears twice
 const [najnovejsa, ...starejse] = await getObjave();
 const objave = starejse.slice(0, 4);
@@ -29,7 +23,7 @@ const objave = starejse.slice(0, 4);
 <BaseLayout title={naslov} description={opis} fullTitle>
   {hero && <HomeHero hero={hero} objava={najnovejsa} oznakaObjave={blok('zadnjaObjava').besedilo} />}
   <AskQuestion naslov={[vprasanja.naslov ?? '', vprasanja.besedilo]} povezava="/vprasanja" povezavaBesedilo={vprasanja.povezava ?? ''} />
-  <KeyPoints naslov={poudarkiBlok.naslov} povezavaBesedilo={poudarkiBlok.povezava} osnutek={poudarkiBlok.osnutek} podrocja={podrocja} />
+  <HomeProgram naslov={programBlok.naslov} povezavaBesedilo={programBlok.povezava} poglavja={poglavja} />
   <HomeSkupaj kandidatura={blok('kandidatura')} poudarek={blok('kandidaturaPoudarek')} skupaj={blok('skupaj')} />
   {objave.length > 0 && <LatestPosts objave={objave} naslov={objavaBlok.naslov} povezavaArhiv={objavaBlok.povezava} />}
 </BaseLayout>

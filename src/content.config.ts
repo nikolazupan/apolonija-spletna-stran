@@ -62,11 +62,6 @@ const strani = defineCollection({
           alt: z.string(),
         })
         .optional(),
-      // Programme areas highlighted on this page (homepage: the 3 key points), by file name in src/content/program/,
-      // each with an optional shortened text for this page (the full text stays on /program).
-      poudarki: z
-        .array(z.object({ podrocje: reference('program'), besedilo: z.string().optional() }))
-        .default([]),
       bloki: z.record(z.string(), blok).default({}),
       podatki: z.array(podatek).default([]),
       povezave: z.array(povezava).default([]),
@@ -96,17 +91,42 @@ const strani = defineCollection({
     }),
 });
 
-// Programme areas (podatki/vsebina/program-povzetek.md). One file per area; the file name is the URL slug (/program/[slug]).
-// `povzetek` is the short description from the summary, the body is the longer text for the area page.
+// Program chapters (8, from the leaflet podatki/vsebina/program-letak.md). One file per chapter; the file name is
+// the URL slug (/program/[slug]). Three levels: `ukrep` = the leaflet measure (homepage, /program),
+// `strnjena` = condensed version (/program), body = broad version (/program/[slug]).
 const program = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/program' }),
   schema: z.object({
     naslov: z.string(),
     vrstniRed: z.number(),
-    povzetek: z.string(),
-    viri: z.array(povezava).default([]),
-    // the longer text (body) is a draft
+    ukrep: z.string(),
+    // condensed version: paragraphs separated by an empty line
+    strnjena: z.string().default(''),
+    strnjenaOsnutek: z.boolean().default(false),
+    // the broad version (body) is a draft
     osnutek: z.boolean().default(false),
+  }),
+});
+
+// Additional texts for a program chapter (e.g. deliberation), at /program/[chapter]/[file name].
+// Listed under "Dodatna besedila" on the chapter page. Only `objavljeno: true` is built and listed.
+const dodatnaBesedila = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/dodatna-besedila' }),
+  schema: z.object({
+    naslov: z.string(),
+    poglavje: reference('program'),
+    // order within the chapter
+    vrstniRed: z.number().default(1),
+    avtor: z.preprocess(prazno, z.string().optional()),
+    avtorOsnutek: z.boolean().default(false),
+    // numbered references: [1] in the text links to the first entry, …
+    viri: z.preprocess(
+      (v) => (v === null ? [] : v),
+      z.array(z.preprocess(brezNull, z.object({ besedilo: z.string(), url: z.preprocess(prazno, z.string().optional()) }))).default([]),
+    ),
+    // note under the references
+    viriOpomba: z.preprocess(prazno, z.string().optional()),
+    objavljeno: z.boolean().default(false),
   }),
 });
 
@@ -149,8 +169,6 @@ const sporniProjekti = defineCollection({
       vrstniRed: z.number(),
       opis: z.string(),
       stalisce: z.string(),
-      // programme area the position is quoted from (file name in src/content/program/)
-      stalisceVir: z.preprocess(prazno, reference('program').optional()),
       // position is not written yet
       stalisceOsnutek: z.boolean().default(false),
       slika: z.preprocess(prazno, image().optional()),
@@ -255,4 +273,4 @@ const odprteZadeve = defineCollection({
   }),
 });
 
-export const collections = { odprteZadeve, plakati, strani, program, kandidati, cetrtneSkupnosti, sporniProjekti, vprasanja, objave, odprtaVprasanja, zivljenjepis, novice };
+export const collections = { odprteZadeve, plakati, strani, program, kandidati, cetrtneSkupnosti, sporniProjekti, vprasanja, objave, odprtaVprasanja, zivljenjepis, novice, dodatnaBesedila };

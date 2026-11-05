@@ -12,17 +12,6 @@ hero:
   slikaTelefon: "@assets/fotografije/apolonija-uvod-blizje.jpg"
   alt: "Apolonija Simon pod dežnikom, nanjo pada curek vodnjaka v središču Ljubljane"
 
-# The 3 key programme areas shown under the Q&A box, in this order (file names from src/content/program/),
-# each with the shortened homepage text (supplied by the team, exactly as written); /program keeps the full texts.
-# Temporary selection: the section is marked OSNUTEK (bloki.poudarki.osnutek) until the team decides.
-poudarki:
-  - podrocje: odprto-in-odgovorno-upravljanje
-    besedilo: "Prebivalce bomo vključili že pri opredelitvi problemov in primerjavi rešitev. Okrepili bomo četrtne skupnosti in uvedli participativni proračun z zavezujočim izvajanjem izglasovanih projektov."
-  - podrocje: povezana-in-varna-mobilnost
-    besedilo: "Dnevni avtomobilski promet bomo prestrezali na robu mesta in vzpostavili multimodalna vozlišča. Prenovili bomo LPP s pogostejšimi vožnjami, rumenimi pasovi in prednostjo v križiščih."
-  - podrocje: pitna-voda-zdravje-in-varnost
-    besedilo: "Pri varovanju vodnih virov bomo dosledno uporabljali previdnostno načelo. Zagotovili bomo neodvisno revizijo varnosti kanala C0 in preverili alternativne rešitve."
-
 bloki:
   # Q&A box heading, line 1 (naslov) and line 2 (besedilo). Text supplied by the team.
   vprasanja:
@@ -30,11 +19,10 @@ bloki:
     besedilo: "Mi imamo odgovore."
     povezava: "Preberi vprašanja in odgovore"
 
-  poudarki:
-    naslov: "Ključne točke programa"
+  # All 8 program chapters with their leaflet measure (texts from src/content/program/), linking to the chapter pages.
+  program:
+    naslov: "Program"
     povezava: "Celoten program"
-    # The final choice of the 3 areas is not decided yet.
-    osnutek: true
 
   # Quoted exactly from the CV, section 9 (src/content/zivljenjepis/09-zakaj-kandidiram.md).
   kandidatura:

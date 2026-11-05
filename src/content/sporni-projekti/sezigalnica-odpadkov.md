@@ -7,6 +7,5 @@ oznakaSlike: "FOTO: lokacija sežigalnice"
 opis: "[Tu bo kratek opis projekta: kaj je, kje je in zakaj je sporen.]"
 # Position quoted exactly from the program summary (podatki/vsebina/program-povzetek.md), area "energija-odpadki-in-lokalno-gospodarstvo".
 stalisce: "Izgradnjo sežigalnice v Ljubljani zavračamo ter zahtevamo neodvisno presojo alternativ in široko javno odločanje o dolgoročnih zdravstvenih, okoljskih in finančnih posledicah."
-stalisceVir: energija-odpadki-in-lokalno-gospodarstvo
 osnutek: true
 ---

@@ -1,33 +1,36 @@
 ---
-// Programme area page: number + title, the short description from the program summary as the lead,
-// longer text (markdown body), references, and navigation to the neighbouring areas.
-// While the program is under review (program.md `osnutek`), the lead is marked OSNUTEK too.
+// Program, level 3: one page per chapter. Number + title on a hand-cut shape, the leaflet measure as the lead,
+// the broad version (markdown body), "Dodatna besedila" (published additional texts for this chapter,
+// src/content/dodatna-besedila/), and navigation to the neighbouring chapters.
 import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ShapedText from '../../components/brand/ShapedText.astro';
 import Risba from '../../components/brand/Risba.astro';
 import Placeholder from '../../components/Placeholder.astro';
-import TextLink from '../../components/ui/TextLink.astro';
-import { getProgram } from '../../lib/program';
+import PaperCard from '../../components/ui/PaperCard.astro';
+import { getProgram, getDodatnaBesedila, povezavaDodatnega } from '../../lib/program';
 import { getStran } from '../../lib/strani';
+import { papirji } from '../../lib/blob';
 
 export async function getStaticPaths() {
-  const podrocja = await getProgram();
-  return podrocja.map((p, i) => ({
+  const poglavja = await getProgram();
+  return poglavja.map((p, i) => ({
     params: { slug: p.id },
-    props: { podrocje: p, prejsnje: podrocja[i - 1], naslednje: podrocja[i + 1] },
+    props: { poglavje: p, prejsnje: poglavja[i - 1], naslednje: poglavja[i + 1] },
   }));
 }
 
-const { podrocje, prejsnje, naslednje } = Astro.props;
-const { naslov, povzetek, viri, osnutek, vrstniRed } = podrocje.data;
-const { Content } = await render(podrocje);
-const { povezave, osnutek: programOsnutek, blok } = await getStran('program');
-// back link, heading of the references, prefix of the full-program link
-const besedila = blok('podrocje');
+const { poglavje, prejsnje, naslednje } = Astro.props;
+const { naslov, ukrep, osnutek, vrstniRed } = poglavje.data;
+const { Content } = await render(poglavje);
+const { blok } = await getStran('program');
+// back link, heading of the additional texts, line when there are none
+const besedila = blok('poglavje');
+const avtorOznaka = blok('dodatno').podpis;
+const dodatna = await getDodatnaBesedila(poglavje.id);
 ---
 
-<BaseLayout title={`${naslov} | Program`} description={`${naslov}: ${povzetek}`}>
+<BaseLayout title={`${naslov} | Program`} description={`${naslov}: ${ukrep}`}>
   <section class="site-container pb-8 pt-6 lg:pt-10">
     <a href="/program" class="text-sm font-bold hover:text-zelena-temna">← {besedila.povezava}</a>
     <ShapedText variant={vrstniRed % 2 ? 'e' : 'b'} shapeClass="-rotate-1" class="mt-4 max-w-4xl">
@@ -39,31 +42,44 @@ const besedila = blok('podrocje');
     </ShapedText>
   </section>
 
-  <!-- short description from the program summary -->
+  <!-- leaflet measure -->
   <section class="site-container py-6">
-    <p class="max-w-3xl text-xl font-semibold leading-snug text-zelena-temna sm:text-2xl">
-      <Placeholder active={programOsnutek}>{povzetek}</Placeholder>
-    </p>
+    <p class="max-w-3xl text-xl font-semibold leading-snug text-zelena-temna sm:text-2xl">{ukrep}</p>
     <Risba name="podcrta" class="mt-3 h-2.5 w-40 [--risba-w:4px]" />
   </section>
 
   <section class="site-container grid gap-12 py-10 lg:grid-cols-12 lg:py-14">
+    <!-- broad version -->
     <div class="lg:col-span-7">
       <Placeholder active={osnutek} as="div" class="block space-y-4 text-lg leading-relaxed">
         <Content />
       </Placeholder>
     </div>
 
-    <aside class="lg:col-span-4 lg:col-start-9" aria-labelledby="viri">
-      <h2 id="viri" class="text-xl font-extrabold tracking-tight">{besedila.naslov}</h2>
-      <ul class="mt-4 space-y-3 border-t-2 border-crna pt-4 text-base">
-        {viri.map((v) => <li><TextLink href={v.url} osnutek={v.osnutek}>{v.naslov}</TextLink></li>)}
-        {povezave.map((l) => <li><TextLink href={l.url}>{besedila.podpis}: {l.naslov}</TextLink></li>)}
-      </ul>
+    <aside class="lg:col-span-4 lg:col-start-9" aria-labelledby="dodatna">
+      <h2 id="dodatna" class="text-xl font-extrabold tracking-tight">{besedila.naslov}</h2>
+      {dodatna.length ? (
+        <ul class="mt-4 space-y-4">
+          {dodatna.map((b, i) => (
+            <li>
+              <PaperCard href={povezavaDodatnega(b)} {...papirji[(i + 2) % papirji.length]}>
+                <p class="text-lg font-extrabold leading-tight tracking-tight">{b.data.naslov} →</p>
+                {b.data.avtor && (
+                  <p class="mt-1 text-sm">
+                    {avtorOznaka} <Placeholder active={b.data.avtorOsnutek}>{b.data.avtor}</Placeholder>
+                  </p>
+                )}
+              </PaperCard>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="mt-4 border-t-2 border-crna pt-4 text-base">{besedila.besedilo}</p>
+      )}
     </aside>
   </section>
 
-  <nav class="site-container pb-16 text-base" aria-label="Druga področja">
+  <nav class="site-container pb-16 text-base" aria-label="Druga poglavja">
   <div class="flex flex-wrap justify-between gap-4 border-t-2 border-crna/15 pt-8">
     {prejsnje ? <a href={`/program/${prejsnje.id}`} class="font-bold hover:text-zelena-temna">← {prejsnje.data.naslov}</a> : <span></span>}
     {naslednje && <a href={`/program/${naslednje.id}`} class="text-right font-bold hover:text-zelena-temna">{naslednje.data.naslov} →</a>}

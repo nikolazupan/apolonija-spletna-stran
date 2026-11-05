@@ -7,8 +7,7 @@ bloki:
     naslov: "Sporni projekti in naše stališče"
     besedilo: "[Tu bo kratek uvod: zakaj je pomembno, da mesto težave prepozna zgodaj in o njih odloča javno.]"
     osnutek: true
-  # stamp above each position, and the line linking to the programme area it is quoted from
+  # stamp above each position
   stalisce:
     naslov: "Naše stališče"
-    povezava: "Iz programa:"
 ---
