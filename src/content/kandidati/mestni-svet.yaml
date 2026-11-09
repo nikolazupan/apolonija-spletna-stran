@@ -200,6 +200,7 @@
   clan: Vesna
   naziv: univerzitetni diplomirani inžinir arhitekture
   nosilec: false
+  slika: "@assets/fotografije/kandidati/tomaz.jpg"
 - id: andjelina-mijatovic
   vrstniRed: 32
   ime: Anđelina Mijatović
@@ -224,6 +225,7 @@
   clan: Vesna
   naziv: magistrica novinarstva
   nosilec: false
+  slika: "@assets/fotografije/kandidati/vesnaportret014.jpg"
 - id: petra-silva
   vrstniRed: 36
   ime: Petra Silva
