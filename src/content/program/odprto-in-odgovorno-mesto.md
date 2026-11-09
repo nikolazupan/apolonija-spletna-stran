@@ -86,4 +86,4 @@ Ljubljana se je leta 2014 pridružila Mednarodnemu združenju mest glasnikov mir
 
 Prizadevali si bomo za svet brez jedrskega orožja in brez smrtonosnega avtonomnega orožja, s katerim upravlja umetna inteligenca. 
 
-**Uspeh bomo merili** tako, da bomo med drugim spremljali demokratičnost procesov in zadovoljstvo občank in občanov.[Tu bo širša verzija poglavja.]
+**Uspeh bomo merili** tako, da bomo med drugim spremljali demokratičnost procesov in zadovoljstvo občank in občanov.
