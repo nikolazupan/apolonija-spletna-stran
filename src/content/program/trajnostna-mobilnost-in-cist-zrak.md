@@ -26,7 +26,7 @@ strnjena: >
   stanovanjske parkirne dovolilnice na stanovanje, prednostno za potrebe tistih,
   ki v njem dejansko prebivajo, ter varovali skupne soseskovne površine.
 strnjenaOsnutek: false
-osnutek: true
+osnutek: false
 ---
 ### **ZAVEZA**
 
