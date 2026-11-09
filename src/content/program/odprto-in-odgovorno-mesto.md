@@ -28,11 +28,11 @@ Ljubljana potrebuje odprto mestno oblast, ki prebivalce vključuje v pripravo od
 
 To bomo spremenili. Prebivalci morajo vedeti, kaj mesto načrtuje, koliko bo posamezen projekt stal, kdo je zanj odgovoren in kako lahko nanj vplivajo. Sodelovanje ne bo omejeno na formalno oddajanje pripomb, ampak bo postalo običajen način upravljanja mesta.
 
-### **Portal Odprta Ljubljana** 
+### **Portal Odprta Ljubljana**
 
-### **Vzpostavili bomo enoten, javno dostopen in razumljiv portal vseh pomembnejših mestnih projektov. Informacije bodo predstavljene pregledno in v jeziku, razumljivem širši javnosti.** 
+### **Vzpostavili bomo enoten, javno dostopen in razumljiv portal vseh pomembnejših mestnih projektov. Informacije bodo predstavljene pregledno in v jeziku, razumljivem širši javnosti.**
 
-### **Četrtne skupnosti do participativnega proračuna.** 
+### **Četrtne skupnosti do participativnega proračuna.**
 
 V vseh 17 četrtnih skupnostih bomo uvedli participativni proračun. Mestna občina bo za vsako četrt glede na njeno velikost in število prebivalcev vnaprej določila sredstva, višina sredstev se bo glede na utemeljenost in zahtevnost projektov lahko prilagajala.
 
@@ -53,12 +53,10 @@ Mestna uprava bo morala stališče četrtne skupnosti obravnavati in javno uteme
 Pri pomembnejših projektih se bo vključevanje javnosti začelo z opredelitvijo problema, ne šele z razgrnitvijo izdelanega načrta. Prebivalci bodo lahko sodelovali pri določanju potreb, primerjanju možnosti in preverjanju posledic. Uveden b
 
 **Deliberacija**  
-  
+
 Prednost deliberacije je, da ljudje predloge skupaj pretehtajo. Pri običajnem posvetovanju z javnostjo (ki je v praksi sedaj) občina zbere pripombe. Pri deliberaciji pa raznolika skupina prebivalcev spozna različne možnosti, posluša strokovnjake, primerja posledice in pripravi skupna priporočila. Mesto tako bolje razume, katera rešitev je za ljudi sprejemljiva in pod kakšnimi pogoji. Posvetovanja ostanejo odprta vsem, deliberacija pa jim doda poglobljen premislek.
 
 Pomembno je, kdo sodeluje. Z žrebom in skrbno sestavo skupine vključimo tudi ljudi, ki običajno ne pridejo na javne razprave. Občina mora vnaprej povedati, kaj lahko spremenijo, nato pa javno pojasniti, kaj je upoštevala. Tak postopek lahko krepi zaupanje in pomaga zgodaj razreševati nesoglasja. Ne zagotavlja pa soglasja vseh. Zato deliberacija ne izključuje referenduma pri najbolj pomembnih odločitvah.   
-  
-
 
 Predlagamo uvedbo vsakoletnega referendumskega dne, ki bi usmerjal odločanje o za mesto pomembnih vprašanjih. V povezavi z digitalizacijo mesta, bi omogočili tudi elektronsko glasovanje. Že razprave pred referendumi, bi pomembno vplivale na splošno razumevanje mesta in odnosa njegovih prebivalk in prebivalcev do lastnega okolja in skupnih problemov.
 
