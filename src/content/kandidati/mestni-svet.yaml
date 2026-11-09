@@ -98,7 +98,7 @@
 - id: daniel-hodzic
   vrstniRed: 15
   ime: Daniel Hodžić
-  clan: Vesna
+  clan: Civilna iniciativa
   naziv: magister inženir logistike
   nosilec: false
 - id: bojana-reposa
@@ -116,13 +116,13 @@
 - id: lejla-puskar
   vrstniRed: 18
   ime: Lejla Puškar
-  clan: Vesna
+  clan: Civilna iniciativa
   naziv: diplomirana notranja oblikovalka
   nosilec: false
 - id: arian-ramadani
   vrstniRed: 19
   ime: Arian Ramadani
-  clan: Vesna
+  clan: Civilna iniciativa
   naziv: diplomirani ekonomist
   nosilec: false
   slika: "@assets/fotografije/kandidati/arian-ramadani.jpg"
@@ -135,7 +135,7 @@
 - id: sanel-avdic
   vrstniRed: 21
   ime: Sanel Avdić
-  clan: Vesna
+  clan: Civilna iniciativa
   naziv: magister varstvoslovja
   nosilec: false
 - id: afrodita-hebar-kljun
@@ -148,7 +148,7 @@
 - id: ibrahim-nouhoum
   vrstniRed: 23
   ime: Ibrahim Nouhoum
-  clan: Vesna
+  clan: Civilna iniciativa
   naziv: univerzitetni diplomirani inženir gozdarstva
   nosilec: false
 - id: marija-juran-kanellopulos
@@ -185,13 +185,13 @@
 - id: jaka-socan
   vrstniRed: 29
   ime: dr. Jaka Sočan
-  clan: Vesna
+  clan: Civilna iniciativa
   naziv: doktor biotehnologije
   nosilec: false
 - id: senada-mesic
   vrstniRed: 30
   ime: Senada Mešić
-  clan: Vesna
+  clan: Civilna iniciativa
   naziv: univerzitetna diplomirana ekonomistka
   nosilec: false
 - id: tomaz-celigoj
@@ -222,7 +222,7 @@
 - id: sara-martinovic-zevnik
   vrstniRed: 35
   ime: Sara Martinovič Zevnik
-  clan: Vesna
+  clan: Civilna iniciativa
   naziv: magistrica novinarstva
   nosilec: false
   slika: "@assets/fotografije/kandidati/vesnaportret014.jpg"
@@ -241,19 +241,19 @@
 - id: nisa-dedic-socan
   vrstniRed: 38
   ime: Nisa Dedić Sočan
-  clan: Vesna
+  clan: Civilna iniciativa
   naziv: magistrica okoljske zgodovine in diplomirana rusistka in filozofinja (UN)
   nosilec: false
 - id: mario-azinovic
   vrstniRed: 39
   ime: Mario Azinović
-  clan: Vesna
+  clan: Civilna iniciativa
   naziv: prometni tehnik
   nosilec: false
 - id: diana-ternav
   vrstniRed: 40
   ime: Diana Ternav
-  clan: Vesna
+  clan: Civilna iniciativa
   naziv: univerzitetna diplomirana etnologinja in profesorica italijanščine
   nosilec: false
 - id: boris-rodic
