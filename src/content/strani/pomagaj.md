@@ -1,11 +1,11 @@
 ---
 naslov: Pomagaj, če lahko
-opis: Podpri kampanjo Apolonije Simon za županjo Ljubljane z donacijo
+opis: Podpri kampanjo Apolonije Simon za županjo Ljubljane z donacijo.
 bloki:
   uvod:
     naslov: Pomagaj, če lahko
     besedilo: "[Tu bo kratko besedilo s prošnjo za donacijo: za kaj bomo sredstva
-      porabili in zakaj je vsak prispevek pomemben.]"
+      porabili in zakaj je vsak prispevek pomemben]"
     osnutek: true
   nakazilo:
     naslov: Podatki za nakazilo
