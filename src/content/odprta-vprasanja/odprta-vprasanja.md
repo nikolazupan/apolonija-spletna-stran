@@ -1,18 +1,17 @@
 ---
-# Source: podatki/vsebina/Odprta vprašanja mesta.md (team draft, not yet reviewed).
-# Everything below the closing --- is the document exactly as written. To update: paste the new version there.
-naslov: "Odprta vprašanja mesta"
-opis: "Odprta vprašanja v Ljubljani, na katera opozarjajo prebivalci, civilne iniciative in stroka, ter kako jih bo obravnavala nova mestna oblast."
-# intro line that tells this page apart from /vprasanja (draft)
-uvod: "Pregled odprtih vprašanj v Ljubljani, na katera že leta opozarjajo prebivalci, civilne iniciative in stroka. Vprašanja, ki nam jih zastavljate meščanke in meščani, in naše odgovore najdete na strani Vprašanja in odgovori."
-uvodOsnutek: true
-# the whole text is a draft until the team has reviewed it
-osnutek: true
+naslov: Odprta vprašanja mesta
+opis: Odprta vprašanja v Ljubljani, na katera opozarjajo prebivalci, civilne
+  iniciative in stroka, ter kako jih bo obravnavala nova mestna oblast.
+uvod: V Ljubljani ostajajo številna vprašanja, pri katerih prebivalci, civilne
+  iniciative in neodvisna stroka že leta opozarjajo na tveganja, pomanjkljive
+  presoje ali odsotnost resničnega dialoga. Nova mestna oblast teh primerov ne
+  bo reševala z vnaprej pripravljenimi odgovori, temveč z odprtjem
+  dokumentacije, neodvisnimi presojami in javno obrazloženimi odločitvami.
+uvodOsnutek: false
+osnutek: false
 ---
-
 **Odprta vprašanja mesta, ki zahtevajo odgovore**
 
-V Ljubljani ostajajo številna vprašanja, pri katerih prebivalci, civilne iniciative in neodvisna stroka že leta opozarjajo na tveganja, pomanjkljive presoje ali odsotnost resničnega dialoga. Nova mestna oblast teh primerov ne bo reševala z vnaprej pripravljenimi odgovori, temveč z odprtjem dokumentacije, neodvisnimi presojami in javno obrazloženimi odločitvami.
 
 ### **1\. Kanal C0 in varovanje vodonosnika**
 
