@@ -32,7 +32,7 @@ strnjena: Mestna zemljišča bomo prednostno namenili reševanju stanovanjske
 strnjenaOsnutek: false
 osnutek: false
 ---
-### **zaveza**
+### **ZAVEZA**
 
 **Mestna zemljišča bomo namenili reševanju stanovanjskega problema in ne za financiranje zgrešenih in slabo vodenih mestnih projektov.**
 
@@ -46,7 +46,7 @@ Mesto mora stanovanjsko politiko voditi dejavno. Svoja zemljišča, prostorske a
 **Izvedli bomo natančno analizo dejanskih stanovanjskih potreb, glede na socialno strukturo iskalcev.**  
 **Izvedli bomo natančno analizo praznih stanovanj - njihovega dejanskega števila, lokacij in stanja.**  
 **Le na osnovi ustreznih podatkov in analiz** **je mogoče pripraviti  natančen in delujoč program reševanja nevzdržne situacije. **  
-  
+
 S ciljanimi ukrepi bomo spodbudili aktivacijo čim večjega števila praznih stanovanj. Ti bodo vključevali aktivno sodelovanje z državo na področju prilagajanja stanovanjske zakonodaje in davčne politike.  
 Uveden bo strožji nadzor rabe nepremičnin. Aktivno bomo spodbujali prenovo in ev. nadgradnjo dotrajanih obstoječih stanovanjskih stavb kjer je to smiselno, posebno ob energetskih in statičnih prenovah.  
 Z uveljavljanjem predkupne pravice pa bomo tudi odkupovali in prenavljali prazna stanovanja in jih vključevali v javni stanovanjski fond.
@@ -57,7 +57,7 @@ Na primernih mestnih zemljiščih bomo omogočili razvoj neprofitnih stanovanjsk
 
 Staranje prebivalstva zahteva stanovanja, v katerih lahko ljudje varno in čim dlje samostojno živijo. Povečevali bomo ponudbo dostopnih, varovanih in oskrbovanih stanovanj v vseh predelih mesta, umeščenih blizu javnega prevoza, zdravstva, trgovin in zelenih površin. S tem bomo omogočali lažjo selitev strejših v primerno velika in stroškovno ugodnejša stanovanja, ob ohranjanju lastnega socialnega okolja.
 
-Spodbujali in omogočali bomo širši obseg zagotavljanja kadrovskih stanovanj, tako javnih kot zasebnih, saj se s tem aktivno spodbuja tudi zaposlovanje v deficitarnih poklicih.   
+Spodbujali in omogočali bomo širši obseg zagotavljanja kadrovskih stanovanj, tako javnih kot zasebnih, saj se s tem aktivno spodbuja tudi zaposlovanje v deficitarnih poklicih.  
 Aktivno bomo posegli na področje zagotavljanja različnih oblik dijaškega in študentskega bivanja, saj to pomembno vpliva na razmerja na stanovanjskem področju v mestu.  
 Dodatno bomo zagotovili najemna stanovanja z najemnino po pravilih MOL, na način, da bodo vsakršna javna (SSRS)  ali zasebna večstanovanjska gradnja zagotavljala 20% stanovanj za dobo najmanj 50 let. 
 
