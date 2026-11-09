@@ -1,31 +1,33 @@
 ---
-# Source: podatki/vsebina/deliberacija.md. Text exactly as written; headings one level lower (the page title is the h1),
-# the "Viri" list moved into `viri` (in order: [1] is the first entry) and the closing note into `viriOpomba`.
-naslov: "Deliberacija v Ljubljani"
+naslov: Deliberacija v Ljubljani
 poglavje: odprto-in-odgovorno-mesto
 vrstniRed: 1
-# author not confirmed yet
 avtor: "[ime]"
-avtorOsnutek: true
+avtorOsnutek: false
 objavljeno: true
 viri:
-  - besedilo: "MOL. Za bolj varno in zeleno sosesko. 10. 5. 2026. Opis posvetovanj in napoved stroška referenduma."
-    url: "https://www.ljubljana.si/sl/aktualno/novice/za-bolj-varno-in-zeleno-sosesko"
-  - besedilo: "OECD. OECD Guidelines for Citizen Participation Processes. 2022, str. 28–29 in 49–50."
-    url: "https://doi.org/10.1787/f765caf6-en"
-  - besedilo: "OECD OPSI. Deliberative Committees Brussels. Strošek približno 100.000 EUR na izvedbo."
-    url: "https://oecd-opsi.org/innovations/deliberative-committees-brussels/"
-  - besedilo: "OECD. Innovative Citizen Participation and New Democratic Institutions. 2020, poglavje Key trends."
-    url: "https://doi.org/10.1787/339306da-en"
-  - besedilo: "MOL. Z novo celostno prometno strategijo smo še korak bližje trajnostni in povezani mobilnosti. 30. 10. 2025."
-    url: "https://www.ljubljana.si/sl/aktualno/novice/z-novo-celostno-prometno-strategijo-smo-se-korak-blizje-trajnostni-in-povezani-mobilnosti"
-  - besedilo: "MOL. TEO Ljubljana – toplota in elektrika iz odpadkov."
-    url: "https://www.ljubljana.si/sl/ljubljana/zelena/teo-ljubljana"
-  - besedilo: "JSS MOL. Rebalans finančnega načrta za leto 2025, str. 15."
-    url: "https://www.ljubljana.si/assets/Mestni-svet/Seje-MS/27-seja-2025/7.-a-tocka-Rebalans-FN-JSS-MOL-2025.pdf"
-viriOpomba: "Spletni viri preverjeni 18. oktobra 2026. Stroškovni model, izbor projektov in predlog izvedbe so avtorska priporočila."
+  - besedilo: MOL. Za bolj varno in zeleno sosesko. 10. 5. 2026. Opis posvetovanj in
+      napoved stroška referenduma.
+    url: https://www.ljubljana.si/sl/aktualno/novice/za-bolj-varno-in-zeleno-sosesko
+  - besedilo: OECD. OECD Guidelines for Citizen Participation Processes. 2022, str.
+      28–29 in 49–50.
+    url: https://doi.org/10.1787/f765caf6-en
+  - besedilo: OECD OPSI. Deliberative Committees Brussels. Strošek približno 100.000
+      EUR na izvedbo.
+    url: https://oecd-opsi.org/innovations/deliberative-committees-brussels/
+  - besedilo: OECD. Innovative Citizen Participation and New Democratic
+      Institutions. 2020, poglavje Key trends.
+    url: https://doi.org/10.1787/339306da-en
+  - besedilo: MOL. Z novo celostno prometno strategijo smo še korak bližje
+      trajnostni in povezani mobilnosti. 30. 10. 2025.
+    url: https://www.ljubljana.si/sl/aktualno/novice/z-novo-celostno-prometno-strategijo-smo-se-korak-blizje-trajnostni-in-povezani-mobilnosti
+  - besedilo: MOL. TEO Ljubljana – toplota in elektrika iz odpadkov.
+    url: https://www.ljubljana.si/sl/ljubljana/zelena/teo-ljubljana
+  - besedilo: JSS MOL. Rebalans finančnega načrta za leto 2025, str. 15.
+    url: https://www.ljubljana.si/assets/Mestni-svet/Seje-MS/27-seja-2025/7.-a-tocka-Rebalans-FN-JSS-MOL-2025.pdf
+viriOpomba: Spletni viri preverjeni 18. oktobra 2026. Stroškovni model, izbor
+  projektov in predlog izvedbe so avtorska priporočila.
 ---
-
 Obširni odgovor
 
 Ljubljana bi z deliberacijo dobila postopek, v katerem prebivalci skupaj presodijo možnosti, preden mesto izbere rešitev. Njena vrednost je največja pri odločitvah, pri katerih izboljšava za eno skupino pomeni breme za drugo. Namen je pripraviti bolje utemeljeno odločitev in jasno pokazati, kako so nanjo vplivali prebivalci.
