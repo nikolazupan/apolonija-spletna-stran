@@ -3,26 +3,25 @@ naslov: Urbanizem in prostor v javnem interesu
 vrstniRed: 2
 ukrep: Ustanovili bomo multidisciplinarni svet za upravljanje s prostorom, ki bo
   neodvisen od mestne uprave in političnih struktur.
-strnjena: Urbanizem in prostor v javnem interesu. Celovito bomo prenovili
-  Občinski Prostorski Načrt (OPN) na podlagi demografskih potreb,
-  infrastrukturnih zmogljivosti, podnebnih in potresnih tveganj ter kakovosti
-  bivanja. Prednost bo imela prenova obstoječih stavb ter ponovna celovita
-  obravnava obstoječih in načrtovanje novih stanovanjskih sosesk kot
-  funkcionalno zaokroženih bivalnih celot, ki poleg stanovanj vključujejo tudi
-  potrebne družbene dejavnosti, javne storitve in oskrbo. Varovali bomo vedute,
-  kulturno dediščino, zelene kline in koridorje prevetritve ter omejili
-  odstopanja, prilagojena posameznim investitorjem. Neodvisni multidisciplinarni
-  strokovni svet za prostor bo usmerjal in vrednotil prostorsko politiko ter
-  zagotavljal strokovno presojo prostorskih odločitev z vidika celovitega,
-  dolgoročnega razvoja mesta in javnega interesa. Svoja mnenja in presoje bo
-  javno objavljal ter skrbel za transparentnost postopkov in vključevanje
-  javnosti. Pri prostorskih načrtih bomo zagotovili zgodnje sodelovanje
-  javnosti, za pomembne stavbe in območja pa javne natečaje. Mesto bo načrtno
-  pridobivalo in ohranjalo zemljišča za dostopna stanovanja, javne storitve in
-  zelene površine. Vzpostavili in uporabljali bomo predkupno pravico, ki občini
-  ob prodaji nepremičnine omogoča prednostni nakup pod enakimi pogoji kot drugim
-  kupcem. Spremembe namembnosti zemljišč bodo dovoljene izključno za  projekte v
-  javnem interesu.
+strnjena: Celovito bomo prenovili Občinski Prostorski Načrt (OPN) na podlagi
+  demografskih potreb, infrastrukturnih zmogljivosti, podnebnih in potresnih
+  tveganj ter kakovosti bivanja. Prednost bo imela prenova obstoječih stavb ter
+  ponovna celovita obravnava obstoječih in načrtovanje novih stanovanjskih
+  sosesk kot funkcionalno zaokroženih bivalnih celot, ki poleg stanovanj
+  vključujejo tudi potrebne družbene dejavnosti, javne storitve in oskrbo.
+  Varovali bomo vedute, kulturno dediščino, zelene kline in koridorje
+  prevetritve ter omejili odstopanja, prilagojena posameznim investitorjem.
+  Neodvisni multidisciplinarni strokovni svet za prostor bo usmerjal in
+  vrednotil prostorsko politiko ter zagotavljal strokovno presojo prostorskih
+  odločitev z vidika celovitega, dolgoročnega razvoja mesta in javnega interesa.
+  Svoja mnenja in presoje bo javno objavljal ter skrbel za transparentnost
+  postopkov in vključevanje javnosti. Pri prostorskih načrtih bomo zagotovili
+  zgodnje sodelovanje javnosti, za pomembne stavbe in območja pa javne natečaje.
+  Mesto bo načrtno pridobivalo in ohranjalo zemljišča za dostopna stanovanja,
+  javne storitve in zelene površine. Vzpostavili in uporabljali bomo predkupno
+  pravico, ki občini ob prodaji nepremičnine omogoča prednostni nakup pod
+  enakimi pogoji kot drugim kupcem. Spremembe namembnosti zemljišč bodo
+  dovoljene izključno za  projekte v javnem interesu.
 strnjenaOsnutek: false
 osnutek: false
 ---
