@@ -1,287 +1,287 @@
-# City council list (mestni svet), in ballot order. Source: podatki/kandidati.xlsx, sheet "Kandidati za MS"
-# (columns used: Št., Ime in priimek, Član, Strokovni ali znanstveni naslov). No other personal data here.
-# Photos: `slika` (set in Pages CMS or by hand); fallback: src/assets/fotografije/kandidati/<id>.jpg is matched by id
-# (made by `npm run fotografije`). A candidate without a photo shows an initials shape.
-
 - id: denis-strikovic
   vrstniRed: 1
-  ime: "Denis Striković"
-  clan: "Vesna"
-  naziv: "univerzitetni diplomirani politolog"
+  ime: Denis Striković
+  clan: Vesna
+  naziv: univerzitetni diplomirani politolog
   nosilec: true
   slika: "@assets/fotografije/kandidati/denis-strikovic.jpg"
-
 - id: apolonija-simon
   vrstniRed: 2
-  ime: "mag. Apolonija Simon"
-  clan: "Civilna iniciativa"
-  naziv: "magistrica umetnosti"
+  ime: mag. Apolonija Simon
+  clan: Civilna iniciativa
+  naziv: magistrica umetnosti
+  nosilec: false
   slika: "@assets/fotografije/kandidati/apolonija-simon.jpg"
-
 - id: jaka-zevnik
   vrstniRed: 3
-  ime: "Jaka Zevnik"
-  clan: "Vesna"
-  naziv: "univerzitetni diplomirani inženir gradbeništva"
-
+  ime: Jaka Zevnik
+  clan: Vesna
+  naziv: univerzitetni diplomirani inženir gradbeništva
+  nosilec: false
+  slika: "@assets/fotografije/kandidati/jaka.jpg"
 - id: jasminka-dedic
   vrstniRed: 4
-  ime: "dr. Jasminka Dedić"
-  clan: "Civilna iniciativa"
-  naziv: "doktorica političnih ved"
+  ime: dr. Jasminka Dedić
+  clan: Civilna iniciativa
+  naziv: doktorica političnih ved
+  nosilec: false
   slika: "@assets/fotografije/kandidati/jasminka-dedic.jpg"
-
 - id: sasa-djordjevic
   vrstniRed: 5
-  ime: "Saša Đorđević"
-  clan: "Vesna"
-  naziv: "elektrotehnik elektronik"
-
+  ime: Saša Đorđević
+  clan: Vesna
+  naziv: elektrotehnik elektronik
+  nosilec: false
+  slika: "@assets/fotografije/kandidati/saso-kolo.jpg"
 - id: alja-miklavcic
   vrstniRed: 6
-  ime: "Alja Miklavčič"
-  clan: "Vesna"
-  naziv: "diplomatka grafične in medijske tehnike"
-
+  ime: Alja Miklavčič
+  clan: Vesna
+  naziv: diplomatka grafične in medijske tehnike
+  nosilec: false
+  slika: "@assets/fotografije/kandidati/ajda.jpg"
 - id: tadej-glazar
   vrstniRed: 7
-  ime: "mag. Tadej Glažar"
-  clan: "Civilna iniciativa"
-  naziv: "magister znanosti in univerzitetni diplomirani inženir arhitekture"
+  ime: mag. Tadej Glažar
+  clan: Civilna iniciativa
+  naziv: magister znanosti in univerzitetni diplomirani inženir arhitekture
+  nosilec: false
   slika: "@assets/fotografije/kandidati/tadej-glazar.jpg"
-
 - id: kaja-lipnik-vehovar
   vrstniRed: 8
-  ime: "Kaja Lipnik Vehovar"
-  clan: "Civilna iniciativa"
-  naziv: "univerzitetena diplomirana inženirka arhitekture"
+  ime: Kaja Lipnik Vehovar
+  clan: Civilna iniciativa
+  naziv: univerzitetena diplomirana inženirka arhitekture
+  nosilec: false
   slika: "@assets/fotografije/kandidati/kaja-lipnik-vehovar.jpg"
-
 - id: velimir-zivkovic
   vrstniRed: 9
-  ime: "Velimir Živković"
-  clan: "Vesna"
-  naziv: "elektrotehnik telekomunikacij"
+  ime: Velimir Živković
+  clan: Vesna
+  naziv: elektrotehnik telekomunikacij
+  nosilec: false
   slika: "@assets/fotografije/kandidati/velimir-zivkovic.jpg"
-
 - id: mensija-kurtovic
   vrstniRed: 10
-  ime: "Mensija Kurtović"
-  clan: "Civilna iniciativa"
-  naziv: "univerzitetna diplomirana profesorica sociologije in bibliotekarka"
-
+  ime: Mensija Kurtović
+  clan: Civilna iniciativa
+  naziv: univerzitetna diplomirana profesorica sociologije in bibliotekarka
+  nosilec: false
+  slika: "@assets/fotografije/kandidati/sia.jpg"
 - id: matej-fegus
   vrstniRed: 11
-  ime: "Matej Feguš"
-  clan: "Vesna"
-  naziv: "gimnazijski maturant"
-
+  ime: Matej Feguš
+  clan: Vesna
+  naziv: gimnazijski maturant
+  nosilec: false
+  slika: "@assets/fotografije/kandidati/matej.jpg"
 - id: katarina-merslavic
   vrstniRed: 12
-  ime: "Katarina Merslavič"
-  clan: "Civilna iniciativa"
-  naziv: "diplomirana industrijska oblikovalka (UN)"
-
+  ime: Katarina Merslavič
+  clan: Civilna iniciativa
+  naziv: diplomirana industrijska oblikovalka (UN)
+  nosilec: false
 - id: arne-vehovar
   vrstniRed: 13
-  ime: "Arne Vehovar"
-  clan: "Civilna iniciativa"
-  naziv: "univerzitetni diplomirani inžinir arhitekture, MA/RCA"
+  ime: Arne Vehovar
+  clan: Civilna iniciativa
+  naziv: univerzitetni diplomirani inžinir arhitekture, MA/RCA
+  nosilec: false
   slika: "@assets/fotografije/kandidati/arne-vehovar.jpg"
-
 - id: neva-zibrik
   vrstniRed: 14
-  ime: "mag. Neva Žibrik"
-  clan: "Civilna iniciativa"
-  naziv: "magistrica ekonomskih ved"
+  ime: mag. Neva Žibrik
+  clan: Civilna iniciativa
+  naziv: magistrica ekonomskih ved
+  nosilec: false
   slika: "@assets/fotografije/kandidati/neva-zibrik.jpg"
-
 - id: daniel-hodzic
   vrstniRed: 15
-  ime: "Daniel Hodžić"
-  clan: "Vesna"
-  naziv: "magister inženir logistike"
-
+  ime: Daniel Hodžić
+  clan: Vesna
+  naziv: magister inženir logistike
+  nosilec: false
 - id: bojana-reposa
   vrstniRed: 16
-  ime: "Bojana Repoša"
-  clan: "Civilna iniciativa"
-  naziv: "univerzitetna diplomirana inženirka arhitekture"
-
+  ime: Bojana Repoša
+  clan: Civilna iniciativa
+  naziv: univerzitetna diplomirana inženirka arhitekture
+  nosilec: false
 - id: crt-batagelj
   vrstniRed: 17
-  ime: "Črt Batagelj"
-  clan: "Vesna"
-  naziv: "gimnazijski maturant"
-
+  ime: Črt Batagelj
+  clan: Vesna
+  naziv: gimnazijski maturant
+  nosilec: false
 - id: lejla-puskar
   vrstniRed: 18
-  ime: "Lejla Puškar"
-  clan: "Vesna"
-  naziv: "diplomirana notranja oblikovalka"
-
+  ime: Lejla Puškar
+  clan: Vesna
+  naziv: diplomirana notranja oblikovalka
+  nosilec: false
 - id: arian-ramadani
   vrstniRed: 19
-  ime: "Arian Ramadani"
-  clan: "Vesna"
-  naziv: "diplomirani ekonomist"
+  ime: Arian Ramadani
+  clan: Vesna
+  naziv: diplomirani ekonomist
+  nosilec: false
   slika: "@assets/fotografije/kandidati/arian-ramadani.jpg"
-
 - id: natasa-grcar-napast
   vrstniRed: 20
-  ime: "Nataša Grčar Napast"
-  clan: "Civilna iniciativa"
-  naziv: "univerzitetna diplomirana inžinirka oblikovanja oblačil in tekstilij"
-
+  ime: Nataša Grčar Napast
+  clan: Civilna iniciativa
+  naziv: univerzitetna diplomirana inžinirka oblikovanja oblačil in tekstilij
+  nosilec: false
 - id: sanel-avdic
   vrstniRed: 21
-  ime: "Sanel Avdić"
-  clan: "Vesna"
-  naziv: "magister varstvoslovja"
-
+  ime: Sanel Avdić
+  clan: Vesna
+  naziv: magister varstvoslovja
+  nosilec: false
 - id: afrodita-hebar-kljun
   vrstniRed: 22
-  ime: "Afrodita Hebar Kljun"
-  clan: "Civilna iniciativa"
-  naziv: "grafična oblikovalka"
+  ime: Afrodita Hebar Kljun
+  clan: Civilna iniciativa
+  naziv: grafična oblikovalka
+  nosilec: false
   slika: "@assets/fotografije/kandidati/afrodita-hebar-kljun.jpg"
-
 - id: ibrahim-nouhoum
   vrstniRed: 23
-  ime: "Ibrahim Nouhoum"
-  clan: "Vesna"
-  naziv: "univerzitetni diplomirani inženir gozdarstva"
-
+  ime: Ibrahim Nouhoum
+  clan: Vesna
+  naziv: univerzitetni diplomirani inženir gozdarstva
+  nosilec: false
 - id: marija-juran-kanellopulos
   vrstniRed: 24
-  ime: "Marija Juran Kanellopulos"
-  clan: "Vesna"
-  naziv: "specialistka družinske terapevtske prakse"
-
+  ime: Marija Juran Kanellopulos
+  clan: Vesna
+  naziv: specialistka družinske terapevtske prakse
+  nosilec: false
 - id: oto-jug
   vrstniRed: 25
-  ime: "Oto Jug"
-  clan: "Vesna"
-  naziv: "magister biotehnologije"
-
+  ime: Oto Jug
+  clan: Vesna
+  naziv: magister biotehnologije
+  nosilec: false
 - id: danica-uran-ursej
   vrstniRed: 26
-  ime: "Danica Uran Uršej"
-  clan: "Vesna"
-  naziv: "diplomirana defektologinja"
-
+  ime: Danica Uran Uršej
+  clan: Vesna
+  naziv: diplomirana defektologinja
+  nosilec: false
 - id: gregor-gregorcic
   vrstniRed: 27
-  ime: "Gregor Gregorčič"
-  clan: "Vesna"
-  naziv: "specialist arhitekt–urbanist in univerziteteni diplomirani inženir arhitekture"
-
+  ime: Gregor Gregorčič
+  clan: Vesna
+  naziv: specialist arhitekt–urbanist in univerziteteni diplomirani inženir
+    arhitekture
+  nosilec: false
 - id: tina-susnik
   vrstniRed: 28
-  ime: "Tina Sušnik"
-  clan: "Vesna"
-  naziv: "univerzitetna diplomirana etnologinja in kulturno antropologija"
-
+  ime: Tina Sušnik
+  clan: Vesna
+  naziv: univerzitetna diplomirana etnologinja in kulturno antropologija
+  nosilec: false
 - id: jaka-socan
   vrstniRed: 29
-  ime: "dr. Jaka Sočan"
-  clan: "Vesna"
-  naziv: "doktor biotehnologije"
-
+  ime: dr. Jaka Sočan
+  clan: Vesna
+  naziv: doktor biotehnologije
+  nosilec: false
 - id: senada-mesic
   vrstniRed: 30
-  ime: "Senada Mešić"
-  clan: "Vesna"
-  naziv: "univerzitetna diplomirana ekonomistka"
-
+  ime: Senada Mešić
+  clan: Vesna
+  naziv: univerzitetna diplomirana ekonomistka
+  nosilec: false
 - id: tomaz-celigoj
   vrstniRed: 31
-  ime: "Tomaž Čeligoj"
-  clan: "Vesna"
-  naziv: "univerzitetni diplomirani inžinir arhitekture"
-
+  ime: Tomaž Čeligoj
+  clan: Vesna
+  naziv: univerzitetni diplomirani inžinir arhitekture
+  nosilec: false
 - id: andjelina-mijatovic
   vrstniRed: 32
-  ime: "Anđelina Mijatović"
-  clan: "Civilna iniciativa"
-  naziv: "inženirka logistike"
-
+  ime: Anđelina Mijatović
+  clan: Civilna iniciativa
+  naziv: inženirka logistike
+  nosilec: false
 - id: bostjan-avgustin
   vrstniRed: 33
-  ime: "Boštjan Avguštin"
-  clan: "Civilna iniciativa"
-  naziv: "profesor športne vzgoje"
-
+  ime: Boštjan Avguštin
+  clan: Civilna iniciativa
+  naziv: profesor športne vzgoje
+  nosilec: false
 - id: svetlana-jakimovska-rodic
   vrstniRed: 34
-  ime: "Svetlana Jakimovska Rodić"
-  clan: "Civilna iniciativa"
-  naziv: "magistrica umetnosti in magistrica profesorica poučevanja likovne pedagogike"
-
+  ime: Svetlana Jakimovska Rodić
+  clan: Civilna iniciativa
+  naziv: magistrica umetnosti in magistrica profesorica poučevanja likovne pedagogike
+  nosilec: false
 - id: sara-martinovic-zevnik
   vrstniRed: 35
-  ime: "Sara Martinovič Zevnik"
-  clan: "Vesna"
-  naziv: "magistrica novinarstva"
-
+  ime: Sara Martinovič Zevnik
+  clan: Vesna
+  naziv: magistrica novinarstva
+  nosilec: false
 - id: petra-silva
   vrstniRed: 36
-  ime: "Petra Silva"
-  clan: "Civilna iniciativa"
-  naziv: "univerzitetna diplomirana umetnostna zgodovinarka in profesorica sociologije"
-
+  ime: Petra Silva
+  clan: Civilna iniciativa
+  naziv: univerzitetna diplomirana umetnostna zgodovinarka in profesorica sociologije
+  nosilec: false
 - id: niko-kastelic
   vrstniRed: 37
-  ime: "Niko Kastelič"
-  clan: "Civilna iniciativa"
-  naziv: "univerzitetni diplomirani inženir tehnične fizike"
-
+  ime: Niko Kastelič
+  clan: Civilna iniciativa
+  naziv: univerzitetni diplomirani inženir tehnične fizike
+  nosilec: false
 - id: nisa-dedic-socan
   vrstniRed: 38
-  ime: "Nisa Dedić Sočan"
-  clan: "Vesna"
-  naziv: "magistrica okoljske zgodovine in diplomirana rusistka in filozofinja (UN)"
-
+  ime: Nisa Dedić Sočan
+  clan: Vesna
+  naziv: magistrica okoljske zgodovine in diplomirana rusistka in filozofinja (UN)
+  nosilec: false
 - id: mario-azinovic
   vrstniRed: 39
-  ime: "Mario Azinović"
-  clan: "Vesna"
-  naziv: "prometni tehnik"
-
+  ime: Mario Azinović
+  clan: Vesna
+  naziv: prometni tehnik
+  nosilec: false
 - id: diana-ternav
   vrstniRed: 40
-  ime: "Diana Ternav"
-  clan: "Vesna"
-  naziv: "univerzitetna diplomirana etnologinja in profesorica italijanščine"
-
+  ime: Diana Ternav
+  clan: Vesna
+  naziv: univerzitetna diplomirana etnologinja in profesorica italijanščine
+  nosilec: false
 - id: boris-rodic
   vrstniRed: 41
-  ime: "Boris Rodić"
-  clan: "Civilna iniciativa"
-  naziv: "univerzitetni diplomirani inženir gradbeništva"
-
+  ime: Boris Rodić
+  clan: Civilna iniciativa
+  naziv: univerzitetni diplomirani inženir gradbeništva
+  nosilec: false
 - id: marica-kapular
   vrstniRed: 42
-  ime: "Marica Kapular"
-  clan: "Civilna iniciativa"
-  naziv: "trgovska poslovodkinja"
-
+  ime: Marica Kapular
+  clan: Civilna iniciativa
+  naziv: trgovska poslovodkinja
+  nosilec: false
 - id: marko-juvan
   vrstniRed: 43
-  ime: "dr. Marko Juvan"
-  clan: "Civilna iniciativa"
-  naziv: "doktor literarnih ved"
-
+  ime: dr. Marko Juvan
+  clan: Civilna iniciativa
+  naziv: doktor literarnih ved
+  nosilec: false
 - id: maja-michieli
   vrstniRed: 44
-  ime: "Maja Michieli"
-  clan: "Civilna iniciativa"
-  naziv: "univerzitetna diplomirana komunikologinja"
-
+  ime: Maja Michieli
+  clan: Civilna iniciativa
+  naziv: univerzitetna diplomirana komunikologinja
+  nosilec: false
 - id: ciril-horjak
   vrstniRed: 45
-  ime: "Ciril Horjak"
-  clan: "Civilna iniciativa"
-  naziv: "univerzitetni diplomirani akademski slikar"
+  ime: Ciril Horjak
+  clan: Civilna iniciativa
+  naziv: univerzitetni diplomirani akademski slikar
+  nosilec: false
   slika: "@assets/fotografije/kandidati/ciril-horjak.jpg"
-
