@@ -1,79 +1,83 @@
 ---
-// One social media post as a white "print" card: thumbnail with type tag, date, caption, link.
-// Photos/graphics: click-to-load (the Instagram embed loads only after a click; no Meta scripts on page load).
-// Reels/videos: cover image + play icon + "Reel"/"Video"; a click opens the post on Instagram.
-import type { CollectionEntry } from 'astro:content';
-import { Image } from 'astro:assets';
+// One social media post as a white "print" card: the whole post in its own proportions (no cropping),
+// date, 2-line caption, link to the post.
+// Photos/graphics/carousels: the picture links to the post on Instagram.
+// Videos (feed posts with a video file): poster + play icon; a click/tap on the video plays or pauses it in place
+// (no native controls; the play icon shows while paused), muted by default, with a small sound button in the corner.
+// If the video can't be played (e.g. an expired link on an old build), the poster stays and links to the post.
+// Hand-made reels/videos without a video file: poster + play icon, linking to the post.
+// `sablona`: an empty card with every variant's parts, wrapped by the caller in a <template>; the browser clones
+// and fills it with posts from the live feed (src/lib/objave-v-zivo.ts, hooks = the data-o attributes).
 import ImagePlaceholder from '../ImagePlaceholder.astro';
 import Placeholder from '../Placeholder.astro';
-import { formatDatum, tipOznaka, embedUrl, povezavaObjave, slikaObjave, jeVideo } from '../../lib/objave';
 import ReelOznaka from './ReelOznaka.astro';
+import { formatDatum, jeVideo, oznakeKartice, platformaNa, tipOznaka, type PrikazObjave } from '../../lib/behold';
 
 interface Props {
-  objava: CollectionEntry<'objave'>;
+  objava?: PrikazObjave;
+  sablona?: boolean;
   class?: string;
   sizes?: string;
 }
-const { objava, class: className, sizes = '(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 46vw' } = Astro.props;
-const o = objava.data;
-const embed = embedUrl(o.povezava, o.platforma);
-const slika = slikaObjave(o);
+const { objava, sablona = false, class: className, sizes = '(min-width: 1024px) 16vw, 60vw' } = Astro.props;
+// the template is filled in the browser; this stand-in only sets its platform
+const o: PrikazObjave = objava ?? { povezava: '', datum: new Date(0).toISOString(), tip: 'fotografija', platforma: 'instagram', opis: '', osnutek: false, r: 1 };
+const datum = new Date(o.datum);
 const video = jeVideo(o.tip);
-const platforma = o.platforma === 'instagram' ? 'Instagramu' : 'Facebooku';
+const platforma = platformaNa(o.platforma);
+const oznake = oznakeKartice({ tip: o.tip, datum, platforma: o.platforma });
 ---
 
-<!-- One format for every post type: square thumbnail (type tag in the corner), date, 2-line caption, link.
-     Every Instagram post has an image (text posts too), so `slika` is the thumbnail for all types. -->
-<article class:list={['flex h-full flex-col border-[6px] border-bela bg-bela', className]}>
-  <div class="objava-medij relative aspect-square overflow-hidden bg-neutral-200" data-embed={embed ?? ''}>
-    {slika ? (
-      <Image src={slika} alt={o.opis} widths={[300, 600]} sizes={sizes} inferSize={typeof slika === 'string'} class="h-full w-full object-cover" />
-    ) : (
-      <ImagePlaceholder label="OBJAVA" class="h-full w-full items-end pb-3 text-xs" />
-    )}
-    {!video && (
-      <span class="pointer-events-none absolute right-2 top-2 z-10 rounded-full bg-krema px-2 py-0.5 text-xs font-bold text-zelena-temna">{tipOznaka[o.tip]}</span>
-    )}
-    <ReelOznaka tip={o.tip} polozaj="desno" />
+<article
+  class:list={['flex h-full flex-col border-[6px] border-bela bg-bela', className]}
+  data-objava={sablona ? undefined : o.povezava}
+  style={`--r: ${o.r}`}
+>
+  <div class="relative shrink-0 overflow-hidden bg-neutral-200" style="aspect-ratio: var(--r)">
+    <!-- the picture (for videos: the poster) links to the post -->
+    <a data-o="odpri" href={o.povezava} target="_blank" rel="noopener" class="block h-full" aria-label={oznake.odpri}>
+      {o.slika || sablona ? (
+        <img data-o="slika" src={o.slika} srcset={o.srcset} sizes={sizes} alt={o.opis} loading="lazy" decoding="async" referrerpolicy="no-referrer" class="h-full w-full object-cover" />
+      ) : (
+        <ImagePlaceholder label="OBJAVA" class="h-full w-full items-end pb-3 text-xs" />
+      )}
+      <ReelOznaka tip={o.tip} vedno={sablona} />
+    </a>
 
-    <!-- reels/videos: the thumbnail opens the post on Instagram; others: click-to-load embed -->
-    {video ? (
-      <a href={povezavaObjave(o)} target="_blank" rel="noopener" class="absolute inset-0" aria-label={`${tipOznaka[o.tip]} na ${platforma}, ${formatDatum(o.datum)}: odpri na ${platforma}`}></a>
-    ) : (
-      <button type="button" class="objava-nalozi absolute inset-0" aria-label={`Naloži objavo z ${platforma} (${tipOznaka[o.tip]}, ${formatDatum(o.datum)})`}></button>
+    <!-- video in place: shown by the script (without JS the poster link above stays) -->
+    {(sablona || (video && o.video)) && (
+      <div data-o="video-ovoj" class="absolute inset-0 z-20 bg-crna" hidden>
+        <video data-o="video" src={o.video} poster={o.slika} preload="none" muted playsinline loop class="h-full w-full object-cover"></video>
+        <!-- the whole video is the play/pause button; the play icon shows while paused (no type tags on posts) -->
+        <button data-o="predvajaj" type="button" class="group absolute inset-0 flex cursor-pointer items-center justify-center" aria-label={`Predvajaj: ${tipOznaka[o.tip]}, ${formatDatum(datum)}`} data-oznaka={`${tipOznaka[o.tip]}, ${formatDatum(datum)}`}>
+          <span data-o="ustavljeno" class="contents">
+            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-crna/85 text-krema transition-transform group-hover:scale-110" aria-hidden="true">
+              <svg viewBox="0 0 20 20" class="ml-0.5 h-5 w-5" fill="currentColor"><path d="M5 3.5v13l11-6.5z" /></svg>
+            </span>
+          </span>
+        </button>
+        <!-- sound on/off: a small cream paper button with a black frame (like "Fotografija" in the hero), muted by default -->
+        <button data-o="zvok" type="button" class="absolute bottom-2 left-2 z-10 flex h-9 w-9 -rotate-3 cursor-pointer items-center justify-center rounded-full border-2 border-crna bg-krema text-crna transition-transform hover:rotate-0" aria-label="Vklopi zvok" aria-pressed="false" hidden>
+          <svg viewBox="0 0 24 24" class="h-[1.1rem] w-[1.1rem]" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor" />
+            <g data-o="zvok-izklopljen"><path d="M16 9.5l5 5M21 9.5l-5 5" /></g>
+            <g data-o="zvok-vklopljen" hidden><path d="M15.5 9.2c1.3 1.6 1.3 4 0 5.6M18.3 6.8c2.6 2.9 2.6 7.5 0 10.4" /></g>
+          </svg>
+        </button>
+      </div>
     )}
   </div>
 
   <div class="flex flex-1 flex-col px-1 pb-1 pt-3">
-    <time class="whitespace-nowrap text-[0.8rem] font-bold sm:text-sm" datetime={o.datum.toISOString()}>{formatDatum(o.datum)}</time>
+    <time data-o="datum" class="whitespace-nowrap text-[0.8rem] font-bold sm:text-sm lg:text-xs xl:text-sm" datetime={o.datum}>{formatDatum(datum)}</time>
     <!-- always two lines high, so cards line up whatever the caption length -->
-    <p class="mt-1.5 line-clamp-2 min-h-[2lh] text-sm leading-snug"><Placeholder active={o.osnutek}>{o.opis}</Placeholder></p>
-    <a href={povezavaObjave(o)} target="_blank" rel="noopener" class="mt-auto pt-2 text-xs font-bold underline underline-offset-2 hover:text-zelena-temna">Odpri na {platforma} ↗</a>
+    <p data-o="opis" class="mt-1.5 line-clamp-2 min-h-[2lh] text-sm leading-snug lg:text-xs xl:text-sm"><Placeholder active={o.osnutek}>{o.opis}</Placeholder></p>
+    <a data-o="povezava" href={o.povezava} target="_blank" rel="noopener" class="mt-auto pt-2 text-xs font-bold underline underline-offset-2 hover:text-zelena-temna">Odpri na {platforma} ↗</a>
   </div>
 </article>
 
 <script>
-  // Replace the thumbnail with the embed only after a click (no third-party requests before that).
-  document.querySelectorAll<HTMLButtonElement>('.objava-nalozi').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const box = btn.closest<HTMLElement>('.objava-medij');
-      if (!box) return;
-      const url = box.dataset.embed;
-      if (!url) {
-        box.insertAdjacentHTML(
-          'beforeend',
-          '<p class="absolute inset-x-2 bottom-2 rounded bg-crna px-2 py-1 text-xs font-medium text-krema">Prototip: tu se bo ob kliku naložila objava.</p>',
-        );
-        btn.remove();
-        return;
-      }
-      const frame = document.createElement('iframe');
-      frame.src = url;
-      frame.title = btn.getAttribute('aria-label') ?? 'Objava';
-      frame.loading = 'lazy';
-      frame.allowFullscreen = true;
-      frame.className = 'absolute inset-0 h-full w-full border-0 bg-bela';
-      box.replaceChildren(frame);
-    });
-  });
+  import { pripraviVidee } from '../../lib/objave-v-zivo';
+
+  pripraviVidee(document);
 </script>

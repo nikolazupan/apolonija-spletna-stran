@@ -183,7 +183,7 @@ const novice = defineCollection({
     }),
 });
 
-// Social media posts for the homepage and /arhiv.
+// Social media posts for the homepage (hero flip, "Zadnje objave z Instagrama").
 // Field names map to an Instagram Graph API media object for a later automatic import:
 // id → file name, datum → timestamp, tip → media_type (IMAGE → foto/grafika, VIDEO → video, CAROUSEL_ALBUM → foto),
 // opis → caption, povezava → permalink, slika → media_url / thumbnail_url.
@@ -202,6 +202,11 @@ const objave = defineCollection({
       // hand-made entries: local image (src/assets/objave/); feed entries: remote image URL
       slika: z.preprocess(prazno, image().optional()),
       slikaUrl: z.string().optional(),
+      // feed entries: size of the uncropped image (frames keep the post's own proportions; local images know their size)
+      sirina: z.number().optional(),
+      visina: z.number().optional(),
+      // feed entries: the video file of VIDEO posts
+      videoUrl: z.string().optional(),
       osnutek: z.boolean().default(false),
     }),
 });

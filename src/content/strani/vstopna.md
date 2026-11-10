@@ -38,8 +38,9 @@ bloki:
       pregledno."
     osnutek: false
   objava:
-    naslov: Iz arhiva
-    povezava: Vse objave
+    naslov: Zadnje objave z Instagrama
+    povezava: Vse objave na Instagramu
   zadnjaObjava:
     besedilo: Zadnja objava na Instagramu
+    podpis: Objava na Instagramu
 ---

@@ -103,16 +103,17 @@ content:
               - { name: besedilo, label: "Besedilo: zakaj Vesna in civilna družba nastopata skupaj (1 odstavek)", type: text }
               - { name: osnutek, label: Osnutek, type: boolean, description: "Vklopljeno: besedilo je na strani označeno z OSNUTEK. Izklopi, ko je besedilo potrjeno." }
           - name: objava
-            label: "Razdelek »Iz arhiva« (zadnje objave)"
+            label: "Razdelek »Zadnje objave z Instagrama«"
             type: object
             fields:
               - { name: naslov, label: Naslov razdelka, type: string }
-              - { name: povezava, label: Besedilo povezave na arhiv, type: string }
+              - { name: povezava, label: Besedilo povezave na Instagram profil, type: string }
           - name: zadnjaObjava
             label: Zadnja objava (na zadnji strani zelene oblike)
             type: object
             fields:
-              - { name: besedilo, label: Oznaka zadnje objave, type: string, description: "Datum objave se doda samodejno." }
+              - { name: besedilo, label: Oznaka zadnje objave, type: string, description: "Na objavi ni prikazana; berejo jo bralniki zaslona (datum se doda samodejno). Isto besedilo je na gumbu pod zeleno obliko, ko ima obiskovalec izklopljene animacije." }
+              - { name: podpis, label: Oznaka starejših objav, type: string, description: "Za bralnike zaslona, pri vseh objavah razen najnovejši (zelena oblika menja objave s slikami). Datum se doda samodejno." }
 
   # ───────────────────────────── Apolonija Simon
   - name: apolonija-simon
@@ -468,16 +469,16 @@ content:
                   - { name: podpis, label: Sporočilo po pošiljanju, type: string }
                   - { name: osnutek, label: "Osnutek (obrazec še ne pošilja)", type: boolean }
 
-  # ───────────────────────────── Arhiv objav
+  # ───────────────────────────── Objave z Instagrama (rezervne) + stran Arhiv (plakati)
   - name: arhiv-skupina
-    label: Arhiv objav
+    label: Objave in arhiv
     type: group
     items:
       - name: objave
         label: Objave z Instagrama
         type: collection
         path: src/content/objave
-        description: "Prikazane so objave od 1. 10. 2026 naprej, najnovejša prva. Najnovejša je na vstopni strani."
+        description: "Rezervne objave: na strani so samodejno objave z Instagrama (Behold). Te se pokažejo le, če samodejni uvoz ne deluje. Od 1. 10. 2026 naprej, najnovejša prva."
         filename: "{fields.datum}-{primary}.md"
         view:
           fields: [datum, tip, opis]
@@ -502,7 +503,7 @@ content:
           - { name: slika, label: Slika, type: image, options: { media: objave }, description: "Prva slika objave (pri reelih naslovnica), JPG, najmanj 1080 px." }
           - { name: osnutek, label: Nadomestna objava, type: boolean, description: "Samo za primere v prototipu." }
       - name: arhiv-stran
-        label: Stran »Arhiv objav«
+        label: Stran »Arhiv« (plakati)
         type: file
         path: src/content/strani/arhiv.md
         fields:
@@ -518,12 +519,7 @@ content:
                 fields:
                   - { name: naslov, label: Naslov, type: string }
                   - { name: besedilo, label: Uvodno besedilo, type: text }
-              - name: stevilo
-                label: Vrstica ob številu objav
-                type: object
-                fields:
-                  - { name: naslov, label: Beseda za številom, type: string, description: "Vrste objav se dodajo samodejno." }
-                  - { name: besedilo, label: Pojasnilo, type: string }
+                  - { name: osnutek, label: Osnutek, type: boolean }
               - name: plakati
                 label: Plakati
                 type: object

@@ -1,6 +1,7 @@
 ---
 // Why Apolonija is running, and why Vesna and civil society join forces.
-// Two framed blocks of equal size on a shared two-column grid, alternating: title | text, then text | title.
+// Two framed blocks on a shared two-column grid, alternating: title | text, then text | title. Each block is as
+// tall as its content (no forced equal height, which left the shorter one half empty).
 // Titles and paragraphs start at the same top line and share column edges. Stacked on mobile.
 import BlockText from '../BlockText.astro';
 
@@ -16,7 +17,7 @@ const frame = 'grid content-start gap-4 border-2 border-crna p-6 sm:p-8 md:grid-
 const title = 'display text-[clamp(2.25rem,7vw,3.5rem)]';
 ---
 
-<section class="site-container grid gap-6 pb-12 md:auto-rows-fr lg:gap-8 lg:pb-16">
+<section class="site-container grid gap-6 pb-12 lg:gap-8 lg:pb-16">
   <article class={frame}>
     <h2 class={title}>{kandidatura.naslov}</h2>
     <figure>

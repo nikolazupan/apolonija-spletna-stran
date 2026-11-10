@@ -28,7 +28,7 @@ const STRANI: [string, string, string][] = [
   ['lista', 'Lista', '/lista'],
   ['program', 'Program', '/program'],
   ['vprasanja', 'Vprašanja in odgovori', '/vprasanja'],
-  ['arhiv', 'Arhiv objav', '/arhiv'],
+  ['arhiv', 'Arhiv', '/arhiv'],
   ['pomagaj', 'Pomagaj, če lahko', '/pomagaj'],
   ['kontakt', 'Kontakt', '/kontakt'],
   ['odprta-vprasanja', 'Odprta vprašanja mesta', '/odprta-vprasanja'],
@@ -135,7 +135,7 @@ export async function getManjkajoce(root: string) {
   }
 
   if (objave > 0) {
-    dodaj('arhiv', 'Objave z Instagrama', { kaj: `Prave objave z Instagrama @skupajzamesto (zdaj ${objave} nadomestnih objav; prva prava objava jih vse odstrani)`, oblika: 'povezava do objave, datum, opis in prva slika (pri reelih naslovnica)', povezava: '/arhiv', vir: 'src/content/objave/' }, urediVCms('src/content/objave'));
+    dodaj('vstopna', 'Objave z Instagrama', { kaj: `Rezervne objave z Instagrama @skupajzamesto, za primer, ko samodejni uvoz (Behold) ne deluje (zdaj ${objave} nadomestnih objav; prva prava objava jih vse odstrani)`, oblika: 'povezava do objave, datum, opis in prva slika (pri reelih naslovnica)', povezava: '/#instagram', vir: 'src/content/objave/' }, urediVCms('src/content/objave'));
   }
 
   // candidates without a portrait (not placeholders in the files, but still missing)

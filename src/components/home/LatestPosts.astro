@@ -1,29 +1,52 @@
 ---
-// "Iz arhiva": title row with archive link, then a row of recent posts (the newest one is in the hero).
-// Horizontally scrollable on mobile. Thumbnails only, embeds load on click (PostCard).
-import type { CollectionEntry } from 'astro:content';
+// "Zadnje objave z Instagrama" (id="instagram"): the newest posts as white prints,
+// each whole in its own proportions (no cropping), linking to the post; videos play in place (PostCard).
+// Below lg: a swipeable row, all cards the same height. From lg: one row across the content width, the
+// widths follow the proportions, so all cards stay the same height.
+// In the browser the list is refreshed from the live Instagram feed (src/lib/objave-v-zivo.ts).
 import PostCard from '../ui/PostCard.astro';
+import { instagramProfil } from '../../data/site';
+import type { PrikazObjave } from '../../lib/behold';
 
 interface Props {
-  objave: CollectionEntry<'objave'>[];
+  objave: PrikazObjave[];
   naslov?: string;
-  povezavaArhiv?: string;
+  // text of the link to the Instagram profile
+  povezava?: string;
 }
-const { objave, naslov = 'Iz arhiva', povezavaArhiv = 'Vse objave' } = Astro.props;
-const tilt = ['-rotate-1', 'rotate-1', 'rotate-[0.5deg]', '-rotate-[1.5deg]'];
+const { objave, naslov, povezava } = Astro.props;
+const tilt = ['-rotate-1', 'rotate-1', 'rotate-[0.5deg]', '-rotate-[1.5deg]', 'rotate-[1.5deg]', '-rotate-[0.5deg]'];
+// width from the proportions: fixed height below lg, share of the row from lg
+const element = 'w-[calc(var(--r)*20rem)] max-w-[85vw] shrink-0 snap-start md:w-[calc(var(--r)*24rem)] lg:w-auto lg:min-w-0 lg:max-w-none lg:[flex:var(--r)_1_0%]';
+const sizes = '(min-width: 1024px) 16vw, 60vw';
 ---
 
-<section class="py-12 lg:py-16">
+<section id="instagram" class="scroll-mt-24 py-12 lg:py-16">
   <div class="site-container flex flex-wrap items-end justify-between gap-4">
     <h2 class="display text-[clamp(2.25rem,7vw,3.5rem)]">{naslov}</h2>
-    <a href="/arhiv" class="border-b-[3px] border-zelena pb-0.5 text-base font-bold hover:text-zelena-temna">{povezavaArhiv} →</a>
+    {povezava && instagramProfil.url && (
+      <a href={instagramProfil.url} target="_blank" rel="noopener" class="border-b-[3px] border-zelena pb-0.5 text-base font-bold hover:text-zelena-temna">{povezava} ↗</a>
+    )}
   </div>
 
-  <ul class="site-container mt-8 flex snap-x snap-mandatory scroll-px-[var(--gutter)] gap-5 overflow-x-auto pb-4 pt-2 md:grid md:grid-cols-4 md:overflow-visible">
-    {objave.map((objava, i) => (
-      <li class="w-[68%] shrink-0 snap-start sm:w-[42%] md:w-auto">
-        <PostCard objava={objava} sizes="(min-width: 768px) 22vw, 68vw" class={tilt[i % tilt.length]} />
+  <ul data-objave-seznam="domov" data-nagibi={JSON.stringify(tilt)} class="site-container mt-8 flex snap-x snap-mandatory scroll-px-[var(--gutter)] items-stretch gap-5 overflow-x-auto pb-4 pt-2 lg:overflow-visible">
+    <template data-objava-sablona><li class={element}><PostCard sablona sizes={sizes} /></li></template>
+    {objave.map((o, i) => (
+      <li class={element} style={`--r: ${o.r}`}>
+        <PostCard objava={o} sizes={sizes} class={tilt[i % tilt.length]} />
       </li>
     ))}
   </ul>
 </section>
+
+<script>
+  import { naloziObjave, zamenjajSeznam } from '../../lib/objave-v-zivo';
+  import { STEVILO_OBJAV } from '../../lib/behold';
+
+  const seznam = document.querySelector<HTMLElement>('[data-objave-seznam="domov"]');
+  if (seznam) {
+    naloziObjave().then((objave) => {
+      if (objave) zamenjajSeznam(seznam, objave.slice(0, STEVILO_OBJAV));
+    });
+  }
+</script>

@@ -1,42 +1,54 @@
 ---
-// The hero's green shape as a two-sided card: her photo (always shown first) and the latest Instagram post.
+// The hero's green shape as a two-sided card: her photo (always shown first) and Instagram posts.
 // Timing: photo → after 2.5 s the post → after 6 s the photo → then every 6 s.
+// Posts on the back: only posts with a picture (photos, graphics, carousels = first image), newest first; each time
+// the card turns back to the photo, the next one is put on the back. Only if there is no picture post at all, the
+// newest video is shown instead (plays muted while the back is visible; not with reduced motion).
+// The post is shown whole (own proportions, no cropping) as a white print on the green shape, with the Instagram
+// handle above it; no type tag, label or date (those are only in the link's aria-label).
 // Pauses while hovered (mouse) or focused, stops while the hero is out of view or the tab is hidden.
 // A click/tap flips manually. Reduced motion: no automatic flipping, no 3D animation; a small
 // "Zadnja objava na Instagramu" button under the shape switches to the post.
 // The back face is absolutely positioned over the front, so flipping never changes the layout.
-import type { CollectionEntry } from 'astro:content';
+// The posts are built in (last build), then replaced in the browser by the live Instagram feed
+// (src/lib/objave-v-zivo.ts); if the feed fails, the built posts stay.
 import type { ImageMetadata } from 'astro';
 import Blob from '../brand/Blob.astro';
 import CutoutImage from '../brand/CutoutImage.astro';
 import InstagramProfil from '../ui/InstagramProfil.astro';
-import ReelOznaka from '../ui/ReelOznaka.astro';
-import { formatDatum, povezavaObjave, slikaObjave } from '../../lib/objave';
+import { formatDatum, type PrikazObjave } from '../../lib/behold';
 
 interface Props {
-  // the newest post; without it the shape shows only her photo
-  objava?: CollectionEntry<'objave'>;
+  // posts for the back (izberiZaHero); without any the shape shows only her photo
+  objave: PrikazObjave[];
   // hero photo (4:5, tablet/desktop) and the closer crop for phones (vstopna.md → hero)
   slika: ImageMetadata;
   slikaTelefon: ImageMetadata;
   alt: string;
-  // "Zadnja objava na Instagramu" (vstopna.md → bloki.zadnjaObjava); the date is added here
+  // vstopna.md → bloki.zadnjaObjava: label of the newest post ("Zadnja objava na Instagramu") and of the
+  // older ones (podpis, e.g. "Objava na Instagramu"); the date is added here
   oznakaObjave: string;
+  oznakaStarejse: string;
 }
-const { objava, slika: foto, slikaTelefon: fotoBlizje, alt, oznakaObjave } = Astro.props;
-const o = objava?.data;
-const oznaka = o ? `${oznakaObjave} · ${formatDatum(o.datum)}` : '';
-const slika = o ? slikaObjave(o) : undefined;
+const { objave, slika: foto, slikaTelefon: fotoBlizje, alt, oznakaObjave, oznakaStarejse } = Astro.props;
+const o = objave[0];
+const oznaka = o ? `${oznakaObjave} · ${formatDatum(new Date(o.datum))}` : '';
 ---
 
-<div class="obrat" data-obrat={o ? '' : undefined}>
+<div
+  class="obrat"
+  data-obrat={o ? '' : undefined}
+  data-oznaka={oznakaObjave}
+  data-oznaka-starejse={oznakaStarejse}
+  data-objave={o ? JSON.stringify(objave) : undefined}
+>
   <div class="obrat-notranji relative">
     <!-- front: her photo; a click flips to the post -->
     <button
       type="button"
       class="obrat-stran obrat-spredaj relative block w-full cursor-pointer"
       data-obrni
-      aria-label={o ? 'Obrni: pokaži zadnjo objavo na Instagramu' : undefined}
+      aria-label={o ? 'Obrni: pokaži objavo na Instagramu' : undefined}
       disabled={!o}
     >
       <Blob variant="f" fill="var(--color-zelena)" class="absolute -inset-[7%] h-[114%] w-[114%] -rotate-6" />
@@ -47,17 +59,20 @@ const slika = o ? slikaObjave(o) : undefined;
     {o && (
       <div class="obrat-stran obrat-zadaj absolute inset-0" data-zadaj inert>
         <Blob variant="f" fill="var(--color-zelena)" class="absolute -inset-[7%] h-[114%] w-[114%] rotate-6" />
-        <a href={povezavaObjave(o)} target="_blank" rel="noopener" class="group relative block -rotate-2" aria-label={`${oznaka}. Poglej na Instagramu.`}>
-          {slika ? (
-            <CutoutImage src={slika} alt="" variant="d" widths={[400, 640]} sizes="(min-width: 1024px) 28rem, 86vw" imgClass="aspect-[4/5] object-cover" />
-          ) : (
-            <div class="flex aspect-[4/5] items-center justify-center rounded-[40%_36%_42%_38%/34%_40%_36%_42%] bg-neutral-300 text-sm font-bold text-neutral-700">OBJAVA</div>
-          )}
-          <ReelOznaka tip={o.tip} />
-          <span class="absolute left-1/2 top-[7%] -translate-x-1/2 whitespace-nowrap rounded-full bg-bela px-3 py-1.5 text-crna"><InstagramProfil /></span>
-          <span class="absolute bottom-[7%] left-1/2 max-w-[88%] -translate-x-1/2 rounded-full bg-crna px-3 py-1.5 text-center text-[0.7rem] font-bold leading-tight text-krema group-hover:underline sm:text-xs">
-            {oznaka} ↗
+        <!-- the post (image or video) as a white print, sized to fit the shape in its own proportions, with the handle
+             above it; no label or date (they are in the link's aria-label for screen readers) -->
+        <a data-o="odpri" href={o.povezava} target="_blank" rel="noopener" class="hero-objava group absolute inset-0 flex items-center justify-center" aria-label={`${oznaka}. Poglej na Instagramu.`}>
+          <span data-o="okvir" class="hero-okvir relative block -rotate-2 border-[6px] border-bela bg-bela" style={`--r: ${o.r}`}>
+            {o.slika ? (
+              <img data-o="slika" src={o.slika} srcset={o.srcset} sizes="(min-width: 1024px) 26rem, 80vw" alt="" decoding="async" referrerpolicy="no-referrer" class="h-full w-full object-cover" />
+            ) : (
+              <span data-o="slika" class="flex h-full w-full items-center justify-center bg-neutral-300 text-sm font-bold text-neutral-700">OBJAVA</span>
+            )}
+            {o.video && (
+              <video data-o="video" src={o.video} poster={o.slika} muted playsinline loop preload="metadata" class="absolute inset-0 h-full w-full object-cover"></video>
+            )}
           </span>
+          <span class="absolute left-1/2 top-[3%] -translate-x-1/2 whitespace-nowrap rounded-full bg-bela px-3 py-1.5 text-crna"><InstagramProfil /></span>
         </a>
         <button type="button" data-obrni class="absolute -bottom-[5%] right-[2%] z-10 flex h-11 items-center gap-1.5 rounded-full border-2 border-crna bg-krema px-3 text-xs font-bold" aria-label="Obrni nazaj na fotografijo">
           <span aria-hidden="true">↺</span> Fotografija
@@ -92,6 +107,15 @@ const slika = o ? slikaObjave(o) : undefined;
   .obrat-zadaj {
     transform: rotateY(180deg);
   }
+  /* the post fits inside the shape whatever its proportions: at most 86 % of its width and 76 % of its height,
+     always leaving 3.75rem above (the handle) and below (the "Fotografija" button), which matters on small phones */
+  .hero-objava {
+    container-type: size;
+  }
+  .hero-okvir {
+    aspect-ratio: var(--r);
+    width: min(86cqw, min(76cqh, 100cqh - 7.5rem) * var(--r));
+  }
   .obrat-staticno {
     display: none;
   }
@@ -106,13 +130,22 @@ const slika = o ? slikaObjave(o) : undefined;
 </style>
 
 <script>
+  import { naloziObjave, prednaloziSliko, prikaziVHeroju } from '../../lib/objave-v-zivo';
+  import { izberiZaHero, type PrikazObjave } from '../../lib/behold';
+
   const PRVIC = 2500; // photo → post, once after load
   const NATO = 6000; // then every 6 s
+  const OBRAT = 950; // flip animation (0.9 s): the next post is put on the back only once it is hidden
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   document.querySelectorAll<HTMLElement>('[data-obrat]').forEach((el) => {
     const front = el.querySelector<HTMLElement>('.obrat-spredaj')!;
     const back = el.querySelector<HTMLElement>('[data-zadaj]')!;
+    let seznam: PrikazObjave[] = [];
+    try {
+      seznam = JSON.parse(el.dataset.objave ?? '[]');
+    } catch {}
+    let indeks = 0;
     let obrnjen = false;
     let prvic = true; // first automatic flip not done yet
     let hover = false;
@@ -120,11 +153,39 @@ const slika = o ? slikaObjave(o) : undefined;
     let vidno = true;
     let timer: number | undefined;
 
+    const oznake = { najnovejsa: el.dataset.oznaka ?? '', starejsa: el.dataset.oznakaStarejse ?? '' };
+    const pokazi = async (i: number) => {
+      const o = seznam[i];
+      if (!o) return;
+      if (o.slika) await prednaloziSliko(o.slika);
+      prikaziVHeroju(back, o, i === 0 ? oznake.najnovejsa : oznake.starejsa);
+      indeks = i;
+      if (obrnjen) predvajaj();
+    };
+
+    const video = () => back.querySelector<HTMLVideoElement>('video');
+    const predvajaj = () => {
+      if (!reduce) video()?.play().catch(() => {});
+    };
+
     const set = (v: boolean) => {
+      const nazaj = obrnjen && !v; // from the post back to the photo
       obrnjen = v;
       el.classList.toggle('je-obrnjen', v);
       back.inert = !v;
       front.inert = v;
+      if (v) {
+        predvajaj();
+      } else {
+        video()?.pause();
+        // back to the photo: put the next post on the (now hidden) back
+        if (nazaj && seznam.length > 1) {
+          const naslednja = (indeks + 1) % seznam.length;
+          window.setTimeout(() => {
+            if (!obrnjen) pokazi(naslednja);
+          }, OBRAT);
+        }
+      }
     };
     const ustavi = () => window.clearTimeout(timer);
     // (re)start the countdown, unless something pauses it
@@ -170,10 +231,26 @@ const slika = o ? slikaObjave(o) : undefined;
     new IntersectionObserver(([entry]) => {
       vidno = entry.isIntersecting;
       schedule();
+      if (!vidno) video()?.pause();
+      else if (obrnjen) predvajaj();
     }).observe(el);
     document.addEventListener('visibilitychange', schedule);
 
+    // a video that can't be played: its poster (the image under it) stays
+    back.addEventListener('error', (e) => (e.target as HTMLElement).closest('video')?.remove(), true);
+
     set(false); // her photo first
     schedule();
+
+    // posts from the live feed (unless the newest is the one already built in)
+    naloziObjave().then((objave) => {
+      if (!objave) return;
+      const novi = izberiZaHero(objave);
+      if (!novi.length) return;
+      const enako = novi[0].povezava === seznam[0]?.povezava;
+      seznam = novi;
+      if (!enako) pokazi(0);
+      else indeks = Math.min(indeks, seznam.length - 1);
+    });
   });
 </script>

@@ -12,7 +12,7 @@ export const navigation = [
   { label: 'Program', short: 'Program', href: '/program' },
   { label: 'Odprta vprašanja mesta', short: 'Odprta vprašanja', href: '/odprta-vprasanja' },
   { label: 'Vprašanja in odgovori', short: 'Vprašanja', href: '/vprasanja' },
-  { label: 'Arhiv objav', short: 'Arhiv', href: '/arhiv' },
+  { label: 'Arhiv', short: 'Arhiv', href: '/arhiv' },
   { label: 'Pomagaj, če lahko', short: 'Pomagaj', href: '/pomagaj' },
   { label: 'Kontakt', short: 'Kontakt', href: '/kontakt' },
 ];
@@ -32,7 +32,7 @@ export const narocnik = {
 export const links = noga.povezave.map((p) => ({ label: p.naslov, href: p.url, osnutek: p.osnutek }));
 
 // Campaign Instagram profile: shown on the latest post in the hero, and the source of the posts
-// (hero, /arhiv). Post links without a permalink yet point to the profile.
+// (hero, "Zadnje objave z Instagrama" on the homepage). Post links without a permalink yet point to the profile.
 export const instagramProfil = noga.instagram ?? { handle: '', url: '', osnutek: false };
 
 // Social profiles (footer, menu overlay, /kontakt).

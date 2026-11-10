@@ -8,14 +8,17 @@ export const SHOW_PLACEHOLDERS = true;
 // Set to false for the final launch (see "Before final launch" in CLAUDE.md).
 export const NOINDEX = true;
 
-// Instagram posts (homepage + /arhiv): only posts from this date on are shown (YYYY-MM-DD).
+// Instagram posts (homepage: hero flip + "Zadnje objave z Instagrama"): only posts from this date on are shown (YYYY-MM-DD).
 export const OBJAVE_OD = '2026-10-01';
 
-// Automatic import of @skupajzamesto posts from a Behold JSON feed (https://behold.so).
-// Empty = off: the hand-made entries in src/content/objave/ are used.
-// To switch on, paste the feed URL here (or set the BEHOLD_FEED_URL environment variable) and rebuild.
-// If the feed can't be loaded during the build, the hand-made entries are used instead.
-export const BEHOLD_FEED_URL = '';
+// Behold JSON feed of @skupajzamesto (https://behold.so). Used twice:
+// - in the browser, on every page load (src/lib/objave-v-zivo.ts): new posts appear without a redeploy
+//   (hero flip and "Zadnje objave z Instagrama" on the homepage);
+// - at build time (src/lib/objave-loader.ts): the static HTML already shows the posts as of the last build,
+//   which is what visitors see if the browser fetch fails. If the build can't load it, the hand-made entries in
+//   src/content/objave/ are used. Empty = feed off, only the hand-made entries.
+// The BEHOLD_FEED_URL environment variable overrides it for the build.
+export const BEHOLD_FEED_URL = 'https://feeds.behold.so/PpRTNxpoipQpE41sBqCF';
 
 // Internal page for the team: what content is still missing, open decisions. Not linked anywhere,
 // noindex. Built only while the site is in preview (follows NOINDEX), so it disappears from the

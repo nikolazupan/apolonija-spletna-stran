@@ -5,7 +5,8 @@ import AskQuestion from '../components/home/AskQuestion.astro';
 import HomeProgram from '../components/home/HomeProgram.astro';
 import HomeSkupaj from '../components/home/HomeSkupaj.astro';
 import LatestPosts from '../components/home/LatestPosts.astro';
-import { getObjave } from '../lib/objave';
+import { getObjave, zaPrikaz } from '../lib/objave';
+import { izberiZaHero, STEVILO_OBJAV } from '../lib/behold';
 import { getStran } from '../lib/strani';
 import { getProgram } from '../lib/program';
 
@@ -15,15 +16,17 @@ const programBlok = blok('program');
 const objavaBlok = blok('objava');
 // all program chapters with their leaflet measure
 const poglavja = await getProgram();
-// newest post goes into the hero; the archive row shows the next ones, so nothing appears twice
-const [najnovejsa, ...starejse] = await getObjave();
-const objave = starejse.slice(0, 4);
+// Instagram posts (built in; refreshed in the browser from the live feed):
+// the hero rotates through the picture posts, "Zadnje objave z Instagrama" shows the newest ones
+const objave = await Promise.all((await getObjave()).slice(0, STEVILO_OBJAV).map(zaPrikaz));
+const heroObjave = izberiZaHero(objave);
+const zadnjaObjava = blok('zadnjaObjava');
 ---
 
 <BaseLayout title={naslov} description={opis} fullTitle>
-  {hero && <HomeHero hero={hero} objava={najnovejsa} oznakaObjave={blok('zadnjaObjava').besedilo} />}
+  {hero && <HomeHero hero={hero} objave={heroObjave} oznakaObjave={zadnjaObjava.besedilo} oznakaStarejse={zadnjaObjava.podpis ?? zadnjaObjava.besedilo} />}
   <AskQuestion naslov={[vprasanja.naslov ?? '', vprasanja.besedilo]} povezava="/vprasanja" povezavaBesedilo={vprasanja.povezava ?? ''} />
   <HomeProgram naslov={programBlok.naslov} povezavaBesedilo={programBlok.povezava} poglavja={poglavja} />
   <HomeSkupaj kandidatura={blok('kandidatura')} poudarek={blok('kandidaturaPoudarek')} skupaj={blok('skupaj')} />
-  {objave.length > 0 && <LatestPosts objave={objave} naslov={objavaBlok.naslov} povezavaArhiv={objavaBlok.povezava} />}
+  {objave.length > 0 && <LatestPosts objave={objave} naslov={objavaBlok.naslov} povezava={objavaBlok.povezava} />}
 </BaseLayout>
