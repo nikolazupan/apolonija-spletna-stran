@@ -17,6 +17,11 @@ export default defineConfig({
       ...(process.env.EXTRA_IMAGE_HOST ? [{ hostname: process.env.EXTRA_IMAGE_HOST }] : []),
     ],
   },
+  // Removed pages → their replacement. Static build: a page with an instant redirect (meta refresh + canonical);
+  // with a host adapter or host config (e.g. vercel.json) it becomes a real 301.
+  redirects: {
+    '/sporni-projekti': '/odprta-vprasanja',
+  },
   vite: {
     plugins: [tailwindcss()]
   }

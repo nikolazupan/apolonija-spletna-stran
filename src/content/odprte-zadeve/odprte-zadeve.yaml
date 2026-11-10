@@ -24,6 +24,6 @@
 
 - id: znak-vesne
   naslov: "Kateri kandidati dobijo znak Vesne"
-  opis: "Na strani Lista ima vsak kandidat oznako »Vesna« ali »Civilna iniciativa«. Zdaj je oznaka vzeta iz Excela (24 kandidatov z oznako Vesna), v mailu jih je navedenih 13. Katera številka je prava?"
+  opis: "Na strani Lista ima vsak kandidat oznako »Vesna« ali »Civilna družba«. Zdaj je oznaka vzeta iz Excela (24 kandidatov z oznako Vesna), v mailu jih je navedenih 13. Katera številka je prava?"
   status: odprto
 

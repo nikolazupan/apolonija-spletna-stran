@@ -8,7 +8,7 @@
 - id: apolonija-simon
   vrstniRed: 2
   ime: mag. Apolonija Simon
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: magistrica umetnosti
   nosilec: false
   slika: "@assets/fotografije/kandidati/apolonija-simon.jpg"
@@ -22,7 +22,7 @@
 - id: jasminka-dedic
   vrstniRed: 4
   ime: dr. Jasminka Dedić
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: doktorica političnih ved
   nosilec: false
   slika: "@assets/fotografije/kandidati/jasminka-dedic.jpg"
@@ -43,14 +43,14 @@
 - id: tadej-glazar
   vrstniRed: 7
   ime: mag. Tadej Glažar
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: magister znanosti in univerzitetni diplomirani inženir arhitekture
   nosilec: false
   slika: "@assets/fotografije/kandidati/tadej-glazar.jpg"
 - id: kaja-lipnik-vehovar
   vrstniRed: 8
   ime: Kaja Lipnik Vehovar
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: univerzitetena diplomirana inženirka arhitekture
   nosilec: false
   slika: "@assets/fotografije/kandidati/kaja-lipnik-vehovar.jpg"
@@ -64,7 +64,7 @@
 - id: mensija-kurtovic
   vrstniRed: 10
   ime: Mensija Kurtović
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: univerzitetna diplomirana profesorica sociologije in bibliotekarka
   nosilec: false
   slika: "@assets/fotografije/kandidati/sia.jpg"
@@ -78,33 +78,33 @@
 - id: katarina-merslavic
   vrstniRed: 12
   ime: Katarina Merslavič
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: diplomirana industrijska oblikovalka (UN)
   nosilec: false
 - id: arne-vehovar
   vrstniRed: 13
   ime: Arne Vehovar
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: univerzitetni diplomirani inžinir arhitekture, MA/RCA
   nosilec: false
   slika: "@assets/fotografije/kandidati/arne-vehovar.jpg"
 - id: neva-zibrik
   vrstniRed: 14
   ime: mag. Neva Žibrik
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: magistrica ekonomskih ved
   nosilec: false
   slika: "@assets/fotografije/kandidati/neva-zibrik.jpg"
 - id: daniel-hodzic
   vrstniRed: 15
   ime: Daniel Hodžić
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: magister inženir logistike
   nosilec: false
 - id: bojana-reposa
   vrstniRed: 16
   ime: Bojana Repoša
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: univerzitetna diplomirana inženirka arhitekture
   nosilec: false
 - id: crt-batagelj
@@ -116,39 +116,39 @@
 - id: lejla-puskar
   vrstniRed: 18
   ime: Lejla Puškar
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: diplomirana notranja oblikovalka
   nosilec: false
 - id: arian-ramadani
   vrstniRed: 19
   ime: Arian Ramadani
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: diplomirani ekonomist
   nosilec: false
   slika: "@assets/fotografije/kandidati/arian-ramadani.jpg"
 - id: natasa-grcar-napast
   vrstniRed: 20
   ime: Nataša Grčar Napast
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: univerzitetna diplomirana inžinirka oblikovanja oblačil in tekstilij
   nosilec: false
 - id: sanel-avdic
   vrstniRed: 21
   ime: Sanel Avdić
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: magister varstvoslovja
   nosilec: false
 - id: afrodita-hebar-kljun
   vrstniRed: 22
   ime: Afrodita Hebar Kljun
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: grafična oblikovalka
   nosilec: false
   slika: "@assets/fotografije/kandidati/afrodita-hebar-kljun.jpg"
 - id: ibrahim-nouhoum
   vrstniRed: 23
   ime: Ibrahim Nouhoum
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: univerzitetni diplomirani inženir gozdarstva
   nosilec: false
 - id: marija-juran-kanellopulos
@@ -185,13 +185,13 @@
 - id: jaka-socan
   vrstniRed: 29
   ime: dr. Jaka Sočan
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: doktor biotehnologije
   nosilec: false
 - id: senada-mesic
   vrstniRed: 30
   ime: Senada Mešić
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: univerzitetna diplomirana ekonomistka
   nosilec: false
 - id: tomaz-celigoj
@@ -204,86 +204,86 @@
 - id: andjelina-mijatovic
   vrstniRed: 32
   ime: Anđelina Mijatović
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: inženirka logistike
   nosilec: false
 - id: bostjan-avgustin
   vrstniRed: 33
   ime: Boštjan Avguštin
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: profesor športne vzgoje
   nosilec: false
 - id: svetlana-jakimovska-rodic
   vrstniRed: 34
   ime: Svetlana Jakimovska Rodić
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: magistrica umetnosti in magistrica profesorica poučevanja likovne pedagogike
   nosilec: false
 - id: sara-martinovic-zevnik
   vrstniRed: 35
   ime: Sara Martinovič Zevnik
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: magistrica novinarstva
   nosilec: false
   slika: "@assets/fotografije/kandidati/vesnaportret014.jpg"
 - id: petra-silva
   vrstniRed: 36
   ime: Petra Silva
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: univerzitetna diplomirana umetnostna zgodovinarka in profesorica sociologije
   nosilec: false
 - id: niko-kastelic
   vrstniRed: 37
   ime: Niko Kastelič
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: univerzitetni diplomirani inženir tehnične fizike
   nosilec: false
 - id: nisa-dedic-socan
   vrstniRed: 38
   ime: Nisa Dedić Sočan
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: magistrica okoljske zgodovine in diplomirana rusistka in filozofinja (UN)
   nosilec: false
 - id: mario-azinovic
   vrstniRed: 39
   ime: Mario Azinović
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: prometni tehnik
   nosilec: false
 - id: diana-ternav
   vrstniRed: 40
   ime: Diana Ternav
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: univerzitetna diplomirana etnologinja in profesorica italijanščine
   nosilec: false
 - id: boris-rodic
   vrstniRed: 41
   ime: Boris Rodić
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: univerzitetni diplomirani inženir gradbeništva
   nosilec: false
 - id: marica-kapular
   vrstniRed: 42
   ime: Marica Kapular
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: trgovska poslovodkinja
   nosilec: false
 - id: marko-juvan
   vrstniRed: 43
   ime: dr. Marko Juvan
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: doktor literarnih ved
   nosilec: false
 - id: maja-michieli
   vrstniRed: 44
   ime: Maja Michieli
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: univerzitetna diplomirana komunikologinja
   nosilec: false
 - id: ciril-horjak
   vrstniRed: 45
   ime: Ciril Horjak
-  clan: Civilna iniciativa
+  clan: Civilna družba
   naziv: univerzitetni diplomirani akademski slikar
   nosilec: false
   slika: "@assets/fotografije/kandidati/ciril-horjak.jpg"

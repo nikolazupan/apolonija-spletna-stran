@@ -70,7 +70,7 @@ const tilt = ['-rotate-1', 'rotate-1', 'rotate-[0.5deg]', '-rotate-[0.5deg]', 'r
             <!-- photo, or (no photo yet) the initials on a hand-cut shape -->
             <div class="relative">
               {slika ? (
-                <Image src={slika} alt={k.ime} widths={[300, 600]} sizes="(min-width: 1024px) 18vw, 46vw" class="aspect-square w-full object-cover object-[50%_22%]" />
+                <Image src={slika} alt={k.ime} widths={k.nosilec ? [600, 1000] : [300, 600]} sizes={k.nosilec ? '(min-width: 1024px) 36vw, 92vw' : '(min-width: 1024px) 18vw, 46vw'} class="aspect-square w-full object-cover object-[50%_22%]" />
               ) : (
                 <div class="paper flex aspect-square w-full items-center justify-center bg-krema" role="img" aria-label={`${k.ime} (fotografija še ni na voljo)`}>
                   <span class="relative flex aspect-square w-[58%] items-center justify-center">

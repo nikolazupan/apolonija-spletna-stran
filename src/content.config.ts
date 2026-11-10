@@ -139,7 +139,8 @@ const kandidati = defineCollection({
       vrstniRed: z.number(),
       nosilec: z.boolean().default(false),
       // part of the list the candidate belongs to
-      clan: z.enum(['Vesna', 'Civilna iniciativa']),
+      // shown as a tag; the spreadsheet's "Civilna iniciativa" is shown as "Civilna družba"
+      clan: z.enum(['Vesna', 'Civilna družba']),
       // professional or academic title, exactly as supplied
       naziv: z.string(),
       slika: z.preprocess(prazno, image().optional()),
@@ -156,26 +157,6 @@ const cetrtneSkupnosti = defineCollection({
     kandidati: z.array(z.string()),
     osnutek: z.boolean().default(false),
   }),
-});
-
-// Contested projects and our position.
-const sporniProjekti = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/sporni-projekti' }),
-  schema: ({ image }) =>
-    z.object({
-      naslov: z.string(),
-      // the project name itself is not real (e.g. "Sporni projekt 3")
-      naslovOsnutek: z.boolean().default(false),
-      vrstniRed: z.number(),
-      opis: z.string(),
-      stalisce: z.string(),
-      // position is not written yet
-      stalisceOsnutek: z.boolean().default(false),
-      slika: z.preprocess(prazno, image().optional()),
-      oznakaSlike: z.preprocess(prazno, z.string().optional()),
-      // description and photo are not supplied yet
-      osnutek: z.boolean().default(false),
-    }),
 });
 
 // Questions from residents with Apolonija's answers (/vprasanja). The body is the answer.
@@ -225,18 +206,20 @@ const objave = defineCollection({
     }),
 });
 
-// "Odprta vprašanja mesta" (/odprta-vprasanja): the team's document, body kept exactly as written.
+// "Odprta vprašanja mesta" (/odprta-vprasanja): one entry per open question, text (body) exactly as written,
+// with an optional photo (Astro-optimised), its description (caption + alt text) and the photographer.
+// Page texts (title, intro): src/content/strani/odprta-vprasanja.md.
 const odprtaVprasanja = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/odprta-vprasanja' }),
-  schema: z.object({
-    naslov: z.string(),
-    opis: z.string(),
-    uvod: z.string(),
-    // text of the link after the intro line (to /vprasanja)
-    uvodPovezava: z.string().default('Vprašanja in odgovori'),
-    uvodOsnutek: z.boolean().default(false),
-    osnutek: z.boolean().default(false),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      naslov: z.string(),
+      vrstniRed: z.number(),
+      slika: z.preprocess(prazno, image().optional()),
+      opisSlike: z.preprocess(prazno, z.string().optional()),
+      avtorFotografije: z.preprocess(prazno, z.string().optional()),
+      osnutek: z.boolean().default(false),
+    }),
 });
 
 // Apolonija's CV (/apolonija-simon), one file per section, text exactly as in podatki/vsebina/zivljenjepis-apolonija.md.
@@ -273,4 +256,4 @@ const odprteZadeve = defineCollection({
   }),
 });
 
-export const collections = { odprteZadeve, plakati, strani, program, kandidati, cetrtneSkupnosti, sporniProjekti, vprasanja, objave, odprtaVprasanja, zivljenjepis, novice, dodatnaBesedila };
+export const collections = { odprteZadeve, plakati, strani, program, kandidati, cetrtneSkupnosti, vprasanja, objave, odprtaVprasanja, zivljenjepis, novice, dodatnaBesedila };

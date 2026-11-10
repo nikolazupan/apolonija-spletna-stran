@@ -27,7 +27,6 @@ const STRANI: [string, string, string][] = [
   ['apolonija-simon', 'Apolonija Simon', '/apolonija-simon'],
   ['lista', 'Lista', '/lista'],
   ['program', 'Program', '/program'],
-  ['sporni-projekti', 'Sporni projekti', '/sporni-projekti'],
   ['vprasanja', 'Vprašanja in odgovori', '/vprasanja'],
   ['arhiv', 'Arhiv objav', '/arhiv'],
   ['pomagaj', 'Pomagaj, če lahko', '/pomagaj'],
@@ -44,12 +43,12 @@ const BLOKI: Record<string, { sekcija?: string; kaj: string; oblika?: string }> 
   'vstopna#skupaj': { sekcija: 'Vesna in civilna družba skupaj', kaj: 'Besedilo: zakaj Vesna in civilna družba nastopata skupaj (zdaj je na strani osnutek, ki ga je treba potrditi ali nadomestiti)', oblika: '1 odstavek' },
   'lista#uvod': { sekcija: 'Uvod', kaj: 'Uvodno besedilo o listi Vesna in civilna družba', oblika: '1 odstavek' },
   'lista#cetrtne': { sekcija: 'Četrtne skupnosti', kaj: 'Uvodno besedilo o kandidaturah v četrtnih skupnostih', oblika: '1–2 stavka' },
-  'sporni-projekti#uvod': { sekcija: 'Uvod', kaj: 'Uvodno besedilo strani Sporni projekti', oblika: '1 odstavek' },
   'vprasanja#razlika': { sekcija: 'Uvod', kaj: 'Potrditev uvodne vrstice (razlika med to stranjo in Odprtimi vprašanji mesta)', oblika: 'potrditev ali popravek' },
   'vprasanja#obrazec': { sekcija: 'Obrazec', kaj: 'Delovanje obrazca za vprašanja (zdaj še ne pošilja)', oblika: 'e-naslov, kamor naj prihajajo vprašanja' },
   'arhiv#plakati': { sekcija: 'Plakati', kaj: 'Uvodno besedilo k plakatom', oblika: '1–2 stavka' },
   'pomagaj#uvod': { sekcija: 'Prošnja za donacijo', kaj: 'Besedilo: prošnja za donacijo (za kaj bomo sredstva porabili)', oblika: '1 odstavek' },
   'pomagaj#nakazilo': { sekcija: 'Podatki za nakazilo', kaj: 'Pojasnilo o nakazilu in morebitnih omejitvah donacij', oblika: '1–2 stavka' },
+  'odprta-vprasanja#uvod': { sekcija: 'Uvod', kaj: 'Uvodno besedilo strani Odprta vprašanja mesta', oblika: 'potrditev ali popravek' },
   'kontakt#uvod': { sekcija: 'Uvod', kaj: 'Uvodno besedilo (kdo odgovarja na sporočila in v kakšnem času)', oblika: '1–2 stavka' },
   'zasebnost#podrobnosti': { sekcija: 'Pravno besedilo', kaj: 'Pravno besedilo o varstvu osebnih podatkov', oblika: 'upravljavec, namen obdelave, hramba, pravice posameznika' },
   'noga#narocnik': { sekcija: 'Politični oglas', kaj: 'Naročnik (plačnik) z naslovom', oblika: 'ime in naslov naročnika' },
@@ -120,27 +119,14 @@ export async function getManjkajoce(root: string) {
       const url = `/program/${niz(podatki.poglavje)}/${ime}`;
       if (kljuc === 'avtorOsnutek') dodaj('program', `Dodatno besedilo: ${naslov}`, { kaj: `Avtor/ica besedila »${naslov}«`, oblika: 'ime in priimek (potrditev ekipe)', povezava: url, vir }, cms);
       else dodaj('program', `Dodatno besedilo: ${naslov}`, { kaj: `Vsebina: ${pot.join(' → ')}`, povezava: url, vir }, cms);
-    } else if (h.rel.startsWith('src/content/sporni-projekti/')) {
-      const naslov = niz(podatki.naslov);
-      const izmisljen = podatki.naslovOsnutek === true;
-      const url = `/sporni-projekti#${ime}`;
-      if (kljuc === 'naslovOsnutek') {
-        dodaj('sporni-projekti', naslov, { kaj: `Ali naj bo na strani še en projekt? Če da: ime, opis, naše stališče in fotografija (zdaj »${naslov}« kot nadomestek)`, oblika: 'ime + 2–3 stavki + stališče + fotografija', povezava: url, vir }, cms);
-      } else if (izmisljen) {
-        // covered by the item above
-      } else if (kljuc === 'stalisceOsnutek') {
-        dodaj('sporni-projekti', naslov, { kaj: `Naše stališče: ${naslov}`, oblika: '1–2 stavka', povezava: url, vir }, cms);
-      } else {
-        dodaj('sporni-projekti', naslov, { kaj: `Opis projekta: ${naslov} (kaj je, kje je in zakaj je sporen)`, oblika: '2–3 stavki', povezava: url, vir }, cms);
-        dodaj('sporni-projekti', naslov, { kaj: `Fotografija: ${naslov}`, oblika: 'fotografija v originalni ločljivosti (z avtorjem)', povezava: url, vir }, cms);
-      }
     } else if (h.rel.startsWith('src/content/vprasanja/')) {
       dodaj('vprasanja', 'Vprašanja in odgovori', { kaj: `Pravo vprašanje z odgovorom (zdaj primer: »${niz(podatki.vprasanje)}«)`, oblika: 'vprašanje meščana + odgovor', povezava: '/vprasanja', vir }, cms);
     } else if (h.rel.startsWith('src/content/objave/')) {
       objave++;
     } else if (h.rel.startsWith('src/content/odprta-vprasanja/')) {
-      if (kljuc === 'uvodOsnutek') dodaj('odprta-vprasanja', 'Uvod', { kaj: 'Potrditev uvodne vrstice (razlika med to stranjo in Vprašanji in odgovori)', oblika: 'potrditev ali popravek', povezava: '/odprta-vprasanja', vir }, cms);
-      else dodaj('odprta-vprasanja', 'Celotno besedilo', { kaj: 'Pregled in potrditev besedila »Odprta vprašanja mesta« (zdaj označeno kot osnutek)', oblika: 'potrditev ekipe (ali nova verzija dokumenta)', povezava: '/odprta-vprasanja', vir }, cms);
+      // one entry per open question
+      const naslov = niz(podatki.naslov);
+      dodaj('odprta-vprasanja', 'Vprašanja', { kaj: `Pregled in potrditev besedila »${naslov}« (zdaj označeno kot osnutek)`, oblika: 'potrditev ekipe ali popravek', povezava: `/odprta-vprasanja#${ime}`, vir }, cms);
     } else if (h.rel === 'src/components/ui/PostCard.astro') {
       // generic image fallback for posts without an image; covered by the Instagram item below
     } else {

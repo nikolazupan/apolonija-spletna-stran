@@ -10,12 +10,11 @@ export const navigation = [
   { label: 'Apolonija Simon', short: 'Apolonija Simon', href: '/apolonija-simon' },
   { label: 'Lista Vesna in civilna družba', short: 'Lista', href: '/lista' },
   { label: 'Program', short: 'Program', href: '/program' },
-  { label: 'Sporni projekti', short: 'Sporni projekti', href: '/sporni-projekti' },
+  { label: 'Odprta vprašanja mesta', short: 'Odprta vprašanja', href: '/odprta-vprasanja' },
   { label: 'Vprašanja in odgovori', short: 'Vprašanja', href: '/vprasanja' },
   { label: 'Arhiv objav', short: 'Arhiv', href: '/arhiv' },
   { label: 'Pomagaj, če lahko', short: 'Pomagaj', href: '/pomagaj' },
   { label: 'Kontakt', short: 'Kontakt', href: '/kontakt' },
-  { label: 'Odprta vprašanja mesta', short: 'Odprta vprašanja', href: '/odprta-vprasanja' },
 ];
 
 const noga = await getStran('noga');
