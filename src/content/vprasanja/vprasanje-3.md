@@ -1,6 +1,6 @@
 ---
 vprasanje: Kako se lahko meščani vključimo v odločanje o projektih v naši soseski?
-datum: 2026-10-18
+datum: 2026-11-18
 objavljeno: true
 osnutek: true
 ---
