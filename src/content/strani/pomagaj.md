@@ -10,27 +10,28 @@ bloki:
       pomagate
     osnutek: false
   nakazilo:
-    naslov: "    VESNA,     Ravenska vas 38, 1410 Zagorje ob Savi,    TRR: SI56 6100
-      0003 1373 154, koda:OTHR, sklic: SI00 2026-1,namen: donacija"
-    besedilo: "[Tu bo kratko pojasnilo o nakazilu in morebitnih omejitvah donacij.]"
+    naslov: "    VESNA    "
     podpis: Podatki za nakazilo
     osnutek: false
   spletno:
     naslov: Raje prek spleta?
     besedilo: Doniraš lahko tudi prek spletne strani Vesne – zelene stranke.
 podatki:
-  - oznaka: "TRR: SI56 6100 0003 1373 154"
-    vrednost: Vesna
+  - oznaka: prejemnik
+    vrednost: VESNA, Ravenska vas 38, 1410 Zagorje ob Savi
     osnutek: false
   - oznaka: TRR (IBAN)
-    vrednost: SI56 0000 0000 0000 000
-    osnutek: true
+    vrednost: SI56 6100 0003 1373 154
+    osnutek: false
   - oznaka: Sklic
-    vrednost: SI00 0000
-    osnutek: true
+    vrednost: " SI00 2026-1"
+    osnutek: false
   - oznaka: Namen
-    vrednost: "[Donacija za volilno kampanjo]"
-    osnutek: true
+    vrednost: donacija za volilno kampanjo
+    osnutek: false
+  - oznaka: koda
+    vrednost: OTHR
+    osnutek: false
 povezave:
   - naslov: Doniraj prek strani Vesne
     url: https://vesnazelenastranka.si/doniraj
