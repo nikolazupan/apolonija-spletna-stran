@@ -7,9 +7,12 @@ bloki:
     naslov: Imaš vprašanje?
     besedilo: Mi imamo odgovore.
   razlika:
-    besedilo: Tu so zbrana vprašanja, ki so nam jih zastavile meščanke in meščani in
-      naši odgovori nanje. Odprta vprašanja mesta, na katera opozarjajo
-      prebivalci, civilne iniciative in stroka, so zbrana na strani Odprta
+    besedilo: >-
+      Tu so zbrana vprašanja, ki so nam jih zastavile meščanke in meščani in
+      naši odgovori nanje. 
+
+      Pomembna vprašanja glede spornih projektov in ravnanja mestne uprave ter
+      naše mnenje o njih so predstavljena so predstavljena v poglavju - Odprta
       vprašanja mesta.
     povezava: Odprta vprašanja mesta
     osnutek: false
