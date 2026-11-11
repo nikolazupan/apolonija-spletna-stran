@@ -1,6 +1,6 @@
 ---
 vprasanje: Kako bo mesto poskrbelo za cenovno dostopna stanovanja?
-datum: 2026-10-22
+datum: 2026-11-01
 objavljeno: true
 osnutek: false
 ---
