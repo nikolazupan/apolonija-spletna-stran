@@ -5,8 +5,11 @@ opis: Kontakt kampanje Apolonije Simon za županjo Ljubljane in liste Vesna in
 bloki:
   uvod:
     naslov: Piši nam
-    besedilo: "[Tu bo kratko besedilo: kdo odgovarja na sporočila in v kakšnem času.]"
-    osnutek: true
+    besedilo: "Na vsa vaša vprašanja bomo odgovorili sodelujoči na listi Vesna
+      zelena strankain civilna družba v sodelovanju z neodvisnimi strokovnjaki s
+      katerimi sodelujemo v različnih civilnih iniciativah. Trudili se bomo
+      odgovarjati ažurno in kar se da natančno. "
+    osnutek: false
   spletneStrani:
     naslov: Spletne strani
   omrezja:
