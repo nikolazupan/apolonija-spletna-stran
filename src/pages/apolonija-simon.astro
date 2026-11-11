@@ -59,7 +59,7 @@ const zakaj = vDeli.find((d) => d.vrsta === 'zakaj');
   <!-- CV section 1: intro text -->
   {uvod && (
     <section class="site-container pb-14 lg:pb-20" aria-labelledby="predstavitev">
-      <div class="md:ml-[8%] lg:ml-[16%]">
+      <div class="cv-stolpec">
         <h2 id="predstavitev" class="text-sm font-extrabold uppercase tracking-[0.08em] text-zelena-temna">{uvod.naslov}</h2>
         <div class="cv cv-uvod mt-3">
           <uvod.Content />
@@ -71,22 +71,24 @@ const zakaj = vDeli.find((d) => d.vrsta === 'zakaj');
   <!-- CV sections 2–8, collapsed -->
   {razdelki.length > 0 && (
     <section class="site-container pb-14 lg:pb-20" aria-labelledby="zivljenjepis">
-      <h2 id="zivljenjepis" class="naslov-sekcije">{blok('zivljenjepis').naslov}</h2>
-      <div class="mt-6 max-w-4xl divide-y-2 divide-crna/15 border-y-2 border-crna">
-        {razdelki.map((r) => (
-          <details class="razdelek group" id={r.id.replace(/^\d+-/, '')}>
-            <summary class="flex cursor-pointer list-none items-center gap-4 py-4 sm:py-5">
-              <span class="flex-1 font-display text-[clamp(1.35rem,4.5vw,2rem)] font-extrabold leading-[1.05] tracking-[-0.03em] [font-stretch:85%] group-hover:text-zelena-temna">{r.naslov}</span>
-              <span class="relative grid h-10 w-10 shrink-0 place-items-center" aria-hidden="true">
-                <Risba name="krog" class="absolute inset-0 h-full w-full opacity-0 transition-opacity group-hover:opacity-100 group-open:opacity-100 [--risba-w:3px]" />
-                <svg viewBox="0 0 16 16" class="h-4 w-4 transition-transform group-open:rotate-45" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M8 2v12M2 8h12" /></svg>
-              </span>
-            </summary>
-            <div class:list={['cv pb-8', r.casovnica && 'cv-casovnica']}>
-              {r.casovnicaHtml ? <Fragment set:html={r.casovnicaHtml} /> : <r.Content />}
-            </div>
-          </details>
-        ))}
+      <div class="cv-stolpec">
+        <h2 id="zivljenjepis" class="naslov-sekcije">{blok('zivljenjepis').naslov}</h2>
+        <div class="mt-6 divide-y-2 divide-crna/15 border-y-2 border-crna">
+          {razdelki.map((r) => (
+            <details class="razdelek group" id={r.id.replace(/^\d+-/, '')}>
+              <summary class="flex cursor-pointer list-none items-center gap-4 py-4 sm:py-5">
+                <span class="flex-1 font-display text-[clamp(1.35rem,4.5vw,2rem)] font-extrabold leading-[1.05] tracking-[-0.03em] [font-stretch:85%] group-hover:text-zelena-temna">{r.naslov}</span>
+                <span class="relative grid h-10 w-10 shrink-0 place-items-center" aria-hidden="true">
+                  <Risba name="krog" class="absolute inset-0 h-full w-full opacity-0 transition-opacity group-hover:opacity-100 group-open:opacity-100 [--risba-w:3px]" />
+                  <svg viewBox="0 0 16 16" class="h-4 w-4 transition-transform group-open:rotate-45" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M8 2v12M2 8h12" /></svg>
+                </span>
+              </summary>
+              <div class:list={['cv pb-8', r.casovnica && 'cv-casovnica']}>
+                {r.casovnicaHtml ? <Fragment set:html={r.casovnicaHtml} /> : <r.Content />}
+              </div>
+            </details>
+          ))}
+        </div>
       </div>
     </section>
   )}
@@ -144,6 +146,14 @@ const zakaj = vDeli.find((d) => d.vrsta === 'zakaj');
 <style>
   .razdelek summary::-webkit-details-marker {
     display: none;
+  }
+
+  /* shared reading column for the intro and the CV sections: centered in the site container,
+     text inside stays left-aligned */
+  .cv-stolpec {
+    width: 100%;
+    max-width: 50rem;
+    margin-inline: auto;
   }
 
   /* CV text (markdown). Rendered markdown, so the rules are global, scoped by .cv */

@@ -29,7 +29,7 @@ const oznake = oznakeKartice({ tip: o.tip, datum, platforma: o.platforma });
 ---
 
 <article
-  class:list={['flex h-full flex-col border-[6px] border-bela bg-bela', className]}
+  class:list={['objava-kartica flex h-full flex-col border-[6px] border-bela bg-bela', className]}
   data-objava={sablona ? undefined : o.povezava}
   style={`--r: ${o.r}`}
 >
@@ -75,6 +75,26 @@ const oznake = oznakeKartice({ tip: o.tip, datum, platforma: o.platforma });
     <a data-o="povezava" href={o.povezava} target="_blank" rel="noopener" class="mt-auto pt-2 text-xs font-bold underline underline-offset-2 hover:text-zelena-temna">Odpri na {platforma} ↗</a>
   </div>
 </article>
+
+<style>
+  /* a short wiggle on hover / keyboard focus. It animates `transform`, which stacks on the card's tilt
+     (Tailwind's rotate-* classes set the separate `rotate` property), so layout and size don't change. */
+  .objava-kartica:hover,
+  .objava-kartica:has(:focus-visible) {
+    animation: objava-wiggle 0.4s ease-in-out;
+  }
+  @keyframes objava-wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-2deg); }
+    75% { transform: rotate(2deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .objava-kartica:hover,
+    .objava-kartica:has(:focus-visible) {
+      animation: none;
+    }
+  }
+</style>
 
 <script>
   import { pripraviVidee } from '../../lib/objave-v-zivo';
