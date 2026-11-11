@@ -3,17 +3,34 @@
 import VesnaLogo from '../brand/VesnaLogo.astro';
 import Placeholder from '../Placeholder.astro';
 import { navigation, narocnik, links, social, izdelava } from '../../data/site';
+
+// Split the organizer line at its commas so each part (name, street, town, email) wraps as a unit,
+// never in the middle of an address; an email part becomes a mailto: link. Wording stays as in noga.md.
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const narocnikDeli = narocnik.besedilo.split(/,\s*/).map((del) => ({ besedilo: del, email: EMAIL.test(del) }));
 ---
 
 <footer class="bg-crna text-krema">
   <div class="site-container grid gap-8 py-10 lg:grid-cols-12">
     <div class="lg:col-span-4">
       <VesnaLogo class="text-[0.8rem]" color="var(--color-krema)" />
-      <p class="mt-6 text-sm leading-relaxed">
-        <strong class="font-bold">{narocnik.oznaka}</strong><br />
-        <Placeholder active={narocnik.osnutek}>{narocnik.besedilo}</Placeholder><br />
-        {narocnik.volitve}
-      </p>
+      <div class="mt-6 space-y-1.5 text-[0.8125rem] leading-relaxed text-krema/70">
+        <p class="text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-krema">{narocnik.oznaka}</p>
+        <p>
+          <Placeholder active={narocnik.osnutek}>
+            {narocnikDeli.map((del, i) => (
+              <Fragment>
+                <span class="whitespace-nowrap">
+                  {del.email ? (
+                    <a href={`mailto:${del.besedilo}`} class="underline underline-offset-4 hover:text-krema">{del.besedilo}</a>
+                  ) : del.besedilo}{i < narocnikDeli.length - 1 && ','}
+                </span>{' '}
+              </Fragment>
+            ))}
+          </Placeholder>
+        </p>
+        <p>{narocnik.volitve}</p>
+      </div>
     </div>
 
     <nav class="lg:col-span-4" aria-label="Noga">
