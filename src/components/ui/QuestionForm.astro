@@ -1,16 +1,29 @@
 ---
-// Question form for Apolonija (UI only, no backend yet): marked OSNUTEK and says so on submit.
+// Question form for Apolonija, sent through Web3Forms (key: PUBLIC_WEB3FORMS_KEY in .env / host build settings).
 // Arrow submit button sits inside the field's bottom-right corner. Use once per page.
 // Texts: src/content/strani/vprasanja.md → bloki.obrazec (naslov = hint in the empty field,
-// besedilo = line under the field, podpis = message after sending).
+// besedilo = line under the field, podpis = message after sending) and bloki.obrazecNapaka (besedilo = error).
 import Placeholder from '../Placeholder.astro';
 import { getStran } from '../../lib/strani';
 
-const obrazec = (await getStran('vprasanja')).blok('obrazec');
+interface Props {
+  // Subject of the email Web3Forms sends, so the team can tell where the question came from.
+  zadeva: string;
+}
+const { zadeva } = Astro.props;
+
+const stran = await getStran('vprasanja');
+const obrazec = stran.blok('obrazec');
+const napaka = stran.blok('obrazecNapaka');
+const kljuc = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
 ---
 
 <Placeholder active={obrazec.osnutek} as="div" class="block">
-  <form data-vprasanje class="relative" novalidate>
+  <form data-vprasanje action="https://api.web3forms.com/submit" method="POST" class="relative">
+    <input type="hidden" name="access_key" value={kljuc} />
+    <input type="hidden" name="subject" value={zadeva} />
+    <!-- Honeypot: hidden from people, bots fill it and Web3Forms drops the submission. -->
+    <input type="checkbox" name="botcheck" class="hidden" style="display: none" tabindex="-1" autocomplete="off" />
     <label for="vprasanje" class="sr-only">Tvoje vprašanje</label>
     <textarea
       id="vprasanje"
@@ -31,16 +44,46 @@ const obrazec = (await getStran('vprasanja')).blok('obrazec');
       </svg>
     </button>
   </form>
-  <p class="mt-2 text-sm font-medium" role="status" data-vprasanje-status data-poslano={obrazec.podpis}>{obrazec.besedilo}</p>
+  <p
+    class="mt-2 text-sm font-medium"
+    role="status"
+    data-vprasanje-status
+    data-poslano={obrazec.podpis}
+    data-napaka={napaka.besedilo}
+  >{obrazec.besedilo}</p>
 </Placeholder>
 
 <script>
-  // No backend yet: keep the user on the page and say so.
+  // Send without leaving the page; without JS the form posts to Web3Forms directly.
   document.querySelectorAll<HTMLFormElement>('[data-vprasanje]').forEach((form) => {
-    const status = form.parentElement?.querySelector('[data-vprasanje-status]');
-    form.addEventListener('submit', (e) => {
+    const status = form.parentElement?.querySelector<HTMLElement>('[data-vprasanje-status]');
+    const gumb = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const sporoci = (besedilo?: string) => {
+      if (status && besedilo) status.textContent = besedilo;
+    };
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (status instanceof HTMLElement && status.dataset.poslano) status.textContent = status.dataset.poslano;
+      if (!form.reportValidity()) return;
+      if (gumb) gumb.disabled = true;
+      form.setAttribute('aria-busy', 'true');
+      try {
+        const odziv = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        const podatki = await odziv.json().catch(() => ({}));
+        if (!odziv.ok || !podatki.success) throw new Error(podatki.message || `HTTP ${odziv.status}`);
+        form.reset();
+        sporoci(status?.dataset.poslano);
+      } catch (napaka) {
+        console.error('Web3Forms:', napaka);
+        sporoci(status?.dataset.napaka);
+      } finally {
+        if (gumb) gumb.disabled = false;
+        form.removeAttribute('aria-busy');
+      }
     });
   });
 </script>

@@ -466,8 +466,13 @@ content:
                 fields:
                   - { name: naslov, label: Namig v praznem polju, type: string }
                   - { name: besedilo, label: Vrstica pod poljem, type: string }
-                  - { name: podpis, label: Sporočilo po pošiljanju, type: string }
-                  - { name: osnutek, label: "Osnutek (obrazec še ne pošilja)", type: boolean }
+                  - { name: podpis, label: Sporočilo po pošiljanju, type: string, description: "Prikaže se, ko je vprašanje uspešno poslano." }
+                  - { name: osnutek, label: Osnutek, type: boolean }
+              - name: obrazecNapaka
+                label: Obrazec – sporočilo ob napaki
+                type: object
+                fields:
+                  - { name: besedilo, label: Sporočilo, type: string, description: "Prikaže se, če vprašanja ni bilo mogoče poslati (npr. brez povezave)." }
 
   # ───────────────────────────── Objave z Instagrama (rezervne) + stran Arhiv (plakati)
   - name: arhiv-skupina

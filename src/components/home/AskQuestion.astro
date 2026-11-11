@@ -1,5 +1,5 @@
 ---
-// Q&A box: ask Apolonija a question (UI only, no backend yet) + link to answered questions.
+// Q&A box: ask Apolonija a question (sent via Web3Forms) + link to answered questions.
 import QuestionForm from '../ui/QuestionForm.astro';
 
 interface Props {
@@ -25,7 +25,7 @@ const imaVprasaj = vprasanje !== naslov[0];
     </h2>
 
     <div class="lg:col-span-6 lg:col-start-7">
-      <QuestionForm />
+      <QuestionForm zadeva="Vprašanje z vstopne strani" />
 
       <a href={povezava} class="mt-4 inline-flex items-center gap-2 border-b-[3px] md:mt-6 border-crna pb-0.5 text-lg font-bold hover:border-krema hover:text-krema">
         {povezavaBesedilo} →

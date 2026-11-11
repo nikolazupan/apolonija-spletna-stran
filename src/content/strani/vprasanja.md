@@ -21,8 +21,9 @@ bloki:
     podpis: Odgovor Apolonije
   obrazec:
     naslov: Kaj te zanima o našem programu?
-    besedilo: "Prototip: obrazec še ne pošilja vprašanj."
-    podpis: "Prototip: vprašanje ni bilo poslano. Pošiljanje bo delovalo v končni
-      verziji."
+    besedilo: ""
+    podpis: Hvala! Tvoje vprašanje smo prejeli.
     osnutek: false
+  obrazecNapaka:
+    besedilo: Vprašanja ni bilo mogoče poslati. Poskusi znova čez nekaj trenutkov.
 ---
