@@ -10,8 +10,11 @@ fotografije:
 bloki:
   uvod:
     naslov: Skupaj za mestni svet
-    besedilo: "[Tu bo kratko besedilo o listi Vesna in civilna družba: kdo smo in
-      zakaj kandidiramo skupaj.]"
+    besedilo: Vesna in civilna družba že dalj časa sodelujeta v različnih
+      iniciativah, ki opozarjajo na sporne projekte trenutne mestne uprave. S
+      skupno listo je Civilni družbi omogočen vstop v mestni svet kjer bo
+      predstavljala glas prebivalk in prebivalcev mesta in imela možnost
+      neporednega sodelovanja pri odločanju.
     osnutek: false
   mestniSvet:
     naslov: Kandidatke in kandidati za mestni svet
@@ -20,6 +23,9 @@ bloki:
     besedilo: Nosilec liste
   cetrtne:
     naslov: Kandidati za četrtne skupnosti
-    besedilo: "[Tu bo kratko besedilo o kandidaturah v četrtnih skupnostih.]"
-    osnutek: true
+    besedilo: Četrtne skupnosti morajo dobiti pomembnejšo vlogo pri oblikovanju
+      mestne politike. Vlogo naših kandidatov v svetih četrtnih skupnosti vidimo
+      predvsem v omogočanju širšega kroga ljudi v identifikacijo problemov in
+      odločanje o njihovem reševanju.
+    osnutek: false
 ---
