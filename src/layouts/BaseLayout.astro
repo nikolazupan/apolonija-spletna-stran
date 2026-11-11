@@ -12,7 +12,7 @@ interface Props {
   fullTitle?: boolean;
 }
 const { title, description, noindex = false, fullTitle = false } = Astro.props;
-const siteName = 'Apolonija Simon za županjo';
+const siteName = 'Skupaj za mesto';
 const pageTitle = fullTitle ? title : `${title} | ${siteName}`;
 ---
 
@@ -21,7 +21,10 @@ const pageTitle = fullTitle ? title : `${title} | ${siteName}`;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>{pageTitle}</title>
     <meta property="og:title" content={pageTitle} />
     {description && <meta property="og:description" content={description} />}

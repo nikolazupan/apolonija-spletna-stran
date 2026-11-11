@@ -1,5 +1,5 @@
 ---
-naslov: Apolonija Simon za županjo
+naslov: Skupaj za mesto – Apolonija Simon
 opis: Apolonija Simon, kandidatka liste Vesna in civilna družba za županjo
   Ljubljane. Lokalne volitve, 15. november 2026.
 hero:
