@@ -1,10 +1,9 @@
 ---
-naslov: "Varstvo zasebnosti"
-opis: "Kako spletna stran kampanje Apolonije Simon ravna z osebnimi podatki."
-
+naslov: Varstvo zasebnosti
+opis: Kako spletna stran kampanje Apolonije Simon ravna z osebnimi podatki.
 bloki:
   uvod:
-    naslov: "Upravljavec in obdelava podatkov"
+    naslov: Upravljavec in obdelava podatkov
 ---
 Upravljavec osebnih podatkov je VESNA – zelena stranka, Ravenska vas 38, 1410 Zagorje ob Savi, e-pošta: [info.ljubljana@vesnazelenastranka.si](mailto:info.ljubljana@vesnazelenastranka.si). Stranka vodi kampanjo kandidatke Apolonije Simon za županjo Mestne občine Ljubljana na volitvah 2026.
 
@@ -14,7 +13,7 @@ Obdelujemo samo podatke, ki nam jih posredujete sami prek obrazcev na spletni st
 
 ## Hramba
 
-Podatke hranimo največ do [datum, npr. 30 dni po koncu volilne kampanje], nato jih izbrišemo. Podatkov ne prodajamo in jih ne posredujemo tretjim osebam, razen ponudnikom storitev, ki nam pomagajo pri delovanju strani in pošiljanju obvestil ([npr. ponudnik gostovanja, e-poštne storitve]), in to samo v obsegu, ki je za to nujen.
+Podatke hranimo največ do koncaleta 2026, nato jih izbrišemo. Podatkov ne prodajamo in jih ne posredujemo tretjim osebam, razen ponudnikom storitev, ki nam pomagajo pri delovanju strani in pošiljanju obvestil in to samo v obsegu, ki je za to nujen.
 
 ## Vaše pravice
 
