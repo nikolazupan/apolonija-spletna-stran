@@ -1,18 +1,44 @@
 ---
-// Privacy notice (legal text still to be supplied by the campaign).
+// Privacy notice. Text = body of src/content/strani/zasebnost.md (h1 from block `uvod`, ## headings become h2).
+// Reachable by direct URL; links to it stay hidden and the page stays noindex while SHOW_PRIVACY_PAGE is false.
+import { getEntry, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageIntro from '../components/ui/PageIntro.astro';
-import BlockText from '../components/BlockText.astro';
 import { getStran } from '../lib/strani';
+import { SHOW_PRIVACY_PAGE } from '../config';
 
 const { naslov, opis, blok } = await getStran('zasebnost');
-const podrobnosti = blok('podrobnosti');
+const { Content } = await render((await getEntry('strani', 'zasebnost'))!);
+const uvod = blok('uvod');
 ---
 
-<BaseLayout title={naslov} description={opis}>
-  <PageIntro naslov={naslov} uvod={blok('uvod')} oblika="h" />
+<BaseLayout title={naslov} description={opis} noindex={!SHOW_PRIVACY_PAGE}>
+  <PageIntro naslov={uvod.naslov ?? naslov} oblika="h" />
   <section class="site-container pb-16 pt-4 lg:pb-24">
-    <h2 class="naslov-sekcije">{podrobnosti.naslov}</h2>
-    <BlockText blok={podrobnosti} class="mt-4 max-w-prose text-lg leading-relaxed" />
+    <div class="pravno max-w-prose text-lg leading-relaxed">
+      <Content />
+    </div>
   </section>
 </BaseLayout>
+
+<style>
+  .pravno :global(p + p) { margin-top: 1rem; }
+  .pravno :global(h2) {
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 85%;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+  }
+  .pravno :global(a) {
+    text-decoration: underline;
+    text-decoration-color: var(--color-zelena);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+  }
+  .pravno :global(a:hover) { color: var(--color-zelena-temna); }
+</style>

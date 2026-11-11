@@ -727,18 +727,15 @@ content:
         type: object
         fields:
           - name: uvod
-            label: Uvod
+            label: Glavni naslov
             type: object
             fields:
-              - { name: naslov, label: Naslov, type: string }
-              - { name: besedilo, label: Uvodno besedilo, type: text }
-          - name: podrobnosti
-            label: Pravno besedilo
-            type: object
-            fields:
-              - { name: naslov, label: Naslov, type: string }
-              - { name: besedilo, label: "Pravno besedilo: upravljavec, namen obdelave, hramba, pravice posameznika", type: text }
-              - { name: osnutek, label: Osnutek, type: boolean }
+              - { name: naslov, label: Naslov (h1), type: string }
+      - name: body
+        label: Pravno besedilo
+        type: code
+        options: { format: markdown }
+        description: "Celotno besedilo. Podnaslovi se začnejo z ## . Besedila v [oglatih oklepajih] še niso dokončna."
 
   # ───────────────────────────── 404
   - name: stran-ne-obstaja

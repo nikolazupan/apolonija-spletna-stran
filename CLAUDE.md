@@ -70,7 +70,7 @@ Main menu:
 
 Footer on every page: campaign organizer notice ("Naročnik: ..."), privacy notice link (`/zasebnost`), social links.
 
-Also: `/zasebnost` (privacy notice, legal text still to be supplied) and a custom 404 page. **`/zasebnost` is hidden for now** (2026-11-11): the page file is `src/pages/_zasebnost.astro` (not built, 404) and `SHOW_PRIVACY_PAGE = false` in `src/config.ts` hides the footer link to it (from `noga.md`). To re-enable: rename the file back to `zasebnost.astro` and set the flag to true. Content in `src/content/strani/zasebnost.md` is kept.
+Also: `/zasebnost` (privacy notice) and a custom 404 page. **`/zasebnost` is published but unlinked** (2026-11-11): the page is built and reachable by direct URL; its text is the markdown body of `src/content/strani/zasebnost.md` (h1 = block `uvod`, `##` = h2; the `[bracketed]` parts are the team's own open items, kept exactly as written). `SHOW_PRIVACY_PAGE = false` in `src/config.ts` is the one switch: while false, every link to it is hidden (footer link from `noga.md` via `src/data/site.ts`; any future form or consent checkbox must read the same flag) and the page is `noindex` (and must stay out of any sitemap, none exists yet). Set it to true to show the links.
 
 Every page's title and meta description come from its file in `src/content/strani/` (`naslov`, `opis`); the layout appends "| Skupaj za mesto" (homepage: full title "Skupaj za mesto – Apolonija Simon", no suffix). Favicon: `public/favicon.svg` (krema square, two zelena circles) plus `favicon.ico`, `favicon-32.png`, `apple-touch-icon.png` generated from it.
 
@@ -177,7 +177,7 @@ When the user gives a post (link, caption, first image or a screenshot of a reel
 Checklist before the site goes public:
 - [ ] Set `NOINDEX = false` in `src/config.ts` (preview mode adds `<meta name="robots" content="noindex, nofollow">` to every page and makes `/robots.txt` disallow everything). The 404 page stays noindex either way.
 - [ ] Set `SHOW_PLACEHOLDERS = false` in `src/config.ts` and run `npm run check-placeholders -- --strict`: it must report no placeholders left.
-- [ ] Privacy page: rename `src/pages/_zasebnost.astro` back to `zasebnost.astro`, set `SHOW_PRIVACY_PAGE = true`, and make sure its legal text is final.
+- [ ] Privacy page: fill in the `[bracketed]` parts of `src/content/strani/zasebnost.md`, then set `SHOW_PRIVACY_PAGE = true`.
 - [ ] Confirm the organizer notice in the footer ("Naročnik: ..."), the payment details on /pomagaj and the contact details on /kontakt.
 - [ ] Replace the placeholder posts in `src/content/objave/` with real @skupajzamesto posts (only the fallback now; the Behold feed is on).
 

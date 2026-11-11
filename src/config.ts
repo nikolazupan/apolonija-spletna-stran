@@ -20,8 +20,9 @@ export const OBJAVE_OD = '2026-10-01';
 // The BEHOLD_FEED_URL environment variable overrides it for the build.
 export const BEHOLD_FEED_URL = 'https://feeds.behold.so/PpRTNxpoipQpE41sBqCF';
 
-// Privacy notice page (/zasebnost). Hidden while its legal text is being written. To bring it back:
-// 1. rename src/pages/_zasebnost.astro back to src/pages/zasebnost.astro (the "_" prefix keeps Astro from building it),
-// 2. set this flag to true (shows the footer link to /zasebnost again).
+// Privacy notice page (/zasebnost). The page is always built and reachable by direct URL. While this is false,
+// every link to it (footer, and any future form / consent checkbox: read this flag) is hidden and the page gets
+// <meta name="robots" content="noindex">. There is no sitemap yet; if one is added, leave /zasebnost out while false.
+// Set to true to show the links and let it be indexed.
 export const SHOW_PRIVACY_PAGE = false;
 export const PRIVACY_PATH = '/zasebnost';
