@@ -810,21 +810,6 @@ content:
           - { name: url, label: Naslov (URL), type: string, required: true }
           - { name: osnutek, label: Osnutek, type: boolean }
 
-  # ───────────────────────────── Odprte zadeve (interna stran)
-  - name: odprte-zadeve
-    label: Odprte zadeve (interna stran za ekipo)
-    type: file
-    path: src/content/odprte-zadeve/odprte-zadeve.yaml
-    format: yaml
-    list: true
-    description: "Odločitve in podatki, ki jih potrebujemo od ekipe. Prikazano na interni strani /placeholders."
-    fields:
-      - { name: id, label: Oznaka (brez šumnikov), type: string, required: true }
-      - { name: naslov, label: Naslov, type: string, required: true }
-      - { name: opis, label: Opis, type: text, required: true }
-      - { name: kdo, label: Kdo je zadolžen, type: string }
-      - { name: status, label: Stanje, type: select, default: odprto, options: { values: [odprto, v teku, urejeno] } }
-
   # ───────────────────────────── Novice (pripravljeno, še ni na strani)
   - name: novice
     label: Novice (še niso na strani)

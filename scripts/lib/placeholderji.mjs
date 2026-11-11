@@ -1,5 +1,4 @@
-// Finds every remaining placeholder in src/ (shared by `npm run check-placeholders` and the team's
-// internal page, so both always show the same list).
+// Finds every remaining placeholder in src/ (used by `npm run check-placeholders`).
 // Finds:
 //   - content files (frontmatter of .md, .yaml, .json): every `osnutek: true` (also `naslovOsnutek`,
 //     `uvodOsnutek`, `stalisceOsnutek`, ...), with its path in the file (e.g. bloki → skupaj → osnutek);

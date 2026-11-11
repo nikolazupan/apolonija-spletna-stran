@@ -20,12 +20,8 @@ export const OBJAVE_OD = '2026-10-01';
 // The BEHOLD_FEED_URL environment variable overrides it for the build.
 export const BEHOLD_FEED_URL = 'https://feeds.behold.so/PpRTNxpoipQpE41sBqCF';
 
-// Internal page for the team: what content is still missing, open decisions. Not linked anywhere,
-// noindex. Built only while the site is in preview (follows NOINDEX), so it disappears from the
-// production build automatically at launch. Simple path on request; anyone who guesses it can open it.
-export const INTERNA_STRAN = NOINDEX;
-export const INTERNA_POT = 'placeholders';
-
-// Pages CMS (https://pagescms.org): base URL of this repository's branch in the hosted app. The team page's
-// "Uredi v CMS" links are built from it and from .pages.yml (src/lib/cms.ts). Change owner/repo/branch here if they change.
-export const CMS_URL = 'https://app.pagescms.org/nikolazupan/apolonija-spletna-stran/main';
+// Privacy notice page (/zasebnost). Hidden while its legal text is being written. To bring it back:
+// 1. rename src/pages/_zasebnost.astro back to src/pages/zasebnost.astro (the "_" prefix keeps Astro from building it),
+// 2. set this flag to true (shows the footer link to /zasebnost again).
+export const SHOW_PRIVACY_PAGE = false;
+export const PRIVACY_PATH = '/zasebnost';

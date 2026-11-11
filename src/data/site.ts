@@ -2,6 +2,7 @@
 // the organizer notice, footer links, social profiles and the campaign's Instagram profile.
 // Entries with `osnutek: true` are not confirmed yet (listed by `npm run check-placeholders`).
 import { getStran } from '../lib/strani';
+import { SHOW_PRIVACY_PAGE, PRIVACY_PATH } from '../config';
 
 // Menu (header overlay, footer, 404). Follows the pages in src/pages/, so it stays in code.
 // `short` is used where space is tight.
@@ -28,8 +29,10 @@ export const narocnik = {
   osnutek: narocnikBlok.osnutek,
 };
 
-// Footer links.
-export const links = noga.povezave.map((p) => ({ label: p.naslov, href: p.url, osnutek: p.osnutek }));
+// Footer links. The link to the privacy page is left out while SHOW_PRIVACY_PAGE is false (src/config.ts).
+export const links = noga.povezave
+  .filter((p) => SHOW_PRIVACY_PAGE || p.url.replace(/\/$/, '') !== PRIVACY_PATH)
+  .map((p) => ({ label: p.naslov, href: p.url, osnutek: p.osnutek }));
 
 // Campaign Instagram profile: shown on the latest post in the hero, and the source of the posts
 // (hero, "Zadnje objave z Instagrama" on the homepage). Post links without a permalink yet point to the profile.

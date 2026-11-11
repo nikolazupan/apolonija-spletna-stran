@@ -4,7 +4,7 @@ import { z } from 'astro/zod';
 import { objaveLoader } from './lib/objave-loader';
 
 // Content that is not approved yet carries `osnutek: true` (shown with the OSNUTEK mark while
-// SHOW_PLACEHOLDERS is on, listed by `npm run check-placeholders` and on the team page).
+// SHOW_PLACEHOLDERS is on, listed by `npm run check-placeholders`).
 // Editors switch it off themselves in Pages CMS (.pages.yml).
 
 // Fields cleared in the CMS can be saved as "" or null: treat them as not set, so the build doesn't fail.
@@ -250,15 +250,4 @@ const plakati = defineCollection({
   }),
 });
 
-// Open items for the team (internal team page), maintained by hand.
-const odprteZadeve = defineCollection({
-  loader: file('src/content/odprte-zadeve/odprte-zadeve.yaml'),
-  schema: z.object({
-    naslov: z.string(),
-    opis: z.string(),
-    kdo: z.string().optional(),
-    status: z.enum(['odprto', 'v teku', 'urejeno']).default('odprto'),
-  }),
-});
-
-export const collections = { odprteZadeve, plakati, strani, program, kandidati, cetrtneSkupnosti, vprasanja, objave, odprtaVprasanja, zivljenjepis, novice, dodatnaBesedila };
+export const collections = { plakati, strani, program, kandidati, cetrtneSkupnosti, vprasanja, objave, odprtaVprasanja, zivljenjepis, novice, dodatnaBesedila };

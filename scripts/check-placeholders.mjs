@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Lists every remaining placeholder in the project, so nothing slips into the final site.
-// The scan itself is in scripts/lib/placeholderji.mjs (also used by the team's internal page).
+// The scan itself is in scripts/lib/placeholderji.mjs.
 // Exits with code 1 when placeholders remain and --strict is passed (for use before launch / in CI).
 
 import { najdiPlaceholderje } from './lib/placeholderji.mjs';

@@ -70,9 +70,9 @@ Main menu:
 
 Footer on every page: campaign organizer notice ("Naročnik: ..."), privacy notice link (`/zasebnost`), social links.
 
-Also: `/zasebnost` (privacy notice, legal text still to be supplied) and a custom 404 page.
+Also: `/zasebnost` (privacy notice, legal text still to be supplied) and a custom 404 page. **`/zasebnost` is hidden for now** (2026-11-11): the page file is `src/pages/_zasebnost.astro` (not built, 404) and `SHOW_PRIVACY_PAGE = false` in `src/config.ts` hides the footer link to it (from `noga.md`). To re-enable: rename the file back to `zasebnost.astro` and set the flag to true. Content in `src/content/strani/zasebnost.md` is kept.
 
-**Internal team page** (`/placeholders`, path in `INTERNA_POT` in `src/config.ts`): not linked anywhere, noindex/nofollow, plain layout (no public header/footer). Section 1 "Manjkajoče vsebine" is generated from the same scan as `npm run check-placeholders` (shared module `scripts/lib/placeholderji.mjs`; wording/grouping in `src/lib/manjkajoce.ts`, unknown placeholders fall into "Ostalo") plus candidates without a photo; each item has an "Uredi v CMS" link to its Pages CMS entry (`src/lib/cms.ts`, built from `.pages.yml` and `CMS_URL` in `src/config.ts`). Section 2 "Odprte zadeve" is maintained by hand in `src/content/odprte-zadeve/odprte-zadeve.yaml` (naslov, opis, kdo, status odprto / v teku / urejeno). Built only while `INTERNA_STRAN` is true (it follows `NOINDEX`), so it is left out of the launch build. Never link it or list it in robots.txt. Every page's title and meta description come from its file in `src/content/strani/` (`naslov`, `opis`); the layout appends "| Skupaj za mesto" (homepage: full title "Skupaj za mesto – Apolonija Simon", no suffix). Favicon: `public/favicon.svg` (krema square, two zelena circles) plus `favicon.ico`, `favicon-32.png`, `apple-touch-icon.png` generated from it.
+Every page's title and meta description come from its file in `src/content/strani/` (`naslov`, `opis`); the layout appends "| Skupaj za mesto" (homepage: full title "Skupaj za mesto – Apolonija Simon", no suffix). Favicon: `public/favicon.svg` (krema square, two zelena circles) plus `favicon.ico`, `favicon-32.png`, `apple-touch-icon.png` generated from it.
 
 ## Design direction
 - The candidate is a painter and heads a design school. The site must feel **art-driven and authored**, not like a template (no Squarespace / generic startup look).
@@ -140,7 +140,7 @@ Most texts are still being written. Invented content is allowed only as a clearl
 ## Pages CMS (content editing for the team)
 The team edits content in **Pages CMS** (hosted app, https://app.pagescms.org), which commits straight to this GitHub repo (branch `main`). Phase 1: content only, no form backend.
 
-**What it edits:** only what `.pages.yml` lists: the files in `src/content/` (pages in `strani/`, plus `zivljenjepis/`, `kandidati/`, `program/` (chapters), `dodatna-besedila/`, `odprta-vprasanja/` (one file per question; editors can add, delete and reorder via `vrstniRed`), `vprasanja/`, `objave/`, `plakati/`, `odprta-vprasanja/`, `odprte-zadeve/`, `novice/`) and four image folders (`src/assets/fotografije`, `foto`, `objave`, `novice`). Code, config, `src/assets/risbe` and `src/assets/plakati` are not exposed; `settings.hide` hides the configuration page. Invited collaborators (email, no GitHub account) cannot change `.pages.yml`.
+**What it edits:** only what `.pages.yml` lists: the files in `src/content/` (pages in `strani/`, plus `zivljenjepis/`, `kandidati/`, `program/` (chapters), `dodatna-besedila/`, `odprta-vprasanja/` (one file per question; editors can add, delete and reorder via `vrstniRed`), `vprasanja/`, `objave/`, `plakati/`, `odprta-vprasanja/`, `novice/`) and four image folders (`src/assets/fotografije`, `foto`, `objave`, `novice`). Code, config, `src/assets/risbe` and `src/assets/plakati` are not exposed; `settings.hide` hides the configuration page. Invited collaborators (email, no GitHub account) cannot change `.pages.yml`.
 
 **How content is structured for it:**
 - Every visible text and image lives in a content file. Page texts are named blocks under `bloki:` in `src/content/strani/<page>.md` (`naslov`, `besedilo`, `povezava` = link text, `podpis` = signature/label, `osnutek`), read in pages with `getStran('<page>').blok('<name>')` (a missing block fails the build). Only interface controls (Meni/Zapri, Kopiraj, Prenesi, aria labels, post type tags) stay in components; the menu (`navigation` in `src/data/site.ts`) follows the routes and stays in code.
@@ -157,7 +157,7 @@ The team edits content in **Pages CMS** (hosted app, https://app.pagescms.org), 
 2. Add the value to the content file and use it in the page/component (no hardcoded text).
 3. Add the field to the matching entry in `.pages.yml` with a Slovenian `label` and a short `description` (what to write, how long; for images the size/ratio).
 4. Run `npm run check-cms` (every key in the content files must have a field in `.pages.yml`), `npm run build`, and restart the dev server / delete `node_modules/.astro` after the schema change.
-5. Draft content gets `osnutek: true`; the team page and `npm run check-placeholders` pick it up automatically. New page files need an entry in `STRANI` in `src/lib/manjkajoce.ts` to be grouped under their page.
+5. Draft content gets `osnutek: true`; `npm run check-placeholders` picks it up automatically.
 
 ## Adding an Instagram post
 When the user gives a post (link, caption, first image or a screenshot of a reel's cover; ask for the publication date if it isn't given):
@@ -175,9 +175,9 @@ When the user gives a post (link, caption, first image or a screenshot of a reel
 
 ## Before final launch
 Checklist before the site goes public:
-- [ ] Check that the internal team page (`/placeholders`) is gone from the production build: `INTERNA_STRAN` follows `NOINDEX`, so setting `NOINDEX = false` removes it; confirm `dist/` has no `placeholders` folder.
 - [ ] Set `NOINDEX = false` in `src/config.ts` (preview mode adds `<meta name="robots" content="noindex, nofollow">` to every page and makes `/robots.txt` disallow everything). The 404 page stays noindex either way.
 - [ ] Set `SHOW_PLACEHOLDERS = false` in `src/config.ts` and run `npm run check-placeholders -- --strict`: it must report no placeholders left.
+- [ ] Privacy page: rename `src/pages/_zasebnost.astro` back to `zasebnost.astro`, set `SHOW_PRIVACY_PAGE = true`, and make sure its legal text is final.
 - [ ] Confirm the organizer notice in the footer ("Naročnik: ..."), the payment details on /pomagaj and the contact details on /kontakt.
 - [ ] Replace the placeholder posts in `src/content/objave/` with real @skupajzamesto posts (only the fallback now; the Behold feed is on).
 
