@@ -3,9 +3,10 @@ naslov: Noga strani
 bloki:
   narocnik:
     naslov: Politični oglas
-    besedilo: "Naročnik: VESNA – zelena stranka, Ravenska vas 38, 1410 Zagorje ob Savi"
+    besedilo: "Naročnik: VESNA – zelena stranka, Ravenska vas 38, 1410 Zagorje ob
+      Savi, info.ljubljana@vesnazelenastranka.si"
     podpis: Volitve v MOL 2026.
-    osnutek: true
+    osnutek: false
   izdelava:
     besedilo: "Izdelava spletne strani: Nikola Zupan"
 instagram:
