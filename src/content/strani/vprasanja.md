@@ -24,5 +24,5 @@ bloki:
     besedilo: "Prototip: obrazec še ne pošilja vprašanj."
     podpis: "Prototip: vprašanje ni bilo poslano. Pošiljanje bo delovalo v končni
       verziji."
-    osnutek: true
+    osnutek: false
 ---
