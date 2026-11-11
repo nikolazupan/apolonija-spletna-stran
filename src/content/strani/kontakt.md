@@ -19,15 +19,15 @@ bloki:
     povezava: Postavi ga tukaj
 podatki:
   - oznaka: E-pošta
-    vrednost: info@primer.si
-    povezava: mailto:info@primer.si
-    osnutek: true
+    vrednost: info.ljubljana@vesnazelenastranka.si
+    povezava: mailto:arnevehovar@t-2.net
+    osnutek: false
   - oznaka: Telefon
-    vrednost: +386 00 000 000
-    osnutek: true
-  - oznaka: Naslov
-    vrednost: "[Ulica in hišna številka, 1000 Ljubljana]"
-    osnutek: true
+    vrednost: "+38640425964"
+    osnutek: false
+  - oznaka: naslov
+    vrednost: Lavričeva 4a, 1000 Ljubljana
+    osnutek: false
 povezave:
   - naslov: Osebna spletna stran Apolonije Simon
     url: https://www.apolonijasimon.si/
