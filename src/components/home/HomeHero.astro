@@ -32,7 +32,7 @@ const { hero, objave, oznakaObjave, oznakaStarejse } = Astro.props;
   <div class="hero-mreza grid md:grid-cols-12 md:items-center md:pl-[5%]">
     <!-- name: text in columns 1–6, white shape reaches further right, under the photo's paper -->
     <!-- on desktop the shape reaches further right, under the photo (--oblik-dodatno) -->
-    <ShapedText variant="e" class="relative z-10 md:col-span-6 md:col-start-1 md:row-start-1 md:[--oblik-dodatno:37%]">
+    <ShapedText variant="e" shapeClass="hero-pop" contentClass="hero-pop-tekst [--zamik:450ms]" class="relative z-10 md:col-span-6 md:col-start-1 md:row-start-1 md:[--oblik-dodatno:37%]">
         <CandidateMark
           as="h1"
           stroke={false}

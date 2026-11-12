@@ -51,9 +51,9 @@ const oznaka = o ? `${oznakaObjave} · ${formatDatum(new Date(o.datum))}` : '';
       aria-label={o ? 'Obrni: pokaži objavo na Instagramu' : undefined}
       disabled={!o}
     >
-      <Blob variant="f" fill="var(--color-zelena)" class="absolute -inset-[7%] h-[114%] w-[114%] -rotate-6" />
-      <CutoutImage src={fotoBlizje} alt={alt} variant="d" widths={[400, 800, 1200]} sizes="86vw" loading="eager" class="relative rotate-3 md:hidden" imgClass="aspect-[4/5] object-center" />
-      <CutoutImage src={foto} alt={alt} variant="d" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 30rem, 40vw" loading="eager" class="relative rotate-3 max-md:hidden" imgClass="aspect-[4/5] object-center" />
+      <Blob variant="f" fill="var(--color-zelena)" class="hero-pop absolute -inset-[7%] h-[114%] w-[114%] -rotate-6 [--zamik:150ms]" />
+      <CutoutImage src={fotoBlizje} alt={alt} variant="d" widths={[400, 800, 1200]} sizes="86vw" loading="eager" class="hero-pop relative rotate-3 md:hidden [--zamik:300ms]" imgClass="aspect-[4/5] object-center" />
+      <CutoutImage src={foto} alt={alt} variant="d" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 30rem, 40vw" loading="eager" class="hero-pop relative rotate-3 max-md:hidden [--zamik:300ms]" imgClass="aspect-[4/5] object-center" />
     </button>
 
     {o && (
